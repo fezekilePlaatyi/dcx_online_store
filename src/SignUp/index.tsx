@@ -154,6 +154,7 @@ const SignUpContainer = () => {
             Please enter required information below
           </div>
           <form className={classes.form}>
+             <div className={classes.textfieldBlock}>
             <TextField
               className={classes.textfield}
               autoComplete="off"
@@ -182,6 +183,8 @@ const SignUpContainer = () => {
               }}
               autoFocus
             />
+            </div>
+            <div className={classes.textfieldBlock}>
             <TextField
               className={classes.textfield}
               autoComplete="off"
@@ -210,6 +213,8 @@ const SignUpContainer = () => {
               }}
               autoFocus
             />
+            </div> 
+            <div className={classes.textfieldBlock}>
             <TextField
               className={classes.textfield}
               autoComplete="off"
@@ -238,6 +243,7 @@ const SignUpContainer = () => {
               }}
               autoFocus
             />
+            </div>
             <TextField
               className={classes.textfield}
               autoComplete="off"
