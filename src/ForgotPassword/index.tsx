@@ -90,6 +90,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     forgot: {
       color: primaryColor,
+      marginBottom: 10,
     },
   })
 );
