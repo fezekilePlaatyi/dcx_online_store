@@ -9,6 +9,7 @@ import LogIn from "./LogIn";
 import SignUp from "./SignUp";
 import Basket from "./Basket";
 import ForgotPassword from "./ForgotPassword";
+import Profile from './pages/profilePage/profile';
 
 function onAuthStateChange(setLoading: any, setAuthenticated: any, setUser: any) {
   return app.auth().onAuthStateChanged(user => {
@@ -59,6 +60,12 @@ const App = () => {
           exact
           path="/basket"
           component={Basket}
+          authenticated={authenticated}
+        />
+        <PrivateRoute
+          exact
+          path="/profile"
+          component={Profile}
           authenticated={authenticated}
         />
         <Route exact path="/login" component={LogIn} />

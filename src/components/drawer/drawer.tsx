@@ -215,7 +215,7 @@ const DrawerContainer: React.FC<DrawerContainerProps> = ({ children }) => {
               Profile
             </Button>
             <Button
-              href="/basket"
+              href="/profile"
               className={classes.boxBtn}
               variant="outlined"
             >
