@@ -1,102 +1,130 @@
 "use strict";
 exports.__esModule = true;
 var react_1 = require("react");
-var react_router_1 = require("react-router");
 var styles_1 = require("@material-ui/core/styles");
+var colors_1 = require("@material-ui/core/colors");
+var Delete_1 = require("@material-ui/icons/Delete");
+var core_1 = require("@material-ui/core");
 var theme_config_1 = require("../themes/theme-config");
 var react_router_dom_1 = require("react-router-dom");
-var useStyles = styles_1.makeStyles(function (theme) {
-    return styles_1.createStyles({
-        logoContainer: {
-            maxWidth: 360,
-            paddingTop: 20
-        },
-        mainContainer: {
-            minHeight: "100vh",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundColor: theme_config_1.backgroundMain,
-            padding: "44px"
-        },
-        textfield: {
-            color: theme_config_1.primaryColor
-        },
-        forgot: {
-            color: theme_config_1.primaryColor
-        },
-        boxBtn: {
-            float: "left",
-            backgroundColor: theme_config_1.backgroundContrast,
-            borderColor: theme_config_1.primaryColor,
-            color: theme_config_1.primaryColor,
-            width: "100%"
-        },
-        boxWrapper: {
-            margin: 10,
-            backgroundColor: theme_config_1.backgroundMain
-        },
-        buttonsContainer: {
-            marginTop: 20,
-            display: "flex",
-            justifyContent: "space-between"
-        },
-        buttonsContainerRegister: {
-            marginTop: 20,
-            display: "flex",
-            flexDirection: 'column',
-            alignItems: 'center'
-        },
-        buttonsDiv: {
-            width: "100%",
-            display: "flex",
-            flexDirection: 'column',
-            alignItems: "flex-end",
-            justifyContent: "flex-end"
-        },
-        errorMessage: {
-            color: theme.palette.error.main,
-            marginTop: 20,
-            textAlign: "left"
-        },
-        paper: {
-            padding: 20,
-            overflow: "auto",
-            backgroundColor: theme_config_1.backgroundContrast,
-            border: "none",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            width: "80%"
-        },
-        mobileContainer: {
-            top: "15%"
-        },
-        mobileContainerRegister: {
-            top: "10%"
-        },
-        loginButtonContainer: {
-            position: "relative",
-            width: "100%",
-            marginBottom: 15
-        },
-        loginButtonContainerRegister: {
-            position: "relative",
-            width: "100%",
-            marginBottom: 15,
-            marginTop: 15
-        },
-        logText: {
-            fontSize: 16,
-            margin: 15
-        }
-    });
-});
-var BasketContainer = function () {
+var useStyles = styles_1.makeStyles(function (theme) { return ({
+    root: {
+        maxWidth: 345
+    },
+    textField: {
+        margin: theme.spacing(1),
+        minWidth: 20,
+        marginBottom: "25px",
+        color: "black"
+    },
+    productDisplayRoot: {
+        display: "flex",
+        padding: 30
+    },
+    details: {
+        display: "flex",
+        flexDirection: "column",
+        paddingLeft: 30
+    },
+    content: {
+        flex: "1 0 auto"
+    },
+    cover: {
+        width: 151
+    },
+    controls: {
+        display: "flex",
+        alignItems: "center",
+        paddingLeft: theme.spacing(1),
+        paddingBottom: theme.spacing(1)
+    },
+    playIcon: {
+        height: 38,
+        width: 38
+    },
+    media: {
+        height: 0,
+        paddingTop: "56.25%"
+    },
+    expand: {
+        transform: "rotate(0deg)",
+        marginLeft: "auto",
+        transition: theme.transitions.create("transform", {
+            duration: theme.transitions.duration.shortest
+        })
+    },
+    expandOpen: {
+        transform: "rotate(180deg)"
+    },
+    avatar: {
+        backgroundColor: colors_1.red[500]
+    },
+    productDetails: {
+        height: "100vh",
+        width: "100vw",
+        background: "#e3e3e3",
+        display: "none"
+    },
+    productList: {
+        display: "inline-flex"
+    },
+    paper: {
+        padding: 20,
+        overflow: "auto",
+        backgroundColor: theme_config_1.backgroundMain,
+        border: "none",
+        display: "flex",
+        flexDirection: "column",
+        width: "100%"
+    },
+    productListCardsContainer: {}
+}); });
+var BasketContainer = function (props) {
     var classes = useStyles();
     var history = react_router_dom_1.useHistory();
-    return (react_1["default"].createElement("div", { className: classes.mainContainer },
-        react_1["default"].createElement("h2", null, "SOME BASKEt")));
+    var handleUpdateQuantity = function (productId, value) {
+        var index = productsOnBasket.findIndex(function (product) { return product.id === productId; });
+        if (index !== -1)
+            productsOnBasket[index].quantity = value;
+        console.log(productsOnBasket);
+    };
+    var handleDeleteProductFromBasket = function (productId) {
+        console.log("deleting...");
+        addProductToBasket(productsOnBasket.filter(function (item) { return item.id !== productId; }));
+    };
+    var productsOnBasket = props.productsOnBasket;
+    var addProductToBasket = props.addProductToBasket;
+    var handleNavigationOnHome = props.handleNavigationOnHome;
+    var productsOnBasketList = [];
+    productsOnBasket.forEach(function (element) {
+        productsOnBasketList.push(react_1["default"].createElement("tr", { key: element.id },
+            react_1["default"].createElement("td", null, element.name),
+            react_1["default"].createElement("td", null, element.description),
+            react_1["default"].createElement("td", null,
+                "R ",
+                element.price),
+            react_1["default"].createElement("td", null,
+                react_1["default"].createElement(core_1.TextField, { InputProps: {
+                        inputProps: { min: 1 }
+                    }, className: classes.textField, type: "number", defaultValue: 1, onChange: function (event) {
+                        return handleUpdateQuantity(element.id, event.target.value);
+                    } })),
+            react_1["default"].createElement("td", null,
+                react_1["default"].createElement(Delete_1["default"], { onClick: function () { return handleDeleteProductFromBasket(element.id); } }))));
+    });
+    function test() {
+        handleNavigationOnHome('main');
+    }
+    return (react_1["default"].createElement("div", null,
+        react_1["default"].createElement("h2", { onClick: function () { return test(); } }, "BASKET "),
+        react_1["default"].createElement("div", { className: "table table-striped" },
+            react_1["default"].createElement("thead", null,
+                react_1["default"].createElement("tr", null,
+                    react_1["default"].createElement("th", null, "Name"),
+                    react_1["default"].createElement("th", null, "Description"),
+                    react_1["default"].createElement("th", null, "Price(zars)"),
+                    react_1["default"].createElement("th", null, "Quantity"),
+                    react_1["default"].createElement("th", null, "Delete"))),
+            react_1["default"].createElement("tbody", null, productsOnBasketList))));
 };
-exports["default"] = react_router_1.withRouter(BasketContainer);
+exports["default"] = react_router_dom_1.withRouter(BasketContainer);

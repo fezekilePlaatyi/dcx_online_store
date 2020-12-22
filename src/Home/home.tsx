@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import {
@@ -24,6 +24,7 @@ import {
 import {
     backgroundMain,
 } from "../themes/theme-config";
+import Basket from '../Basket'
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -44,7 +45,6 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         flexDirection: "column",
         paddingLeft: 30,
-        //margin: "30px",
     },
     content: {
         flex: "1 0 auto",
@@ -64,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
     },
     media: {
         height: 0,
-        paddingTop: "56.25%", // 16:9
+        paddingTop: "56.25%",
     },
     expand: {
         transform: "rotate(0deg)",
@@ -95,7 +95,6 @@ const useStyles = makeStyles((theme) => ({
         border: "none",
         display: "flex",
         flexDirection: "column",
-        // alignItems: "center",
         width: "100%",
     },
     productListCardsContainer: {},
@@ -130,6 +129,7 @@ function Home() {
     };
 
     const handleAddingProductToBasket = (productDetails: any) => {
+        console.log("adding item to basket...")
         checkIfAlreadyAddedOnBasket(productDetails)
             ? console.log("already added...")
             : addProductToBasket((prevArray: any) => [...prevArray, productDetails]);
@@ -145,27 +145,20 @@ function Home() {
         return found;
     };
 
-    //   const handleDeleteProductFromBasket = (productId: any) => {
-    //     console.log("deleting...");
-    //     addProductToBasket(
-    //       productsOnBasket.filter((item: any) => item.id !== productId)
-    //     );
-    //   };
-
-    //   const displayOrderHistory = async () => {
+    // const displayOrderHistory = async () => {
     //     await firebase
-    //       .getInvoices()
-    //       .then((data) => {
-    //         var invoiceData: any = [];
-    //         data.docs.forEach((item) => {
-    //           invoiceData.push(item.data());
+    //         .getInvoices()
+    //         .then((data) => {
+    //             var invoiceData: any = [];
+    //             data.docs.forEach((item) => {
+    //                 invoiceData.push(item.data());
+    //             });
+    //             setOrderHistory(invoiceData);
+    //         })
+    //         .catch((error) => {
+    //             alert(error.toString());
     //         });
-    //         setOrderHistory(invoiceData);
-    //       })
-    //       .catch((error) => {
-    //         alert(error.toString());
-    //       });
-    //   };
+    // };
 
     let products = [
         {
@@ -232,43 +225,9 @@ function Home() {
             </Card>
         );
     });
-    //   const handleUpdateQuantity = (productId: any, value: any) => {
-    //     var index: number = productsOnBasket.findIndex(
-    //       (product: any) => product.id === productId
-    //     );
-    //     if (index !== -1) productsOnBasket[index].quantity = value;
-    //     console.log(productsOnBasket);
-    //   };
 
-    //   let productsOnBasketList: any = [];
 
-    //   productsOnBasket.forEach(
-    //     (element: {
-    //       description: any;
-    //       name: React.ReactNode;
-    //       price: React.ReactNode;
-    //       id: any;
-    //     }) => {
-    //       productsOnBasketList.push(
-    //         <li key={element.id}>
-    //           {element.name} |{element.description} | R {element.price} | Quantity{" "}
-    //           <TextField
-    //             InputProps={{
-    //               inputProps: { min: 1 },
-    //             }}
-    //             className={classes.textField}
-    //             type="number"
-    //             defaultValue={1}
-    //             onChange={(event) =>
-    //               handleUpdateQuantity(element.id, event.target.value)
-    //             }
-    //           />{" "}
-    //           |
-    //           <Delete onClick={() => handleDeleteProductFromBasket(element.id)} />
-    //         </li>
-    //       );
-    //     }
-    //   );
+
 
     //   const proceedToPay = async () => {
     //     await firebase
@@ -282,97 +241,125 @@ function Home() {
     //       });
     //   };
 
-    return (
-        <div>
-            <Paper className={classes.paper}>
-                <div
-                    //   className={classes.productDetails}
-                    style={{ display: productDetailsBox ? "block" : "none" }}
-                >
-                    <IconButton
-                        onClick={() => handleExpandClick("back")}
-                        aria-expanded={productDetailsBox}
-                        aria-label="show more"
+    const Main = () => {
+        return (
+            <div>
+                <Paper className={classes.paper}>
+                    <div
+                        //   className={classes.productDetails}
+                        style={{ display: productDetailsBox ? "block" : "none" }}
                     >
-                        <ChevronLeft /> back
-          </IconButton>
-                    <Card className={classes.productDisplayRoot}>
-                        <CardMedia
-                            className={classes.cover}
-                            image={img}
-                            title="plcae holder"
-                        />
-                        <div className={classes.details}>
-                            <CardContent className={classes.content}>
-                                <Typography component="h5" variant="h5">
-                                    <b> Name: </b> {productDetails.name}
-                                </Typography>
-                                <Typography variant="subtitle1" color="textSecondary">
-                                    <b>Price:</b>  R {productDetails.price}
-                                </Typography>
-                                <div>
-                                    <Typography component="p">
-                                        <b>Details:</b> {productDetails.description}
+                        <IconButton
+                            onClick={() => handleExpandClick("back")}
+                            aria-expanded={productDetailsBox}
+                            aria-label="show more"
+                        >
+                            <ChevronLeft /> back
+              </IconButton>
+                        <Card className={classes.productDisplayRoot}>
+                            <CardMedia
+                                className={classes.cover}
+                                image={img}
+                                title="plcae holder"
+                            />
+                            <div className={classes.details}>
+                                <CardContent className={classes.content}>
+                                    <Typography component="h5" variant="h5">
+                                        <b> Name: </b> {productDetails.name}
                                     </Typography>
-
-                                    <Button
-                                        onClick={() => handleAddingProductToBasket(productDetails)}
-                                        style={{
-                                            display: checkIfAlreadyAddedOnBasket(productDetails)
-                                                ? "none"
-                                                : "block",
-                                        }}
-                                    >
-                                        + Add <ShoppingCart />
-                                    </Button>
-
-                                    <Typography
-                                        component="p"
-                                        style={{
-                                            display: checkIfAlreadyAddedOnBasket(productDetails)
-                                                ? "block"
-                                                : "none",
-                                        }}
-                                    >
-                                        Added <ShoppingCart /> |{" "}
-                                        <Button href="#/basket">View Basket</Button>
+                                    <Typography variant="subtitle1" color="textSecondary">
+                                        <b>Price:</b>  R {productDetails.price}
                                     </Typography>
-                                </div>
-                            </CardContent>
-                        </div>
-                    </Card>
-                </div>
-                <div
-                    className={classes.productListCardsContainer}
-                    style={{ display: productDetailsBox ? "none" : "block" }}
-                >
-                    <h2>Product List(*)</h2>
-                    {/* <h2>
-            ({productsOnBasket.length}) <ShoppingCart />
-          </h2> */}
-                    {/* <h2 onClick={() => displayOrderHistory()}>Order History</h2> */}
+                                    <div>
+                                        <Typography component="p">
+                                            <b>Details:</b> {productDetails.description}
+                                        </Typography>
 
-                    <div className={classes.productList}>{productList}</div>
-                </div>
+                                        <Button
+                                            onClick={() => handleAddingProductToBasket(productDetails)}
+                                            style={{
+                                                display: checkIfAlreadyAddedOnBasket(productDetails)
+                                                    ? "none"
+                                                    : "block",
+                                            }}
+                                        >
+                                            + Add <ShoppingCart />
+                                        </Button>
 
-                {/* <h2
-          onClick={() => proceedToPay()}
-          style={{
-            display: productsOnBasketList.length == 0 ? "none" : "block",
-          }}
-        >
-          PAY
-        </h2>
-        <div>
-          <h2>BASKET </h2>
-          {productsOnBasketList}
-        </div>
-        <div>
-          <h2>History </h2>
-          {orderHistory.join(",").toString()}
-        </div> */}
-            </Paper>
+                                        <Typography
+                                            component="p"
+                                            style={{
+                                                display: checkIfAlreadyAddedOnBasket(productDetails)
+                                                    ? "block"
+                                                    : "none",
+                                            }}
+                                        >
+                                            Added <ShoppingCart /> |{" "}
+                                            <Button onClick={() => handleNavigationClick('basket')}>View Basket</Button>
+                                        </Typography>
+                                    </div>
+                                </CardContent>
+                            </div>
+                        </Card>
+                    </div>
+                    <div
+                        className={classes.productListCardsContainer}
+                        style={{ display: productDetailsBox ? "none" : "block" }}
+                    >
+                        <h2>Product List(*)</h2>
+                        <h2>
+                            ({productsOnBasket.length}) <ShoppingCart />
+                        </h2>
+                        <div className={classes.productList}>{productList}</div>
+                    </div>
+
+                    {/* <h2
+              onClick={() => proceedToPay()}
+              style={{
+                display: productsOnBasketList.length == 0 ? "none" : "block",
+              }}
+            >
+              PAY
+            </h2>
+            
+            <div>
+              <h2>History </h2>
+              {orderHistory.join(",").toString()}
+            </div> */}
+                </Paper>
+            </div >
+        );
+    }
+
+    const [navigationOnHome, setSavigationOnHome] = useState('main')
+    const handleNavigationClick = (nameOfComponent: any) => {
+        console.log("navigating click handler..")
+        setSavigationOnHome(nameOfComponent)
+    }
+
+
+    const handleNavigationOnHome = (nameOfComponent: any) => {
+        switch (nameOfComponent) {
+            case 'main':
+                return (
+                    <Main />
+                );
+            case 'basket':
+                return (
+                    <Basket
+                        productsOnBasket={productsOnBasket}
+                        addProductToBasket={addProductToBasket}
+                        handleNavigationOnHome={handleNavigationOnHome}
+                    />
+                );
+        }
+    }
+
+    return (
+        <div >
+            { handleNavigationOnHome(navigationOnHome)}
         </div>
     );
+
 }
 export default Home;

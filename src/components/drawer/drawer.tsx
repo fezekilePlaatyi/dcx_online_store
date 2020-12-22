@@ -194,34 +194,35 @@ const DrawerContainer: React.FC<DrawerContainerProps> = ({ children }) => {
           </div>
           <div>
             <Button
-              href="/login"
+              onClick={() => history.push("/login")}
               className={classes.boxBtn}
               variant="outlined"
             >
               Login
             </Button>
             <Button
-              href="/signup"
+              onClick={() => history.push("/signup")}
               className={classes.boxBtn}
               variant="outlined"
             >
               Register
             </Button>
             <Button
-              href="/profile"
+              onClick={() => history.push("/profile")}
               className={classes.boxBtn}
               variant="outlined"
             >
               Profile
             </Button>
             <Button
-              href="/basket"
+              onClick={() => history.push("/basket")}
               className={classes.boxBtn}
               variant="outlined"
             >
               Basket
             </Button>
             <Button
+              onClick={() => history.push("/chekout")}
               className={classes.boxBtn}
               variant="outlined"
             >
@@ -283,7 +284,7 @@ const DrawerContainer: React.FC<DrawerContainerProps> = ({ children }) => {
         <Toolbar />
         {children}
       </main>
-    </div>
+    </div >
   );
 };
 
