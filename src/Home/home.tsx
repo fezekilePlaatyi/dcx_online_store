@@ -335,14 +335,14 @@ function Home() {
                                         }}
                                     >
                                         Added <ShoppingCart /> |{" "}
-                                        <Button href="#/basket">View Basket</Button>
+                                        <Button href="/basket">View Basket</Button>
                                     </Typography>
                                 </div>
                             </CardContent>
                         </div>
                     </Card>
                 </div>
-                
+
                 <div
                     className={classes.productListCardsContainer}
                     style={{ display: productDetailsBox ? "none" : "block" }}
