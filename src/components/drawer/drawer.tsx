@@ -1,0 +1,308 @@
+import React from "react";
+import clsx from "clsx";
+import {
+  createStyles,
+  makeStyles,
+  useTheme,
+  Theme,
+} from "@material-ui/core/styles";
+import Drawer from "@material-ui/core/Drawer";
+import AppBar from "@material-ui/core/AppBar";
+import Toolbar from "@material-ui/core/Toolbar";
+import List from "@material-ui/core/List";
+import CssBaseline from "@material-ui/core/CssBaseline";
+import Typography from "@material-ui/core/Typography";
+import Divider from "@material-ui/core/Divider";
+import IconButton from "@material-ui/core/IconButton";
+import CreditCardIcon from "@material-ui/icons/CreditCard";
+import ChevronLeftIcon from "@material-ui/icons/ChevronLeft";
+import ChevronRightIcon from "@material-ui/icons/ChevronRight";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemIcon from "@material-ui/core/ListItemIcon";
+import ListItemText from "@material-ui/core/ListItemText";
+import DashboardIcon from "@material-ui/icons/Dashboard";
+import GroupIcon from "@material-ui/icons/Group";
+// import Auth from "../../util/auth";
+import {
+  backgroundMain,
+  logo,
+  backgroundContrast,
+  primaryColor,
+  primaryText,
+} from "../../themes/theme-config";
+import { Button } from "@material-ui/core";
+import { useHistory, useLocation } from "react-router";
+// import auth from "../../util/auth";
+// import { UserContext } from "../../models/user-context";
+
+const drawerWidth = 240;
+
+const useStyles = makeStyles((theme: Theme) =>
+  createStyles({
+    root: {
+      display: "flex",
+      backgroundColor: backgroundContrast,
+      flex: 1,
+    },
+    header: {
+      display: "flex",
+      justifyContent: "space-between",
+      backgroundColor: backgroundContrast,
+    },
+    logoHeader: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "space-between",
+    },
+    logoContainer: {
+      marginRight: "20px",
+    },
+    listItemText: {
+      color: primaryText,
+    },
+    icon: {
+      color: primaryColor,
+    },
+    boxBtn: {
+      float: "left",
+      color: primaryColor,
+      backgroundColor: backgroundContrast,
+      borderColor: primaryColor,
+      textTransform: "capitalize",
+      marginRight: 10,
+    },
+    boxBtnSignOut: {
+      float: "left",
+      color: primaryColor,
+      backgroundColor: backgroundContrast,
+      borderColor: primaryColor,
+      textTransform: "capitalize",
+    },
+    appBar: {
+      zIndex: theme.zIndex.drawer + 1,
+      transition: theme.transitions.create(["width", "margin"], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      backgroundColor: backgroundMain,
+    },
+    appBarShift: {
+      marginLeft: drawerWidth,
+      width: `calc(100% - ${drawerWidth}px)`,
+      transition: theme.transitions.create(["width", "margin"], {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+    },
+    menuButton: {
+      marginRight: 36,
+    },
+    hide: {
+      display: "none",
+    },
+    drawer: {
+      width: drawerWidth,
+      flexShrink: 0,
+      whiteSpace: "nowrap",
+      backgroundColor: backgroundContrast,
+    },
+    drawerOpen: {
+      width: drawerWidth,
+      transition: theme.transitions.create("width", {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.enteringScreen,
+      }),
+      backgroundColor: backgroundContrast,
+    },
+    drawerClose: {
+      transition: theme.transitions.create("width", {
+        easing: theme.transitions.easing.sharp,
+        duration: theme.transitions.duration.leavingScreen,
+      }),
+      backgroundColor: backgroundContrast,
+      overflowX: "hidden",
+      width: theme.spacing(7) + 1,
+      [theme.breakpoints.up("sm")]: {
+        width: theme.spacing(9) + 1,
+      },
+    },
+    toolbar: {
+      display: "flex",
+      alignItems: "center",
+      justifyContent: "flex-end",
+      padding: theme.spacing(0, 1),
+      ...theme.mixins.toolbar,
+    },
+    content: {
+      flexGrow: 1,
+      padding: theme.spacing(3),
+      backgroundColor: "white",
+    },
+  })
+);
+
+interface MenuItem {
+  label: string;
+  icon: () => any;
+  route: string;
+}
+
+type DrawerContainerProps = {};
+
+const DrawerContainer: React.FC<DrawerContainerProps> = ({ children }) => {
+  const classes = useStyles();
+  const theme = useTheme();
+  const [open, setOpen] = React.useState(false);
+
+  const history = useHistory();
+  // const location = useLocation();
+
+  const signOut = () => {
+    // auth.signOut();
+    history.push("/login");
+  };
+
+  const handleDrawerClose = () => {
+    setOpen(false);
+  };
+
+  var adminMenuItems = [
+    { label: "HOME", icon: () => <DashboardIcon />, route: "/" },
+    // { label: "BASKET", icon: () => <DashboardIcon />, route: "/basket" },
+    // { label: "Orders", icon: () => <CreditCardIcon />, route: "/orders" },
+    // { label: "Brokers", icon: () => <GroupIcon />, route: "/brokers" },
+  ];
+
+  var brokerMenuItems = [
+    { label: "HOME", icon: () => <DashboardIcon />, route: "/" },
+    // { label: "BASKET", icon: () => <DashboardIcon />, route: "/basket" },
+    // { label: "Orders", icon: () => <CreditCardIcon />, route: "/orders" },
+  ];
+
+  // var user: UserContext = Auth.getUserDetails();
+
+  let menuItems: MenuItem[] = brokerMenuItems;
+
+  return (
+    <div className={classes.root}>
+      <CssBaseline />
+      <AppBar
+        position="fixed"
+        className={clsx(classes.appBar, {
+          [classes.appBarShift]: open,
+        })}
+      >
+        <Toolbar className={classes.header}>
+          <div className={classes.logoHeader}>
+            <div className={classes.logoContainer}>
+              <img
+                style={{ width: "60px", height: "auto" }}
+                src={logo}
+                alt="logo"
+              />
+            </div>
+            <Typography variant="h6" noWrap>
+              DCX Bullion
+            </Typography>
+          </div>
+          <div>
+            <Button
+              href="#/login"
+              className={classes.boxBtn}
+              variant="outlined"
+            // onClick={() => signOut()}
+            >
+              Login
+            </Button>
+            <Button
+              href="#/register"
+              className={classes.boxBtn}
+              variant="outlined"
+            // onClick={() => signOut()}
+            >
+              Register
+            </Button>
+            <Button
+              href="#/profile"
+              className={classes.boxBtn}
+              variant="outlined"
+            // onClick={() => signOut()}
+            >
+              Profile
+            </Button>
+            <Button
+              href="#/basket"
+              className={classes.boxBtn}
+              variant="outlined"
+            // onClick={() => signOut()}
+            >
+              Basket
+            </Button>
+            <Button
+              className={classes.boxBtn}
+              variant="outlined"
+            // onClick={() => signOut()}
+            >
+              Chekout
+            </Button>
+            <Button
+              className={classes.boxBtnSignOut}
+              variant="outlined"
+              onClick={() => signOut()}
+            >
+              Sign Out
+            </Button>
+          </div>
+        </Toolbar>
+      </AppBar>
+      <Drawer
+        variant="permanent"
+        className={clsx(classes.drawer, {
+          [classes.drawerOpen]: !open,
+          [classes.drawerClose]: open,
+        })}
+        classes={{
+          paper: clsx({
+            [classes.drawerOpen]: !open,
+            [classes.drawerClose]: open,
+          }),
+        }}
+      >
+        <div className={classes.toolbar}>
+          <IconButton onClick={handleDrawerClose}>
+            {theme.direction === "rtl" ? (
+              <ChevronRightIcon />
+            ) : (
+                <ChevronLeftIcon />
+              )}
+          </IconButton>
+        </div>
+        <Divider />
+        <List>
+          {menuItems.map((x) => {
+            let match = location.pathname.includes(x.route);
+
+            return (
+              <ListItem button onClick={() => history.push(x.route)}>
+                <ListItemIcon style={{ color: match ? primaryColor : "white" }}>
+                  {x.icon()}
+                </ListItemIcon>
+                <ListItemText
+                  style={{ color: match ? primaryColor : "white" }}
+                  className={classes.listItemText}
+                  primary={x.label}
+                />
+              </ListItem>
+            );
+          })}
+        </List>
+      </Drawer>
+      <main className={classes.content}>
+        <Toolbar />
+        {children}
+      </main>
+    </div>
+  );
+};
+
+export default DrawerContainer;

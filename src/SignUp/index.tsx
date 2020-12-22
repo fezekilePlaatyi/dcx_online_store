@@ -128,16 +128,19 @@ const SignUpContainer = () => {
         .auth()
         .createUserWithEmailAndPassword(email, password);
 
-      let myCar1 = new CustomerService();
-      myCar1.signUpUser({
+      let customerInstance = new CustomerService();
+      customerInstance.signUpUser({
         "firstName": firstName,
         "lastName": lastName,
         "phoneNumber": phoneNumber,
         "email": email,
         "idNumber": idNumber
       })
-
-      setRegistrationResponse(`Successfully registered. Please open link sent to ${email} to verify email and continue to login.`)
+      if (user && user.emailVerified === false) {
+        user.sendEmailVerification().then(function () {
+          setRegistrationResponse(`Successfully registered. Please open link sent to ${email} to verify email and continue to login.`)
+        });
+      }
     } catch (error) {
       setRegistrationResponse(error.message);
     }

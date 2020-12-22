@@ -1,10 +1,10 @@
 import React, { Component, useEffect, useState } from "react";
-import { BrowserRouter as Router, Route } from "react-router-dom";
-
+import { BrowserRouter, BrowserRouter as Router, Route, Switch } from "react-router-dom";
+import DrawerContainer from "./components/drawer/drawer";
 import PrivateRoute from "./PrivateRoute";
 import app from "./base";
 
-import Home from "./Home";
+import Home from "./Home/home";
 import LogIn from "./LogIn";
 import SignUp from "./SignUp";
 import ForgotPassword from "./ForgotPassword";
@@ -40,19 +40,23 @@ const App = () => {
   }
 
   return (
-    <Router>
-      <div>
-        <PrivateRoute
-          exact
-          path="/"
-          component={Home}
-          authenticated={authenticated}
-        />
-        <Route exact path="/login" component={LogIn} />
-        <Route exact path="/forgotPassword" component={ForgotPassword} />
-        <Route exact path="/register" component={SignUp} />
-      </div>
-    </Router>
+    <div className="app">
+      <DrawerContainer>
+        <BrowserRouter>
+          <Switch>
+            <PrivateRoute
+              exact
+              path="/"
+              component={Home}
+              authenticated={authenticated}
+            />
+            <Route exact path="/login" component={LogIn} />
+            <Route exact path="/forgotPassword" component={ForgotPassword} />
+            <Route exact path="/register" component={SignUp} />
+          </Switch>
+        </BrowserRouter>
+      </DrawerContainer>
+    </div>
   );
 }
 

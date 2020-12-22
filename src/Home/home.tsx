@@ -1,7 +1,10 @@
 import React from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
-import { ChevronLeft, ShoppingCart, } from "@material-ui/icons/";
+import {
+    ChevronLeft,
+    ShoppingCart,
+} from "@material-ui/icons/";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
@@ -9,14 +12,18 @@ import CardActions from "@material-ui/core/CardActions";
 import IconButton from "@material-ui/core/IconButton";
 import Typography from "@material-ui/core/Typography";
 import { red } from "@material-ui/core/colors";
+import FavoriteIcon from "@material-ui/icons/Favorite";
 import ShareIcon from "@material-ui/icons/Share";
-import img from "../gold.jpg";
+import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
+import img from "../assets/gold.jpg";
+import moment from "moment";
 import Button from "@material-ui/core/Button";
-import { Paper } from "@material-ui/core";
+import {
+    Paper,
+} from "@material-ui/core";
 import {
     backgroundMain,
 } from "../themes/theme-config";
-
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -37,6 +44,7 @@ const useStyles = makeStyles((theme) => ({
         display: "flex",
         flexDirection: "column",
         paddingLeft: 30,
+        //margin: "30px",
     },
     content: {
         flex: "1 0 auto",
@@ -56,7 +64,7 @@ const useStyles = makeStyles((theme) => ({
     },
     media: {
         height: 0,
-        paddingTop: "56.25%",
+        paddingTop: "56.25%", // 16:9
     },
     expand: {
         transform: "rotate(0deg)",
@@ -87,7 +95,284 @@ const useStyles = makeStyles((theme) => ({
         border: "none",
         display: "flex",
         flexDirection: "column",
+        // alignItems: "center",
         width: "100%",
     },
     productListCardsContainer: {},
 }));
+
+function Home() {
+    const classes = useStyles();
+
+    var defaultProduct: any = {
+        id: "",
+        name: "",
+        type: "",
+        description: "",
+        dateAdded: moment(new Date()),
+        dateModified: moment(new Date()),
+        price: 0,
+    };
+
+    const [productsOnBasket, addProductToBasket] = React.useState<any>([]);
+    const [productDetailsBox, displayProductDetailsBox] = React.useState(false);
+    const [productDetails, setProductDetails] = React.useState<any>(
+        defaultProduct
+    );
+    //   const [orderHistory, setOrderHistory] = React.useState([]);
+
+    const handleExpandClick = (productId: any) => {
+        if (productId != "back") {
+            var product = products.find((item: any) => item.id == productId);
+            setProductDetails(product);
+        }
+        displayProductDetailsBox(!productDetailsBox);
+    };
+
+    const handleAddingProductToBasket = (productDetails: any) => {
+        checkIfAlreadyAddedOnBasket(productDetails)
+            ? console.log("already added...")
+            : addProductToBasket((prevArray: any) => [...prevArray, productDetails]);
+    };
+
+    const checkIfAlreadyAddedOnBasket = (productDetails: any) => {
+        var found: any = !productsOnBasket.find(
+            (item: any) => item.id == productDetails.id
+        )
+            ? false
+            : true;
+
+        return found;
+    };
+
+    //   const handleDeleteProductFromBasket = (productId: any) => {
+    //     console.log("deleting...");
+    //     addProductToBasket(
+    //       productsOnBasket.filter((item: any) => item.id !== productId)
+    //     );
+    //   };
+
+    //   const displayOrderHistory = async () => {
+    //     await firebase
+    //       .getInvoices()
+    //       .then((data) => {
+    //         var invoiceData: any = [];
+    //         data.docs.forEach((item) => {
+    //           invoiceData.push(item.data());
+    //         });
+    //         setOrderHistory(invoiceData);
+    //       })
+    //       .catch((error) => {
+    //         alert(error.toString());
+    //       });
+    //   };
+
+    let products = [
+        {
+            id: "wdHKuhdwu2ybbxss",
+            name: "Gold oz 2nnx",
+            type: "gold",
+            description: "Some gold blah blah",
+            dateAdded: "19 / December / 2020",
+            dateModified: "19 / December / 2020",
+            price: 200,
+        },
+        {
+            id: "PpadsndHKdjwdwjsk",
+            name: "Gold 5029K",
+            type: "gold",
+            description: "Blah blah blah",
+            dateAdded: "20 / December / 2020",
+            dateModified: "21 / December / 2020",
+            price: 900,
+        },
+        {
+            id: "LkkddjkdHKuhdwsdjdw",
+            name: "Silver JKk",
+            type: "silver",
+            description: "Some silverish stone blah blah",
+            dateAdded: "19 / November / 2020",
+            dateModified: "12 / December / 2020",
+            price: 100,
+        },
+    ];
+    let productList: any = [];
+
+    products.forEach((element) => {
+        productList.push(
+            <Card className={classes.root} style={{ marginRight: 30 }}>
+                <CardMedia className={classes.media} image={img} title="plcae holder" />
+                <CardContent>
+                    <Typography variant="body2" color="textSecondary" component="h3">
+                        <b>Name: {element.name}</b>
+                    </Typography>
+                    <br></br>
+                    <Typography variant="body2" color="textSecondary" component="h3">
+                        <b>Price: R {element.price}</b>
+                    </Typography>{" "}
+                </CardContent>
+                <CardActions disableSpacing>
+                    <IconButton aria-label="add to favorites">
+                        <FavoriteIcon />
+                    </IconButton>
+                    <IconButton aria-label="share">
+                        <ShareIcon />
+                    </IconButton>
+                    <IconButton
+                        className={clsx(classes.expand, {
+                            [classes.expandOpen]: productDetailsBox,
+                        })}
+                        onClick={() => handleExpandClick(element.id)}
+                        aria-expanded={productDetailsBox}
+                        aria-label="show more"
+                    >
+                        <ExpandMoreIcon />
+                    </IconButton>
+                </CardActions>
+            </Card>
+        );
+    });
+    //   const handleUpdateQuantity = (productId: any, value: any) => {
+    //     var index: number = productsOnBasket.findIndex(
+    //       (product: any) => product.id === productId
+    //     );
+    //     if (index !== -1) productsOnBasket[index].quantity = value;
+    //     console.log(productsOnBasket);
+    //   };
+
+    //   let productsOnBasketList: any = [];
+
+    //   productsOnBasket.forEach(
+    //     (element: {
+    //       description: any;
+    //       name: React.ReactNode;
+    //       price: React.ReactNode;
+    //       id: any;
+    //     }) => {
+    //       productsOnBasketList.push(
+    //         <li key={element.id}>
+    //           {element.name} |{element.description} | R {element.price} | Quantity{" "}
+    //           <TextField
+    //             InputProps={{
+    //               inputProps: { min: 1 },
+    //             }}
+    //             className={classes.textField}
+    //             type="number"
+    //             defaultValue={1}
+    //             onChange={(event) =>
+    //               handleUpdateQuantity(element.id, event.target.value)
+    //             }
+    //           />{" "}
+    //           |
+    //           <Delete onClick={() => handleDeleteProductFromBasket(element.id)} />
+    //         </li>
+    //       );
+    //     }
+    //   );
+
+    //   const proceedToPay = async () => {
+    //     await firebase
+    //       .createInvoice(productsOnBasket)
+    //       .then((data) => {
+    //         addProductToBasket([]);
+    //         alert("Successfuly paid.");
+    //       })
+    //       .catch((error) => {
+    //         alert(error.toString());
+    //       });
+    //   };
+
+    return (
+        <div>
+            <Paper className={classes.paper}>
+                <div
+                    //   className={classes.productDetails}
+                    style={{ display: productDetailsBox ? "block" : "none" }}
+                >
+                    <IconButton
+                        onClick={() => handleExpandClick("back")}
+                        aria-expanded={productDetailsBox}
+                        aria-label="show more"
+                    >
+                        <ChevronLeft /> back
+          </IconButton>
+                    <Card className={classes.productDisplayRoot}>
+                        <CardMedia
+                            className={classes.cover}
+                            image={img}
+                            title="plcae holder"
+                        />
+                        <div className={classes.details}>
+                            <CardContent className={classes.content}>
+                                <Typography component="h5" variant="h5">
+                                    <b> Name: </b> {productDetails.name}
+                                </Typography>
+                                <Typography variant="subtitle1" color="textSecondary">
+                                    <b>Price:</b>  R {productDetails.price}
+                                </Typography>
+                                <div>
+                                    <Typography component="p">
+                                        <b>Details:</b> {productDetails.description}
+                                    </Typography>
+
+                                    <Button
+                                        onClick={() => handleAddingProductToBasket(productDetails)}
+                                        style={{
+                                            display: checkIfAlreadyAddedOnBasket(productDetails)
+                                                ? "none"
+                                                : "block",
+                                        }}
+                                    >
+                                        + Add <ShoppingCart />
+                                    </Button>
+
+                                    <Typography
+                                        component="p"
+                                        style={{
+                                            display: checkIfAlreadyAddedOnBasket(productDetails)
+                                                ? "block"
+                                                : "none",
+                                        }}
+                                    >
+                                        Added <ShoppingCart /> |{" "}
+                                        <Button href="#/basket">View Basket</Button>
+                                    </Typography>
+                                </div>
+                            </CardContent>
+                        </div>
+                    </Card>
+                </div>
+                <div
+                    className={classes.productListCardsContainer}
+                    style={{ display: productDetailsBox ? "none" : "block" }}
+                >
+                    <h2>Product List(*)</h2>
+                    {/* <h2>
+            ({productsOnBasket.length}) <ShoppingCart />
+          </h2> */}
+                    {/* <h2 onClick={() => displayOrderHistory()}>Order History</h2> */}
+
+                    <div className={classes.productList}>{productList}</div>
+                </div>
+
+                {/* <h2
+          onClick={() => proceedToPay()}
+          style={{
+            display: productsOnBasketList.length == 0 ? "none" : "block",
+          }}
+        >
+          PAY
+        </h2>
+        <div>
+          <h2>BASKET </h2>
+          {productsOnBasketList}
+        </div>
+        <div>
+          <h2>History </h2>
+          {orderHistory.join(",").toString()}
+        </div> */}
+            </Paper>
+        </div>
+    );
+}
+export default Home;
