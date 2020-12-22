@@ -342,6 +342,7 @@ function Home() {
                         </div>
                     </Card>
                 </div>
+                
                 <div
                     className={classes.productListCardsContainer}
                     style={{ display: productDetailsBox ? "none" : "block" }}
