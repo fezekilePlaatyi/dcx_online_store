@@ -79,18 +79,18 @@ var useStyles = styles_1.makeStyles(function (theme) { return ({
     },
     productListCardsContainer: {}
 }); });
-var BasketContainer = function (props) {
+var Basket = function (props) {
     var classes = useStyles();
     var history = react_router_dom_1.useHistory();
+    var handleDeleteProductFromBasket = function (productId) {
+        console.log("deleting...");
+        addProductToBasket(productsOnBasket.filter(function (item) { return item.id !== productId; }));
+    };
     var handleUpdateQuantity = function (productId, value) {
         var index = productsOnBasket.findIndex(function (product) { return product.id === productId; });
         if (index !== -1)
             productsOnBasket[index].quantity = value;
         console.log(productsOnBasket);
-    };
-    var handleDeleteProductFromBasket = function (productId) {
-        console.log("deleting...");
-        addProductToBasket(productsOnBasket.filter(function (item) { return item.id !== productId; }));
     };
     var productsOnBasket = props.productsOnBasket;
     var addProductToBasket = props.addProductToBasket;
@@ -127,4 +127,4 @@ var BasketContainer = function (props) {
                     react_1["default"].createElement("th", null, "Delete"))),
             react_1["default"].createElement("tbody", null, productsOnBasketList))));
 };
-exports["default"] = react_router_dom_1.withRouter(BasketContainer);
+exports["default"] = Basket;

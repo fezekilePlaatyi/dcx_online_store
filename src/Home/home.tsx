@@ -145,20 +145,10 @@ function Home() {
         return found;
     };
 
-    // const displayOrderHistory = async () => {
-    //     await firebase
-    //         .getInvoices()
-    //         .then((data) => {
-    //             var invoiceData: any = [];
-    //             data.docs.forEach((item) => {
-    //                 invoiceData.push(item.data());
-    //             });
-    //             setOrderHistory(invoiceData);
-    //         })
-    //         .catch((error) => {
-    //             alert(error.toString());
-    //         });
-    // };
+    const goToBasketIfNotEmpty = () => {
+        if (productsOnBasket.length > 0)
+            handleNavigationClick('basket')
+    }
 
     let products = [
         {
@@ -226,27 +216,12 @@ function Home() {
         );
     });
 
-
-
-
-    //   const proceedToPay = async () => {
-    //     await firebase
-    //       .createInvoice(productsOnBasket)
-    //       .then((data) => {
-    //         addProductToBasket([]);
-    //         alert("Successfuly paid.");
-    //       })
-    //       .catch((error) => {
-    //         alert(error.toString());
-    //       });
-    //   };
-
     const Main = () => {
         return (
             <div>
                 <Paper className={classes.paper}>
                     <div
-                        //   className={classes.productDetails}
+                        className={classes.productDetails}
                         style={{ display: productDetailsBox ? "block" : "none" }}
                     >
                         <IconButton
@@ -307,7 +282,7 @@ function Home() {
                         style={{ display: productDetailsBox ? "none" : "block" }}
                     >
                         <h2>Product List(*)</h2>
-                        <h2>
+                        <h2 className="pointer" onClick={() => goToBasketIfNotEmpty()}>
                             ({productsOnBasket.length}) <ShoppingCart />
                         </h2>
                         <div className={classes.productList}>{productList}</div>

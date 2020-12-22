@@ -11,12 +11,9 @@ import {
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
-import {
-  Link,
-} from "@material-ui/core";
+import { Link } from "@material-ui/core";
 import { Customer } from "../models/customer-model";
-import CustomerService from '../services/customer-service'
-
+import CustomerService from "../services/customer-service";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -99,53 +96,48 @@ const useStyles = makeStyles((theme: Theme) =>
       color: primaryColor,
     },
     linkContainer: {
-      display: 'flex',
-      flexDirection: 'column',
-      alignItems: 'flex-end',
+      display: "flex",
+      flexDirection: "column",
+      alignItems: "flex-end",
     },
   })
 );
 
 const SignUpContainer = () => {
-
   const classes = useStyles();
   const history = useHistory();
 
-  const [firstName, setFirstName] = useState("")
-  const [lastName, setLastName] = useState("")
-  const [phoneNumber, setPhoneNumber] = useState("")
-  const [email, setEmail] = useState("")
-  const [password, setPassword] = useState("")
-  const [confirmPassword, setConfirmPassword] = useState("")
-  const [idNumber, setIdNumber] = useState("")
-  const [registrationResponse, setRegistrationResponse] = useState("")
-
+  const [firstName, setFirstName] = useState("");
+  const [lastName, setLastName] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+  const [confirmPassword, setConfirmPassword] = useState("");
+  const [idNumber, setIdNumber] = useState("");
+  const [registrationResponse, setRegistrationResponse] = useState("");
 
   const handleSignUp = async (event: any) => {
     event.preventDefault();
     try {
       await app
         .auth()
-        .createUserWithEmailAndPassword(email, password).then(user => {
+        .createUserWithEmailAndPassword(email, password)
+        .then((user) => {
           let customerInstance = new CustomerService();
           customerInstance.signUpUser({
-            "firstName": firstName,
-            "lastName": lastName,
-            "phoneNumber": phoneNumber,
-            "email": email,
-            "idNumber": idNumber
-          })
+            firstName: firstName,
+            lastName: lastName,
+            phoneNumber: phoneNumber,
+            email: email,
+            idNumber: idNumber,
+          });
 
-          if (user && user.emailVerified === false) {
-            user.sendEmailVerification().then(function () {
-              setRegistrationResponse(`Successfully registered. Please open link sent to ${email} to verify email and continue to login.`)
-            });
-          }
-        })
-        
-
-
-
+          //   if (user && user.emailVerified === false) {
+          //     user.sendEmailVerification().then(function () {
+          //       setRegistrationResponse(`Successfully registered. Please open link sent to ${email} to verify email and continue to login.`)
+          //     });
+          //   }
+        });
     } catch (error) {
       setRegistrationResponse(error.message);
     }
@@ -263,27 +255,29 @@ const SignUpContainer = () => {
 
             <div className={classes.buttonsContainer}>
               <div className={classes.loginButtonContainer}>
-                <Button className={classes.boxBtn} variant="outlined" onClick={(event) => handleSignUp(event)}>
+                <Button
+                  className={classes.boxBtn}
+                  variant="outlined"
+                  onClick={(event) => handleSignUp(event)}
+                >
                   Submit
                 </Button>
               </div>
               <div className={classes.linkContainer}>
                 <Link className={classes.forgot} href="/login">
                   LOGIN
-            </Link>
+                </Link>
                 <Link className={classes.forgot} href="/">
                   Home
-            </Link>
+                </Link>
               </div>
             </div>
-            <div className={classes.sentEmailText}>
-              {registrationResponse}
-            </div>
+            <div className={classes.sentEmailText}>{registrationResponse}</div>
           </form>
         </Paper>
       </div>
-    </div >
+    </div>
   );
-}
+};
 
 export default withRouter(SignUpContainer);

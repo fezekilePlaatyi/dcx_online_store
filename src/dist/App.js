@@ -8,6 +8,7 @@ var home_1 = require("./Home/home");
 var LogIn_1 = require("./LogIn");
 var SignUp_1 = require("./SignUp");
 var Basket_1 = require("./Basket");
+var OrderHistory_1 = require("./OrderHistory");
 var ForgotPassword_1 = require("./ForgotPassword");
 function onAuthStateChange(setLoading, setAuthenticated, setUser) {
     return base_1["default"].auth().onAuthStateChanged(function (user) {
@@ -41,6 +42,7 @@ var App = function () {
             react_1["default"].createElement(PrivateRoute_1["default"], { exact: true, path: "/", component: home_1["default"], authenticated: authenticated }),
             react_1["default"].createElement(PrivateRoute_1["default"], { exact: true, path: "/home", component: home_1["default"], authenticated: authenticated }),
             react_1["default"].createElement(PrivateRoute_1["default"], { exact: true, path: "/basket", component: Basket_1["default"], authenticated: authenticated }),
+            react_1["default"].createElement(PrivateRoute_1["default"], { exact: true, path: "/orderHistory", component: OrderHistory_1["default"], authenticated: authenticated }),
             react_1["default"].createElement(react_router_dom_1.Route, { exact: true, path: "/login", component: LogIn_1["default"] }),
             react_1["default"].createElement(react_router_dom_1.Route, { exact: true, path: "/signup", component: SignUp_1["default"] }),
             react_1["default"].createElement(react_router_dom_1.Route, { exact: true, path: "/forgotPassword", component: ForgotPassword_1["default"] }),

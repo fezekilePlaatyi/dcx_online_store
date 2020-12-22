@@ -8,6 +8,7 @@ import Home from "./Home/home";
 import LogIn from "./LogIn";
 import SignUp from "./SignUp";
 import Basket from "./Basket";
+import OrderHistory from "./OrderHistory"
 import ForgotPassword from "./ForgotPassword";
 
 function onAuthStateChange(setLoading: any, setAuthenticated: any, setUser: any) {
@@ -59,6 +60,12 @@ const App = () => {
           exact
           path="/basket"
           component={Basket}
+          authenticated={authenticated}
+        />
+        <PrivateRoute
+          exact
+          path="/orderHistory"
+          component={OrderHistory}
           authenticated={authenticated}
         />
         <Route exact path="/login" component={LogIn} />

@@ -134,20 +134,10 @@ function Home() {
             : true;
         return found;
     };
-    // const displayOrderHistory = async () => {
-    //     await firebase
-    //         .getInvoices()
-    //         .then((data) => {
-    //             var invoiceData: any = [];
-    //             data.docs.forEach((item) => {
-    //                 invoiceData.push(item.data());
-    //             });
-    //             setOrderHistory(invoiceData);
-    //         })
-    //         .catch((error) => {
-    //             alert(error.toString());
-    //         });
-    // };
+    var goToBasketIfNotEmpty = function () {
+        if (productsOnBasket.length > 0)
+            handleNavigationClick('basket');
+    };
     var products = [
         {
             id: "wdHKuhdwu2ybbxss",
@@ -203,23 +193,10 @@ function Home() {
                         _a)), onClick: function () { return handleExpandClick(element.id); }, "aria-expanded": productDetailsBox, "aria-label": "show more" },
                     react_1["default"].createElement(ExpandMore_1["default"], null)))));
     });
-    //   const proceedToPay = async () => {
-    //     await firebase
-    //       .createInvoice(productsOnBasket)
-    //       .then((data) => {
-    //         addProductToBasket([]);
-    //         alert("Successfuly paid.");
-    //       })
-    //       .catch((error) => {
-    //         alert(error.toString());
-    //       });
-    //   };
     var Main = function () {
         return (react_1["default"].createElement("div", null,
             react_1["default"].createElement(core_1.Paper, { className: classes.paper },
-                react_1["default"].createElement("div", { 
-                    //   className={classes.productDetails}
-                    style: { display: productDetailsBox ? "block" : "none" } },
+                react_1["default"].createElement("div", { className: classes.productDetails, style: { display: productDetailsBox ? "block" : "none" } },
                     react_1["default"].createElement(IconButton_1["default"], { onClick: function () { return handleExpandClick("back"); }, "aria-expanded": productDetailsBox, "aria-label": "show more" },
                         react_1["default"].createElement(icons_1.ChevronLeft, null),
                         " back"),
@@ -259,7 +236,7 @@ function Home() {
                                         react_1["default"].createElement(Button_1["default"], { onClick: function () { return handleNavigationClick('basket'); } }, "View Basket"))))))),
                 react_1["default"].createElement("div", { className: classes.productListCardsContainer, style: { display: productDetailsBox ? "none" : "block" } },
                     react_1["default"].createElement("h2", null, "Product List(*)"),
-                    react_1["default"].createElement("h2", null,
+                    react_1["default"].createElement("h2", { className: "pointer", onClick: function () { return goToBasketIfNotEmpty(); } },
                         "(",
                         productsOnBasket.length,
                         ") ",
@@ -276,7 +253,7 @@ function Home() {
             case 'main':
                 return (react_1["default"].createElement(Main, null));
             case 'basket':
-                return (react_1["default"].createElement(Basket_1["default"], { productsOnBasket: productsOnBasket, addProductToBasket: addProductToBasket }));
+                return (react_1["default"].createElement(Basket_1["default"], { productsOnBasket: productsOnBasket, addProductToBasket: addProductToBasket, handleNavigationOnHome: handleNavigationOnHome }));
         }
     };
     return (react_1["default"].createElement("div", null, handleNavigationOnHome(navigationOnHome)));

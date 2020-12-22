@@ -215,18 +215,11 @@ const DrawerContainer: React.FC<DrawerContainerProps> = ({ children }) => {
               Profile
             </Button>
             <Button
-              onClick={() => history.push("/basket")}
+              onClick={() => history.push("/orderHistory")}
               className={classes.boxBtn}
               variant="outlined"
             >
-              Basket
-            </Button>
-            <Button
-              onClick={() => history.push("/chekout")}
-              className={classes.boxBtn}
-              variant="outlined"
-            >
-              Chekout
+              Order History
             </Button>
             <Button
               className={classes.boxBtnSignOut}

@@ -19,7 +19,6 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import img from "../assets/gold.jpg";
 import moment from "moment";
 import {
-  Button,
   Link,
   Paper,
   TextField,
@@ -28,8 +27,6 @@ import {
 import {
   backgroundMain,
 } from "../themes/theme-config";
-
-import Basket from '../Basket'
 import { useHistory, withRouter } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
@@ -107,10 +104,17 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 
-const BasketContainer = (props: any) => {
+const Basket = (props: any) => {
 
   const classes = useStyles();
   const history = useHistory();
+
+  const handleDeleteProductFromBasket = (productId: any) => {
+    console.log("deleting...");
+    addProductToBasket(
+      productsOnBasket.filter((item: any) => item.id !== productId)
+    );
+  };
 
   const handleUpdateQuantity = (productId: any, value: any) => {
     var index: number = productsOnBasket.findIndex(
@@ -118,13 +122,6 @@ const BasketContainer = (props: any) => {
     );
     if (index !== -1) productsOnBasket[index].quantity = value;
     console.log(productsOnBasket);
-  };
-
-  const handleDeleteProductFromBasket = (productId: any) => {
-    console.log("deleting...");
-    addProductToBasket(
-      productsOnBasket.filter((item: any) => item.id !== productId)
-    );
   };
 
   let productsOnBasket = props.productsOnBasket
@@ -186,5 +183,4 @@ const BasketContainer = (props: any) => {
     </div>
   );
 }
-
-export default withRouter(BasketContainer);
+export default Basket;
