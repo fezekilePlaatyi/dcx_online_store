@@ -38,6 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: backgroundContrast,
       borderColor: primaryColor,
       color: primaryColor,
+      width: "100%",
     },
     boxWrapper: {
       margin: 10,
@@ -45,13 +46,14 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     buttonsContainer: {
       marginTop: 20,
-      marginBottom: 20,
+      // marginBottom: 20,
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
+      width: "100%",
     },
     paper: {
-      padding: 15,
+      padding: 25,
       overflow: "auto",
       backgroundColor: backgroundContrast,
       border: "none",
@@ -67,8 +69,10 @@ const useStyles = makeStyles((theme: Theme) =>
       top: "10%",
     },
     loginButtonContainer: {
-      margin: theme.spacing(1),
+     // margin: theme.spacing(1),
       position: "relative",
+      width: "100%",
+      marginBottom: 20,
     },
     heading: {
       margin: "15px 0px",
@@ -100,6 +104,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexDirection: "column",
       alignItems: "flex-end",
+      width: "100%",
     },
   })
 );
@@ -155,95 +160,95 @@ const SignUpContainer = () => {
             Please enter required information below
           </div>
           <form className={classes.form}>
-             <div className={classes.textfieldBlock}>
-            <TextField
-              className={classes.textfield}
-              autoComplete="off"
-              margin="normal"
-              label="First name"
-              variant="outlined"
-              required
-              value={firstName}
-              onChange={(event) => setFirstName(event.target.value)}
-              InputProps={{
-                autoComplete: "off",
-              }}
-              autoFocus
-            />
-            <TextField
-              className={classes.textfield}
-              autoComplete="off"
-              margin="normal"
-              label="Last name"
-              variant="outlined"
-              value={lastName}
-              onChange={(event) => setLastName(event.target.value)}
-              required
-              InputProps={{
-                autoComplete: "off",
-              }}
-              autoFocus
-            />
+            <div className={classes.textfieldBlock}>
+              <TextField
+                className={classes.textfield}
+                autoComplete="off"
+                margin="normal"
+                label="First name"
+                variant="outlined"
+                required
+                value={firstName}
+                onChange={(event) => setFirstName(event.target.value)}
+                InputProps={{
+                  autoComplete: "off",
+                }}
+                autoFocus
+              />
+              <TextField
+                className={classes.textfield}
+                autoComplete="off"
+                margin="normal"
+                label="Last name"
+                variant="outlined"
+                value={lastName}
+                onChange={(event) => setLastName(event.target.value)}
+                required
+                InputProps={{
+                  autoComplete: "off",
+                }}
+                autoFocus
+              />
             </div>
             <div className={classes.textfieldBlock}>
-            <TextField
-              className={classes.textfield}
-              autoComplete="off"
-              margin="normal"
-              label="Phone number"
-              variant="outlined"
-              value={phoneNumber}
-              onChange={(event) => setPhoneNumber(event.target.value)}
-              required
-              InputProps={{
-                autoComplete: "off",
-              }}
-              autoFocus
-            />
-            <TextField
-              className={classes.textfield}
-              autoComplete="off"
-              margin="normal"
-              label="Email"
-              variant="outlined"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              required
-              InputProps={{
-                autoComplete: "off",
-              }}
-              autoFocus
-            />
-            </div> 
+              <TextField
+                className={classes.textfield}
+                autoComplete="off"
+                margin="normal"
+                label="Phone number"
+                variant="outlined"
+                value={phoneNumber}
+                onChange={(event) => setPhoneNumber(event.target.value)}
+                required
+                InputProps={{
+                  autoComplete: "off",
+                }}
+                autoFocus
+              />
+              <TextField
+                className={classes.textfield}
+                autoComplete="off"
+                margin="normal"
+                label="Email"
+                variant="outlined"
+                value={email}
+                onChange={(event) => setEmail(event.target.value)}
+                required
+                InputProps={{
+                  autoComplete: "off",
+                }}
+                autoFocus
+              />
+            </div>
             <div className={classes.textfieldBlock}>
-            <TextField
-              className={classes.textfield}
-              autoComplete="off"
-              margin="normal"
-              label="Password"
-              variant="outlined"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-              required
-              InputProps={{
-                autoComplete: "off",
-              }}
-              autoFocus
-            />
-            <TextField
-              className={classes.textfield}
-              autoComplete="off"
-              margin="normal"
-              label="Confirm password"
-              variant="outlined"
-              value={confirmPassword}
-              onChange={(event) => setConfirmPassword(event.target.value)}
-              required
-              InputProps={{
-                autoComplete: "off",
-              }}
-              autoFocus
-            />
+              <TextField
+                className={classes.textfield}
+                autoComplete="off"
+                margin="normal"
+                label="Password"
+                variant="outlined"
+                value={password}
+                onChange={(event) => setPassword(event.target.value)}
+                required
+                InputProps={{
+                  autoComplete: "off",
+                }}
+                autoFocus
+              />
+              <TextField
+                className={classes.textfield}
+                autoComplete="off"
+                margin="normal"
+                label="Confirm password"
+                variant="outlined"
+                value={confirmPassword}
+                onChange={(event) => setConfirmPassword(event.target.value)}
+                required
+                InputProps={{
+                  autoComplete: "off",
+                }}
+                autoFocus
+              />
             </div>
             <TextField
               className={classes.textfield}
@@ -270,17 +275,17 @@ const SignUpContainer = () => {
                   Submit
                 </Button>
               </div>
-              <div className={classes.linkContainer}>
-                <Link className={classes.forgot} href="/login">
-                  LOGIN
-                </Link>
-                <Link className={classes.forgot} href="/">
-                  Home
-                </Link>
-              </div>
             </div>
             <div className={classes.sentEmailText}>{registrationResponse}</div>
           </form>
+          <div className={classes.linkContainer}>
+            <Link className={classes.forgot} href="/login">
+              LOGIN
+            </Link>
+            <Link className={classes.forgot} href="/">
+              Home
+            </Link>
+          </div>
         </Paper>
       </div>
     </div>

@@ -46,6 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderColor: primaryColor,
       color: primaryColor,
       marginRight: 10,
+      width: "25%",
     },
     boxWrapper: {
       margin: 10,
@@ -59,7 +60,7 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",
     },
     paper: {
-      padding: 15,
+      padding: 25,
       overflow: "auto",
       backgroundColor: backgroundContrast,
       border: "none",
@@ -77,6 +78,7 @@ const useStyles = makeStyles((theme: Theme) =>
     loginButtonContainer: {
       margin: theme.spacing(1),
       position: "relative",
+      width: "50%",
     },
     heading: {
       margin: "15px 0px",

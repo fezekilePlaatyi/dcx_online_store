@@ -59,6 +59,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: 20,
       display: "flex",
       justifyContent: "space-between",
+      width: "100%",
     },
     buttonsContainerRegister: {
       marginTop: 20,
@@ -79,7 +80,7 @@ const useStyles = makeStyles((theme: Theme) =>
       textAlign: "left",
     },
     paper: {
-      padding: 20,
+      padding: 25,
       overflow: "auto",
       backgroundColor: backgroundContrast,
       border: "none",
@@ -203,7 +204,7 @@ const LogInContainer = () => {
                 <Link className={classes.forgot} href="register">
                   Register
                 </Link>
-                <Link href="/">
+                <Link className={classes.forgot} href="/">
                   Home
                 </Link>
               </div>

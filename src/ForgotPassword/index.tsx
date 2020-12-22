@@ -36,6 +36,7 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: backgroundContrast,
       borderColor: primaryColor,
       color: primaryColor,
+      width: "100%",
     },
     boxWrapper: {
       margin: 10,
@@ -46,11 +47,12 @@ const useStyles = makeStyles((theme: Theme) =>
       marginBottom: 20,
       display: "flex",
       justifyContent: "space-between",
+      width: "100%",
     },
     paper: {
       padding: 25,
       overflow: "auto",
-      backgroundColor: backgroundMain,
+      backgroundColor:  backgroundContrast,
       border: "none",
       display: "flex",
       flexDirection: "column",
@@ -64,8 +66,9 @@ const useStyles = makeStyles((theme: Theme) =>
       top: "10%",
     },
     loginButtonContainer: {
-      margin: theme.spacing(1),
+     // margin: theme.spacing(1),
       position: "relative",
+      width: "100%",
     },
     heading: {
       margin: "15px 0px",
