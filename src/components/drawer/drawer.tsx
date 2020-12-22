@@ -20,9 +20,7 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-import GroupIcon from "@material-ui/icons/Group";
-// import Auth from "../../util/auth";
+import DashboardIcon from "@material-ui/icons/Dashboard"
 import {
   backgroundMain,
   logo,
@@ -32,8 +30,7 @@ import {
 } from "../../themes/theme-config";
 import { Button } from "@material-ui/core";
 import { useHistory, useLocation } from "react-router";
-// import auth from "../../util/auth";
-// import { UserContext } from "../../models/user-context";
+import app from "../../base";
 
 const drawerWidth = 240;
 
@@ -155,10 +152,9 @@ const DrawerContainer: React.FC<DrawerContainerProps> = ({ children }) => {
   const [open, setOpen] = React.useState(false);
 
   const history = useHistory();
-  // const location = useLocation();
 
-  const signOut = () => {
-    // auth.signOut();
+  const signOut = async () => {
+    await app.auth().signOut();
     history.push("/login");
   };
 
@@ -166,20 +162,11 @@ const DrawerContainer: React.FC<DrawerContainerProps> = ({ children }) => {
     setOpen(false);
   };
 
-  var adminMenuItems = [
-    { label: "HOME", icon: () => <DashboardIcon />, route: "/" },
-    // { label: "BASKET", icon: () => <DashboardIcon />, route: "/basket" },
-    // { label: "Orders", icon: () => <CreditCardIcon />, route: "/orders" },
-    // { label: "Brokers", icon: () => <GroupIcon />, route: "/brokers" },
-  ];
-
   var brokerMenuItems = [
     { label: "HOME", icon: () => <DashboardIcon />, route: "/" },
     // { label: "BASKET", icon: () => <DashboardIcon />, route: "/basket" },
     // { label: "Orders", icon: () => <CreditCardIcon />, route: "/orders" },
   ];
-
-  // var user: UserContext = Auth.getUserDetails();
 
   let menuItems: MenuItem[] = brokerMenuItems;
 
@@ -207,41 +194,36 @@ const DrawerContainer: React.FC<DrawerContainerProps> = ({ children }) => {
           </div>
           <div>
             <Button
-              href="#/login"
+              href="/login"
               className={classes.boxBtn}
               variant="outlined"
-            // onClick={() => signOut()}
             >
               Login
             </Button>
             <Button
-              href="#/register"
+              href="/signup"
               className={classes.boxBtn}
               variant="outlined"
-            // onClick={() => signOut()}
             >
               Register
             </Button>
             <Button
-              href="#/profile"
+              href="/profile"
               className={classes.boxBtn}
               variant="outlined"
-            // onClick={() => signOut()}
             >
               Profile
             </Button>
             <Button
-              href="#/basket"
+              href="/basket"
               className={classes.boxBtn}
               variant="outlined"
-            // onClick={() => signOut()}
             >
               Basket
             </Button>
             <Button
               className={classes.boxBtn}
               variant="outlined"
-            // onClick={() => signOut()}
             >
               Chekout
             </Button>

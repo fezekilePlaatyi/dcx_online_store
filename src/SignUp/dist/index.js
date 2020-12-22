@@ -145,7 +145,7 @@ var SignUpContainer = function () {
     var _g = react_1.useState(""), idNumber = _g[0], setIdNumber = _g[1];
     var _h = react_1.useState(""), registrationResponse = _h[0], setRegistrationResponse = _h[1];
     var handleSignUp = function (event) { return __awaiter(void 0, void 0, void 0, function () {
-        var user, customerInstance, error_1;
+        var error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
@@ -155,22 +155,23 @@ var SignUpContainer = function () {
                     _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, base_1["default"]
                             .auth()
-                            .createUserWithEmailAndPassword(email, password)];
+                            .createUserWithEmailAndPassword(email, password).then(function (user) {
+                            var customerInstance = new customer_service_1["default"]();
+                            customerInstance.signUpUser({
+                                "firstName": firstName,
+                                "lastName": lastName,
+                                "phoneNumber": phoneNumber,
+                                "email": email,
+                                "idNumber": idNumber
+                            });
+                            if (user && user.emailVerified === false) {
+                                user.sendEmailVerification().then(function () {
+                                    setRegistrationResponse("Successfully registered. Please open link sent to " + email + " to verify email and continue to login.");
+                                });
+                            }
+                        })];
                 case 2:
-                    user = _a.sent();
-                    customerInstance = new customer_service_1["default"]();
-                    customerInstance.signUpUser({
-                        "firstName": firstName,
-                        "lastName": lastName,
-                        "phoneNumber": phoneNumber,
-                        "email": email,
-                        "idNumber": idNumber
-                    });
-                    if (user && user.emailVerified === false) {
-                        user.sendEmailVerification().then(function () {
-                            setRegistrationResponse("Successfully registered. Please open link sent to " + email + " to verify email and continue to login.");
-                        });
-                    }
+                    _a.sent();
                     return [3 /*break*/, 4];
                 case 3:
                     error_1 = _a.sent();

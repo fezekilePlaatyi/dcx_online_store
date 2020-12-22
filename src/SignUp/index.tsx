@@ -124,23 +124,28 @@ const SignUpContainer = () => {
   const handleSignUp = async (event: any) => {
     event.preventDefault();
     try {
-      const user = await app
+      await app
         .auth()
-        .createUserWithEmailAndPassword(email, password);
+        .createUserWithEmailAndPassword(email, password).then(user => {
+          let customerInstance = new CustomerService();
+          customerInstance.signUpUser({
+            "firstName": firstName,
+            "lastName": lastName,
+            "phoneNumber": phoneNumber,
+            "email": email,
+            "idNumber": idNumber
+          })
 
-      let customerInstance = new CustomerService();
-      customerInstance.signUpUser({
-        "firstName": firstName,
-        "lastName": lastName,
-        "phoneNumber": phoneNumber,
-        "email": email,
-        "idNumber": idNumber
-      })
-      if (user && user.emailVerified === false) {
-        user.sendEmailVerification().then(function () {
-          setRegistrationResponse(`Successfully registered. Please open link sent to ${email} to verify email and continue to login.`)
-        });
-      }
+          if (user && user.emailVerified === false) {
+            user.sendEmailVerification().then(function () {
+              setRegistrationResponse(`Successfully registered. Please open link sent to ${email} to verify email and continue to login.`)
+            });
+          }
+        })
+        
+
+
+
     } catch (error) {
       setRegistrationResponse(error.message);
     }

@@ -1,12 +1,13 @@
 import React, { Component, useEffect, useState } from "react";
-import { BrowserRouter, BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import DrawerContainer from "./components/drawer/drawer";
+import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
+
 import PrivateRoute from "./PrivateRoute";
 import app from "./base";
 
 import Home from "./Home/home";
 import LogIn from "./LogIn";
 import SignUp from "./SignUp";
+import Basket from "./Basket";
 import ForgotPassword from "./ForgotPassword";
 
 function onAuthStateChange(setLoading: any, setAuthenticated: any, setUser: any) {
@@ -40,23 +41,32 @@ const App = () => {
   }
 
   return (
-    <div className="app">
-      <DrawerContainer>
-        <BrowserRouter>
-          <Switch>
-            <PrivateRoute
-              exact
-              path="/"
-              component={Home}
-              authenticated={authenticated}
-            />
-            <Route exact path="/login" component={LogIn} />
-            <Route exact path="/forgotPassword" component={ForgotPassword} />
-            <Route exact path="/register" component={SignUp} />
-          </Switch>
-        </BrowserRouter>
-      </DrawerContainer>
-    </div>
+    <Router>
+      <div>
+        <PrivateRoute
+          exact
+          path="/"
+          component={Home}
+          authenticated={authenticated}
+        />
+        <PrivateRoute
+          exact
+          path="/home"
+          component={Home}
+          authenticated={authenticated}
+        />
+        <PrivateRoute
+          exact
+          path="/basket"
+          component={Basket}
+          authenticated={authenticated}
+        />
+        <Route exact path="/login" component={LogIn} />
+        <Route exact path="/signup" component={SignUp} />
+        <Route exact path="/forgotPassword" component={ForgotPassword} />
+        <Route exact path="/register" component={SignUp} />
+      </div>
+    </Router>
   );
 }
 

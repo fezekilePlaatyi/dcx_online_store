@@ -2,12 +2,12 @@
 exports.__esModule = true;
 var react_1 = require("react");
 var react_router_dom_1 = require("react-router-dom");
-var drawer_1 = require("./components/drawer/drawer");
 var PrivateRoute_1 = require("./PrivateRoute");
 var base_1 = require("./base");
 var home_1 = require("./Home/home");
 var LogIn_1 = require("./LogIn");
 var SignUp_1 = require("./SignUp");
+var Basket_1 = require("./Basket");
 var ForgotPassword_1 = require("./ForgotPassword");
 function onAuthStateChange(setLoading, setAuthenticated, setUser) {
     return base_1["default"].auth().onAuthStateChanged(function (user) {
@@ -36,13 +36,14 @@ var App = function () {
     if (loading) {
         return react_1["default"].createElement("p", null, "Loading..");
     }
-    return (react_1["default"].createElement("div", { className: "app" },
-        react_1["default"].createElement(drawer_1["default"], null,
-            react_1["default"].createElement(react_router_dom_1.BrowserRouter, null,
-                react_1["default"].createElement(react_router_dom_1.Switch, null,
-                    react_1["default"].createElement(PrivateRoute_1["default"], { exact: true, path: "/", component: home_1["default"], authenticated: authenticated }),
-                    react_1["default"].createElement(react_router_dom_1.Route, { exact: true, path: "/login", component: LogIn_1["default"] }),
-                    react_1["default"].createElement(react_router_dom_1.Route, { exact: true, path: "/forgotPassword", component: ForgotPassword_1["default"] }),
-                    react_1["default"].createElement(react_router_dom_1.Route, { exact: true, path: "/register", component: SignUp_1["default"] }))))));
+    return (react_1["default"].createElement(react_router_dom_1.BrowserRouter, null,
+        react_1["default"].createElement("div", null,
+            react_1["default"].createElement(PrivateRoute_1["default"], { exact: true, path: "/", component: home_1["default"], authenticated: authenticated }),
+            react_1["default"].createElement(PrivateRoute_1["default"], { exact: true, path: "/home", component: home_1["default"], authenticated: authenticated }),
+            react_1["default"].createElement(PrivateRoute_1["default"], { exact: true, path: "/basket", component: Basket_1["default"], authenticated: authenticated }),
+            react_1["default"].createElement(react_router_dom_1.Route, { exact: true, path: "/login", component: LogIn_1["default"] }),
+            react_1["default"].createElement(react_router_dom_1.Route, { exact: true, path: "/signup", component: SignUp_1["default"] }),
+            react_1["default"].createElement(react_router_dom_1.Route, { exact: true, path: "/forgotPassword", component: ForgotPassword_1["default"] }),
+            react_1["default"].createElement(react_router_dom_1.Route, { exact: true, path: "/register", component: SignUp_1["default"] }))));
 };
 exports["default"] = App;
