@@ -2,10 +2,7 @@ import app from "../base";
 import React, { useEffect, useState } from "react";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
-import {
-  ChevronLeft,
-  ShoppingCart,
-} from "@material-ui/icons/";
+import { ChevronLeft, ShoppingCart } from "@material-ui/icons/";
 import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
@@ -18,24 +15,15 @@ import Delete from "@material-ui/icons/Delete";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import img from "../assets/gold.jpg";
 import moment from "moment";
-import {
-  Link,
-  Paper,
-  TextField,
-  Typography,
-} from "@material-ui/core";
-import {
-  backgroundContrast,
-  backgroundMain,
-} from "../themes/theme-config";
+import { Link, Paper, TextField, Typography } from "@material-ui/core";
+import { backgroundContrast, backgroundMain } from "../themes/theme-config";
 import { useHistory, withRouter } from "react-router-dom";
-import Table from '@material-ui/core/Table';
-import TableBody from '@material-ui/core/TableBody';
-import TableCell from '@material-ui/core/TableCell';
-import TableContainer from '@material-ui/core/TableContainer';
-import TableHead from '@material-ui/core/TableHead';
-import TableRow from '@material-ui/core/TableRow';
-
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -44,9 +32,8 @@ const useStyles = makeStyles((theme) => ({
   textField: {
     margin: theme.spacing(1),
     minWidth: 20,
-   // marginBottom: "25px",
+    // marginBottom: "25px",
     color: "black",
-
   },
   productDisplayRoot: {
     display: "flex",
@@ -117,22 +104,21 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     width: "100%",
   },
-    tableCell:{
-   color: backgroundMain,
+  tableCell: {
+    color: backgroundMain,
   },
-  tableDiv:{
+  tableDiv: {
     width: "80%",
   },
-  paperContetnt:{
+  paperContetnt: {
     display: "flex",
     flexDirection: "row",
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
   },
   productListCardsContainer: {},
 }));
 
 const Basket = (props: any) => {
-
   const classes = useStyles();
   const history = useHistory();
 
@@ -151,9 +137,9 @@ const Basket = (props: any) => {
     console.log(productsOnBasket);
   };
 
-  let productsOnBasket = props.productsOnBasket
-  let addProductToBasket = props.addProductToBasket
-  let handleNavigationOnHome = props.handleNavigationOnHome
+  let productsOnBasket = props.productsOnBasket;
+  let addProductToBasket = props.addProductToBasket;
+  let handleNavigationOnHome = props.handleNavigationOnHome;
 
   let productsOnBasketList: any = [];
 
@@ -165,69 +151,71 @@ const Basket = (props: any) => {
       id: any;
     }) => {
       productsOnBasketList.push(
-        <TableRow  key={element.id}>
-          <TableCell>{ +1}</TableCell>
+        <TableRow key={element.id}>
+          <TableCell>{+1}</TableCell>
           <TableCell>{element.name}</TableCell>
           <TableCell>{element.description}</TableCell>
           <TableCell>R {element.price}</TableCell>
-          <TableCell>< TextField
-            InputProps={{
-              inputProps: { min: 1 },
-              style: {width: '50%'},
-            }}
-            className={classes.textField}
-            type="number"
-            defaultValue={1}
-            onChange={(event) =>
-              handleUpdateQuantity(element.id, event.target.value)
-            }
-          /></TableCell>
+          <TableCell>
+            <TextField
+              InputProps={{
+                inputProps: { min: 1 },
+                style: { width: "50%" },
+              }}
+              className={classes.textField}
+              type="number"
+              defaultValue={1}
+              onChange={(event) =>
+                handleUpdateQuantity(element.id, event.target.value)
+              }
+            />
+          </TableCell>
           <TableCell>R {element.price}</TableCell>
-          <TableCell><Delete onClick={() => handleDeleteProductFromBasket(element.id)} /></TableCell>
+          <TableCell>
+            <Delete onClick={() => handleDeleteProductFromBasket(element.id)} />
+          </TableCell>
         </TableRow>
       );
     }
   );
 
   function test() {
-    handleNavigationOnHome('main')
+    handleNavigationOnHome("main");
   }
 
   return (
-    <div >
-      <Paper className={classes.paper}>
-      <h2 onClick={() => test()}>BASKET </h2>
-      <div className={classes.paperContetnt}>
-      <TableContainer component={Paper} className={classes.tableDiv}>
-      <Table  aria-label="simple table">
-        <TableHead>
-          <TableRow>
-          <TableCell align="left">#</TableCell>
-          <TableCell align="left">Name</TableCell>
-            <TableCell align="left">Description</TableCell>
-            <TableCell align="left">Price(R)</TableCell>
-            <TableCell align="left">Quantity</TableCell>
-            <TableCell align="left">Total price(R)</TableCell>
-            <TableCell align="left">Delete</TableCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-        {productsOnBasketList}
-        </TableBody>
-      </Table>
-    </TableContainer>
- 
     <div>
-      <Paper className={classes.paperSummary}>
-        <div>
-<div>Basket summary</div>
-<div>TOTAL ( # of items): SUMMARY </div>
-</div>
-      </Paper>
-    </div>
-    </div>
+      <Paper className={classes.paper}>
+        <h2 onClick={() => test()}>BASKET </h2>
+        <div className={classes.paperContetnt}>
+          <TableContainer component={Paper} className={classes.tableDiv}>
+            <Table aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell align="left">#</TableCell>
+                  <TableCell align="left">Name</TableCell>
+                  <TableCell align="left">Description</TableCell>
+                  <TableCell align="left">Price(R)</TableCell>
+                  <TableCell align="left">Quantity</TableCell>
+                  <TableCell align="left">Total price(R)</TableCell>
+                  <TableCell align="left">Delete</TableCell>
+                </TableRow>
+              </TableHead>
+              <TableBody>{productsOnBasketList}</TableBody>
+            </Table>
+          </TableContainer>
 
-      {/* <div className="table table-striped">
+          <div>
+            <Paper className={classes.paperSummary}>
+              <div>
+                <div>Basket summary</div>
+                <div>TOTAL ( # of items): SUMMARY </div>
+              </div>
+            </Paper>
+          </div>
+        </div>
+
+        {/* <div className="table table-striped">
         <thead>
           <tr>
             <th >Name</th>
@@ -244,5 +232,5 @@ const Basket = (props: any) => {
       </Paper>
     </div>
   );
-}
+};
 export default Basket;
