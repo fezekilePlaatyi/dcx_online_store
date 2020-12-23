@@ -209,7 +209,7 @@ const Basket = (props: any) => {
             <Paper className={classes.paperSummary}>
               <div>
                 <div>Basket summary</div>
-                <div>TOTAL ( # of items): SUMMARY </div>
+                <div>TOTAL ( # of items): total cost </div>
               </div>
             </Paper>
           </div>
