@@ -11,6 +11,8 @@ import Basket from "./Basket";
 import ForgotPassword from "./ForgotPassword";
 import Profile from './pages/profilePage/profile';
 
+
+
 function onAuthStateChange(setLoading: any, setAuthenticated: any, setUser: any) {
   return app.auth().onAuthStateChanged(user => {
     if (user) {
