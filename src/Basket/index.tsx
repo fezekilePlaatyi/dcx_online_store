@@ -29,6 +29,7 @@ import {
 } from "../themes/theme-config";
 import { useHistory, withRouter } from "react-router-dom";
 
+
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
@@ -165,6 +166,7 @@ const Basket = (props: any) => {
 
   return (
     <div>
+      <Paper>
       <h2 onClick={() => test()}>BASKET </h2>
       <div className="table table-striped">
         <thead>
@@ -180,6 +182,7 @@ const Basket = (props: any) => {
           {productsOnBasketList}
         </tbody>
       </div>
+      </Paper>
     </div>
   );
 }
