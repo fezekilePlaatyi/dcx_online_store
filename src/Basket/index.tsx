@@ -28,6 +28,12 @@ import {
   backgroundMain,
 } from "../themes/theme-config";
 import { useHistory, withRouter } from "react-router-dom";
+import Table from '@material-ui/core/Table';
+import TableBody from '@material-ui/core/TableBody';
+import TableCell from '@material-ui/core/TableCell';
+import TableContainer from '@material-ui/core/TableContainer';
+import TableHead from '@material-ui/core/TableHead';
+import TableRow from '@material-ui/core/TableRow';
 
 
 const useStyles = makeStyles((theme) => ({
@@ -101,6 +107,9 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     width: "100%",
   },
+  tableCell:{
+   color: backgroundMain,
+  },
   productListCardsContainer: {},
 }));
 
@@ -139,11 +148,11 @@ const Basket = (props: any) => {
       id: any;
     }) => {
       productsOnBasketList.push(
-        <tr key={element.id}>
-          <td>{element.name}</td>
-          <td>{element.description}</td>
-          <td>R {element.price}</td>
-          <td>< TextField
+        <TableRow key={element.id}>
+          <TableCell>{element.name}</TableCell>
+          <TableCell>{element.description}</TableCell>
+          <TableCell>R {element.price}</TableCell>
+          <TableCell>< TextField
             InputProps={{
               inputProps: { min: 1 },
             }}
@@ -153,9 +162,9 @@ const Basket = (props: any) => {
             onChange={(event) =>
               handleUpdateQuantity(element.id, event.target.value)
             }
-          /></td>
-          <td><Delete onClick={() => handleDeleteProductFromBasket(element.id)} /></td>
-        </tr>
+          /></TableCell>
+          <TableCell><Delete onClick={() => handleDeleteProductFromBasket(element.id)} /></TableCell>
+        </TableRow>
       );
     }
   );
@@ -166,22 +175,39 @@ const Basket = (props: any) => {
 
   return (
     <div>
-      <Paper>
+      <Paper className={classes.paper}>
       <h2 onClick={() => test()}>BASKET </h2>
-      <div className="table table-striped">
+      <TableContainer component={Paper}>
+      <Table  aria-label="simple table">
+        <TableHead>
+          <TableRow>
+
+          <TableCell align="left">Name</TableCell>
+            <TableCell align="left">Description</TableCell>
+            <TableCell align="left">Price(R)</TableCell>
+            <TableCell align="left">Quantity</TableCell>
+            <TableCell align="left">Delete</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+        {productsOnBasketList}
+        </TableBody>
+      </Table>
+    </TableContainer>
+      {/* <div className="table table-striped">
         <thead>
           <tr>
-            <th>Name</th>
+            <th >Name</th>
             <th>Description</th>
-            <th>Price(zars)</th>
+            <th>Price(R)</th>
             <th>Quantity</th>
             <th>Delete</th>
           </tr>
         </thead>
-        <tbody>
-          {productsOnBasketList}
+        <tbody className={classes.tableCell}>
+       
         </tbody>
-      </div>
+      </div> */}
       </Paper>
     </div>
   );
