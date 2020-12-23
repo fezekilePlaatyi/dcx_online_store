@@ -25,6 +25,7 @@ import {
   Typography,
 } from "@material-ui/core";
 import {
+  backgroundContrast,
   backgroundMain,
 } from "../themes/theme-config";
 import { useHistory, withRouter } from "react-router-dom";
@@ -43,7 +44,7 @@ const useStyles = makeStyles((theme) => ({
   textField: {
     margin: theme.spacing(1),
     minWidth: 20,
-    marginBottom: "25px",
+   // marginBottom: "25px",
     color: "black",
 
   },
@@ -107,12 +108,28 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     width: "100%",
   },
-  tableCell:{
+  paperSummary: {
+    padding: 20,
+    overflow: "auto",
+    backgroundColor: backgroundContrast,
+    border: "none",
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+  },
+    tableCell:{
    color: backgroundMain,
+  },
+  tableDiv:{
+    width: "80%",
+  },
+  paperContetnt:{
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: 'space-between',
   },
   productListCardsContainer: {},
 }));
-
 
 const Basket = (props: any) => {
 
@@ -148,13 +165,15 @@ const Basket = (props: any) => {
       id: any;
     }) => {
       productsOnBasketList.push(
-        <TableRow key={element.id}>
+        <TableRow  key={element.id}>
+          <TableCell>{ +1}</TableCell>
           <TableCell>{element.name}</TableCell>
           <TableCell>{element.description}</TableCell>
           <TableCell>R {element.price}</TableCell>
           <TableCell>< TextField
             InputProps={{
               inputProps: { min: 1 },
+              style: {width: '50%'},
             }}
             className={classes.textField}
             type="number"
@@ -163,6 +182,7 @@ const Basket = (props: any) => {
               handleUpdateQuantity(element.id, event.target.value)
             }
           /></TableCell>
+          <TableCell>R {element.price}</TableCell>
           <TableCell><Delete onClick={() => handleDeleteProductFromBasket(element.id)} /></TableCell>
         </TableRow>
       );
@@ -174,18 +194,20 @@ const Basket = (props: any) => {
   }
 
   return (
-    <div>
+    <div >
       <Paper className={classes.paper}>
       <h2 onClick={() => test()}>BASKET </h2>
-      <TableContainer component={Paper}>
+      <div className={classes.paperContetnt}>
+      <TableContainer component={Paper} className={classes.tableDiv}>
       <Table  aria-label="simple table">
         <TableHead>
           <TableRow>
-
+          <TableCell align="left">#</TableCell>
           <TableCell align="left">Name</TableCell>
             <TableCell align="left">Description</TableCell>
             <TableCell align="left">Price(R)</TableCell>
             <TableCell align="left">Quantity</TableCell>
+            <TableCell align="left">Total price(R)</TableCell>
             <TableCell align="left">Delete</TableCell>
           </TableRow>
         </TableHead>
@@ -194,6 +216,17 @@ const Basket = (props: any) => {
         </TableBody>
       </Table>
     </TableContainer>
+ 
+    <div>
+      <Paper className={classes.paperSummary}>
+        <div>
+<div>Basket summary</div>
+<div>TOTAL ( # of items): SUMMARY </div>
+</div>
+      </Paper>
+    </div>
+    </div>
+
       {/* <div className="table table-striped">
         <thead>
           <tr>
