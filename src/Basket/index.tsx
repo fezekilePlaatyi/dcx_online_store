@@ -24,6 +24,7 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+//import NumberFormat from "react-number-format";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -137,25 +138,40 @@ const Basket = (props: any) => {
     console.log(productsOnBasket);
   };
 
+//   function ccyFormat(num: number) {
+//     return `${num.toFixed(2)}`;
+// }
+
   let productsOnBasket = props.productsOnBasket;
   let addProductToBasket = props.addProductToBasket;
   let handleNavigationOnHome = props.handleNavigationOnHome;
 
   let productsOnBasketList: any = [];
 
+  //let totalPrice = element.price * qty;
+  productsOnBasket.map((obj: any) => ({ ...obj, quantity : '1' }))
+console.log(productsOnBasket)
+
   productsOnBasket.forEach(
     (element: {
       description: any;
-      name: React.ReactNode;
-      price: React.ReactNode;
+      name: any;
+      price: any;
+      quantity: any;
       id: any;
     }) => {
+      let totalPrice = parseInt(element.price) *parseInt(element.quantity);
+      console.log("TOTAL",totalPrice);
       productsOnBasketList.push(
         <TableRow key={element.id}>
+
           <TableCell>{+1}</TableCell>
           <TableCell>{element.name}</TableCell>
           <TableCell>{element.description}</TableCell>
-          <TableCell>R {element.price}</TableCell>
+          <TableCell>{element.price}</TableCell>
+          {/* <TableCell>
+            <NumberFormat thousandSeparator={true} value={element.price} />
+          </TableCell> */}
           <TableCell>
             <TextField
               InputProps={{
@@ -170,7 +186,7 @@ const Basket = (props: any) => {
               }
             />
           </TableCell>
-          <TableCell>R {element.price}</TableCell>
+          <TableCell>{totalPrice}</TableCell>
           <TableCell>
             <Delete onClick={() => handleDeleteProductFromBasket(element.id)} />
           </TableCell>
