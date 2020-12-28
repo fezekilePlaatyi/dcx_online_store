@@ -116,6 +116,11 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "row",
     justifyContent: "space-between",
   },
+  tableRow: {
+    "&:hover": {
+      backgroundColor: "blue !important"
+    },
+  },
   productListCardsContainer: {},
 }));
 
@@ -163,7 +168,7 @@ console.log(productsOnBasket)
       let totalPrice = parseInt(element.price) *parseInt(element.quantity);
       console.log("TOTAL",totalPrice);
       productsOnBasketList.push(
-        <TableRow key={element.id}>
+        <TableRow hover className={classes.tableRow} key={element.id}>
 
           <TableCell>{+1}</TableCell>
           <TableCell>{element.name}</TableCell>
