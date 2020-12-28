@@ -9,21 +9,20 @@ body {
 }
 
 #container {
-  width: 500px;
-  border: solid 1px #000;
+  width: 100%;
   display: -webkit-flex;
   display: -ms-flexbox;
   display: flex;
 }
 
 #a {
-  width: 20%;
-  border: solid 1px #000;
+  width: 18%;
+  background-color: #303952;
+  border-radius: 10px;
+  margin-left: 10px !important;
 }
 
 #b {
-  width: 80vw;
-  border: solid 1px #000;
-  height: 200px;
+  width: 80%;
   margin-left: auto;
 }

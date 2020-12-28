@@ -18,6 +18,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import img from "../assets/gold.jpg";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
+import Drawer from "@material-ui/core/Drawer";
 import {
     List,
     ListItem,
@@ -226,10 +227,10 @@ function Home() {
                     <div id="a">
                         <List>
                             <ListItem>
-                                <ListItemText primary="Gold" />
+                                <h3>Gold</h3>
                             </ListItem>
                             <ListItem>
-                                <ListItemText primary="Silver" />
+                                <h3>Silver</h3>
                             </ListItem>
                         </List>
                     </div>
