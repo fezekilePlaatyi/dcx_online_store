@@ -225,12 +225,16 @@ function Home() {
             <div>
                 <div id="container">
                     <div id="a">
+
                         <List>
                             <ListItem>
-                                <h3>Gold</h3>
+                                <h3>Category</h3>
                             </ListItem>
                             <ListItem>
-                                <h3>Silver</h3>
+                                <h4>Gold</h4>
+                            </ListItem>
+                            <ListItem>
+                                <h4>Silver</h4>
                             </ListItem>
                         </List>
                     </div>
