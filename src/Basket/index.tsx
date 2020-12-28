@@ -174,10 +174,10 @@ console.log(productsOnBasket)
           <TableCell>{element.name}</TableCell>
           <TableCell>{element.description}</TableCell>
           <TableCell>{element.price}</TableCell>
-          {/* <TableCell>
+           {/* <TableCell>
             <NumberFormat thousandSeparator={true} value={element.price} />
           </TableCell> */}
-          <TableCell>
+          <TableCell> 
             <TextField
               InputProps={{
                 inputProps: { min: 1 },
