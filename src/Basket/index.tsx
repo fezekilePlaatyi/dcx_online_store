@@ -129,6 +129,7 @@ const useStyles = makeStyles((theme) => ({
   tableDiv: {
     width: "100%",
     marginBottom: 20,
+    marginTop: 20,
   },
   paperContetnt: {
     display: "flex",
@@ -153,6 +154,9 @@ const useStyles = makeStyles((theme) => ({
     borderColor: primaryColor,
     textTransform: "capitalize",
     marginRight: 10,
+    fontSize: 14,
+  },
+  tableCells:{
     fontSize: 14,
   },
   productListCardsContainer: {},
@@ -249,13 +253,13 @@ const Basket = (props: any) => {
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell align="left">#</TableCell>
-                  <TableCell align="left">Name</TableCell>
-                  <TableCell align="left">Description</TableCell>
-                  <TableCell align="left">Price(R)</TableCell>
-                  <TableCell align="left">Quantity</TableCell>
-                  <TableCell align="left">Total price(R)</TableCell>
-                  <TableCell align="left">Delete</TableCell>
+                  <TableCell className={classes.tableCells} align="left">#</TableCell>
+                  <TableCell className={classes.tableCells} align="left">Name</TableCell>
+                  <TableCell className={classes.tableCells} align="left">Description</TableCell>
+                  <TableCell className={classes.tableCells} align="left">Price(R)</TableCell>
+                  <TableCell className={classes.tableCells} align="left">Quantity</TableCell>
+                  <TableCell className={classes.tableCells} align="left">Total price(R)</TableCell>
+                  <TableCell className={classes.tableCells} align="left">Delete</TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>{productsOnBasketList}</TableBody>
