@@ -15,8 +15,14 @@ import Delete from "@material-ui/icons/Delete";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import img from "../assets/gold.jpg";
 import moment from "moment";
-import { Link, Paper, TextField, Typography } from "@material-ui/core";
-import { backgroundContrast, backgroundMain, primaryColor } from "../themes/theme-config";
+import { Link, Paper, TextField, Typography, Button } from "@material-ui/core";
+import {
+  backgroundContrast,
+  backgroundMain,
+  lightBorders,
+  primaryColor,
+  primaryText,
+} from "../themes/theme-config";
 import { useHistory, withRouter } from "react-router-dom";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -100,32 +106,54 @@ const useStyles = makeStyles((theme) => ({
     padding: 20,
     overflow: "auto",
     backgroundColor: backgroundContrast,
-    border: "none",
+    //border: lightBorders,
     display: "flex",
     flexDirection: "column",
-    width: "100%",
+    width: "25%",
+  },
+  paperSummaryHeading: {
+    color: primaryColor,
+    textTransform: "uppercase",
+    marginBottom: 20,
+    fontSize: 18,
+  },
+  paperSummaryTotal: {
+    color: primaryText,
+    //textTransform: "uppercase",
+    marginBottom: 20,
+    fontSize: 18,
   },
   tableCell: {
     color: backgroundMain,
   },
   tableDiv: {
-    width: "80%",
+    width: "100%",
+    marginBottom: 20,
   },
   paperContetnt: {
     display: "flex",
-    flexDirection: "row",
-    justifyContent: "space-between",
+    flexDirection: "column",
+    //justifyContent: "space-between",
   },
   tableRow: {
     "&:hover": {
-      backgroundColor: '#808080 !important',
+      backgroundColor: "#808080 !important",
     },
   },
-  deleteIcon:{
-    cursor: 'pointer',
+  deleteIcon: {
+    cursor: "pointer",
     "&:hover": {
-      color: 'red !important',
+      color: "red !important",
     },
+  },
+  boxBtn: {
+    float: "left",
+    color: primaryColor,
+    backgroundColor: backgroundContrast,
+    borderColor: primaryColor,
+    textTransform: "capitalize",
+    marginRight: 10,
+    fontSize: 14,
   },
   productListCardsContainer: {},
 }));
@@ -149,9 +177,9 @@ const Basket = (props: any) => {
     console.log(productsOnBasket);
   };
 
-//   function ccyFormat(num: number) {
-//     return `${num.toFixed(2)}`;
-// }
+  //   function ccyFormat(num: number) {
+  //     return `${num.toFixed(2)}`;
+  // }
 
   let productsOnBasket = props.productsOnBasket;
   let addProductToBasket = props.addProductToBasket;
@@ -160,8 +188,8 @@ const Basket = (props: any) => {
   let productsOnBasketList: any = [];
 
   //let totalPrice = element.price * qty;
-  productsOnBasket.map((obj: any) => ({ ...obj, quantity : '1' }))
-console.log(productsOnBasket)
+  productsOnBasket.map((obj: any) => ({ ...obj, quantity: "1" }));
+  console.log(productsOnBasket);
 
   productsOnBasket.forEach(
     (element: {
@@ -171,19 +199,18 @@ console.log(productsOnBasket)
       quantity: any;
       id: any;
     }) => {
-      let totalPrice = parseInt(element.price) *parseInt(element.quantity);
-      console.log("TOTAL",totalPrice);
+      let totalPrice = parseInt(element.price) * parseInt(element.quantity);
+      console.log("TOTAL", totalPrice);
       productsOnBasketList.push(
         <TableRow hover className={classes.tableRow} key={element.id}>
-
           <TableCell>{+1}</TableCell>
           <TableCell>{element.name}</TableCell>
           <TableCell>{element.description}</TableCell>
           <TableCell>{element.price}</TableCell>
-           {/* <TableCell>
+          {/* <TableCell>
             <NumberFormat thousandSeparator={true} value={element.price} />
           </TableCell> */}
-          <TableCell> 
+          <TableCell>
             <TextField
               InputProps={{
                 inputProps: { min: 1 },
@@ -198,8 +225,11 @@ console.log(productsOnBasket)
             />
           </TableCell>
           <TableCell>{totalPrice}</TableCell>
-          <TableCell >
-            <Delete className={classes.deleteIcon} onClick={() => handleDeleteProductFromBasket(element.id)} />
+          <TableCell>
+            <Delete
+              className={classes.deleteIcon}
+              onClick={() => handleDeleteProductFromBasket(element.id)}
+            />
           </TableCell>
         </TableRow>
       );
@@ -235,8 +265,17 @@ console.log(productsOnBasket)
           <div>
             <Paper className={classes.paperSummary}>
               <div>
-                <div>Basket summary</div>
-                <div>TOTAL ( # of items): total cost </div>
+                <div className={classes.paperSummaryHeading}>
+                  Basket summary
+                </div>
+                <div className={classes.paperSummaryTotal}>
+                  TOTAL ( # of items): total cost{" "}
+                </div>
+                <div>
+                  <Button className={classes.boxBtn} variant="outlined">
+                    Checkout
+                  </Button>
+                </div>
               </div>
             </Paper>
           </div>
