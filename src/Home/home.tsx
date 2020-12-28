@@ -227,10 +227,9 @@ function Home() {
                         <IconButton
                             onClick={() => handleExpandClick("back")}
                             aria-expanded={productDetailsBox}
-                            aria-label="show more"
-                        >
+                            aria-label="show more">
                             <ChevronLeft /> back
-              </IconButton>
+                        </IconButton>
                         <Card className={classes.productDisplayRoot}>
                             <CardMedia
                                 className={classes.cover}
@@ -287,20 +286,6 @@ function Home() {
                         </h2>
                         <div className={classes.productList}>{productList}</div>
                     </div>
-
-                    {/* <h2
-              onClick={() => proceedToPay()}
-              style={{
-                display: productsOnBasketList.length == 0 ? "none" : "block",
-              }}
-            >
-              PAY
-            </h2>
-            
-            <div>
-              <h2>History </h2>
-              {orderHistory.join(",").toString()}
-            </div> */}
                 </Paper>
             </div >
         );

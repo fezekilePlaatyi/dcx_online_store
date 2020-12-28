@@ -109,17 +109,18 @@ const OrderHistory = () => {
 
     const classes = useStyles();
     const history = useHistory();
-    const [orderHistory, setOrderHistory] = React.useState([]);
+    const [orderHistory, setOrderHistory] = React.useState<any>([]);
 
     const displayOrderHistory = async () => {
         let invoiceInstance = new InvoiceService()
         await invoiceInstance.getInvoicesByUserId()
             .then((data) => {
-                var invoicesData: any = [];
-                data.docs.forEach((item: any) => {
-                    // invoicesData.push(item.data());
-                });
-                console.log(invoicesData)
+                console.log(data)
+                // var invoicesData: any = [];
+                // data.docs.forEach((item: any) => {
+                //     invoicesData.push(item.data());
+                // });
+                // console.log(invoicesData)
                 // setOrderHistory(invoicesData);
             })
             .catch((error) => {
@@ -132,7 +133,7 @@ const OrderHistory = () => {
     return (
         <div>
             <h2>Order History</h2>
-            {orderHistory}
+            {/* {orderHistory.toString()} */}
         </div>
     );
 }
