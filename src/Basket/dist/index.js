@@ -7,6 +7,13 @@ var Delete_1 = require("@material-ui/icons/Delete");
 var core_1 = require("@material-ui/core");
 var theme_config_1 = require("../themes/theme-config");
 var react_router_dom_1 = require("react-router-dom");
+var Table_1 = require("@material-ui/core/Table");
+var TableBody_1 = require("@material-ui/core/TableBody");
+var TableCell_1 = require("@material-ui/core/TableCell");
+var TableContainer_1 = require("@material-ui/core/TableContainer");
+var TableHead_1 = require("@material-ui/core/TableHead");
+var TableRow_1 = require("@material-ui/core/TableRow");
+//import NumberFormat from "react-number-format";
 var useStyles = styles_1.makeStyles(function (theme) { return ({
     root: {
         maxWidth: 345
@@ -14,7 +21,7 @@ var useStyles = styles_1.makeStyles(function (theme) { return ({
     textField: {
         margin: theme.spacing(1),
         minWidth: 20,
-        marginBottom: "25px",
+        // marginBottom: "25px",
         color: "black"
     },
     productDisplayRoot: {
@@ -77,6 +84,26 @@ var useStyles = styles_1.makeStyles(function (theme) { return ({
         flexDirection: "column",
         width: "100%"
     },
+    paperSummary: {
+        padding: 20,
+        overflow: "auto",
+        backgroundColor: theme_config_1.backgroundContrast,
+        border: "none",
+        display: "flex",
+        flexDirection: "column",
+        width: "100%"
+    },
+    tableCell: {
+        color: theme_config_1.backgroundMain
+    },
+    tableDiv: {
+        width: "80%"
+    },
+    paperContetnt: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between"
+    },
     productListCardsContainer: {}
 }); });
 var Basket = function (props) {
@@ -92,39 +119,54 @@ var Basket = function (props) {
             productsOnBasket[index].quantity = value;
         console.log(productsOnBasket);
     };
+    //   function ccyFormat(num: number) {
+    //     return `${num.toFixed(2)}`;
+    // }
     var productsOnBasket = props.productsOnBasket;
     var addProductToBasket = props.addProductToBasket;
     var handleNavigationOnHome = props.handleNavigationOnHome;
     var productsOnBasketList = [];
+    console.log(productsOnBasket);
     productsOnBasket.forEach(function (element) {
-        productsOnBasketList.push(react_1["default"].createElement("tr", { key: element.id },
-            react_1["default"].createElement("td", null, element.name),
-            react_1["default"].createElement("td", null, element.description),
-            react_1["default"].createElement("td", null,
-                "R ",
-                element.price),
-            react_1["default"].createElement("td", null,
+        productsOnBasketList.push(react_1["default"].createElement(TableRow_1["default"], { key: element.id },
+            react_1["default"].createElement(TableCell_1["default"], null, +1),
+            react_1["default"].createElement(TableCell_1["default"], null, element.name),
+            react_1["default"].createElement(TableCell_1["default"], null, element.description),
+            react_1["default"].createElement(TableCell_1["default"], null, element.price),
+            react_1["default"].createElement(TableCell_1["default"], null,
                 react_1["default"].createElement(core_1.TextField, { InputProps: {
-                        inputProps: { min: 1 }
+                        inputProps: { min: 1 },
+                        style: { width: "50%" }
                     }, className: classes.textField, type: "number", defaultValue: 1, onChange: function (event) {
                         return handleUpdateQuantity(element.id, event.target.value);
                     } })),
-            react_1["default"].createElement("td", null,
+            react_1["default"].createElement(TableCell_1["default"], null, element.totalPrice),
+            react_1["default"].createElement(TableCell_1["default"], null,
                 react_1["default"].createElement(Delete_1["default"], { onClick: function () { return handleDeleteProductFromBasket(element.id); } }))));
     });
     function test() {
-        handleNavigationOnHome('main');
+        handleNavigationOnHome("main");
     }
     return (react_1["default"].createElement("div", null,
-        react_1["default"].createElement("h2", { onClick: function () { return test(); } }, "BASKET "),
-        react_1["default"].createElement("div", { className: "table table-striped" },
-            react_1["default"].createElement("thead", null,
-                react_1["default"].createElement("tr", null,
-                    react_1["default"].createElement("th", null, "Name"),
-                    react_1["default"].createElement("th", null, "Description"),
-                    react_1["default"].createElement("th", null, "Price(zars)"),
-                    react_1["default"].createElement("th", null, "Quantity"),
-                    react_1["default"].createElement("th", null, "Delete"))),
-            react_1["default"].createElement("tbody", null, productsOnBasketList))));
+        react_1["default"].createElement(core_1.Paper, { className: classes.paper },
+            react_1["default"].createElement("h2", { onClick: function () { return test(); } }, "BASKET "),
+            react_1["default"].createElement("div", { className: classes.paperContetnt },
+                react_1["default"].createElement(TableContainer_1["default"], { component: core_1.Paper, className: classes.tableDiv },
+                    react_1["default"].createElement(Table_1["default"], { "aria-label": "simple table" },
+                        react_1["default"].createElement(TableHead_1["default"], null,
+                            react_1["default"].createElement(TableRow_1["default"], null,
+                                react_1["default"].createElement(TableCell_1["default"], { align: "left" }, "#"),
+                                react_1["default"].createElement(TableCell_1["default"], { align: "left" }, "Name"),
+                                react_1["default"].createElement(TableCell_1["default"], { align: "left" }, "Description"),
+                                react_1["default"].createElement(TableCell_1["default"], { align: "left" }, "Price(R)"),
+                                react_1["default"].createElement(TableCell_1["default"], { align: "left" }, "Quantity"),
+                                react_1["default"].createElement(TableCell_1["default"], { align: "left" }, "Total price(R)"),
+                                react_1["default"].createElement(TableCell_1["default"], { align: "left" }, "Delete"))),
+                        react_1["default"].createElement(TableBody_1["default"], null, productsOnBasketList))),
+                react_1["default"].createElement("div", null,
+                    react_1["default"].createElement(core_1.Paper, { className: classes.paperSummary },
+                        react_1["default"].createElement("div", null,
+                            react_1["default"].createElement("div", null, "Basket summary"),
+                            react_1["default"].createElement("div", null, "TOTAL ( # of items): total cost "))))))));
 };
 exports["default"] = Basket;

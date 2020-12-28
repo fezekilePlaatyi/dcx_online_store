@@ -138,9 +138,9 @@ const Basket = (props: any) => {
     console.log(productsOnBasket);
   };
 
-//   function ccyFormat(num: number) {
-//     return `${num.toFixed(2)}`;
-// }
+  //   function ccyFormat(num: number) {
+  //     return `${num.toFixed(2)}`;
+  // }
 
   let productsOnBasket = props.productsOnBasket;
   let addProductToBasket = props.addProductToBasket;
@@ -148,9 +148,7 @@ const Basket = (props: any) => {
 
   let productsOnBasketList: any = [];
 
-  //let totalPrice = element.price * qty;
-  productsOnBasket.map((obj: any) => ({ ...obj, quantity : '1' }))
-console.log(productsOnBasket)
+  console.log(productsOnBasket)
 
   productsOnBasket.forEach(
     (element: {
@@ -159,9 +157,9 @@ console.log(productsOnBasket)
       price: any;
       quantity: any;
       id: any;
+      totalPrice: any
     }) => {
-      let totalPrice = parseInt(element.price) *parseInt(element.quantity);
-      console.log("TOTAL",totalPrice);
+
       productsOnBasketList.push(
         <TableRow key={element.id}>
 
@@ -186,7 +184,7 @@ console.log(productsOnBasket)
               }
             />
           </TableCell>
-          <TableCell>{totalPrice}</TableCell>
+          <TableCell>{element.totalPrice}</TableCell>
           <TableCell>
             <Delete onClick={() => handleDeleteProductFromBasket(element.id)} />
           </TableCell>

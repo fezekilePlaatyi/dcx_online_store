@@ -231,7 +231,7 @@ const DrawerContainer: React.FC<DrawerContainerProps> = ({ children }) => {
           </div>
         </Toolbar>
       </AppBar>
-      <Drawer
+      {/* <Drawer
         variant="permanent"
         className={clsx(classes.drawer, {
           [classes.drawerOpen]: !open,
@@ -272,7 +272,7 @@ const DrawerContainer: React.FC<DrawerContainerProps> = ({ children }) => {
             );
           })}
         </List>
-      </Drawer>
+      </Drawer> */}
       <main className={classes.content}>
         <Toolbar />
         {children}

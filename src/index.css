@@ -7,3 +7,23 @@ body {
 .pointer {
   cursor: pointer;
 }
+
+#container {
+  width: 500px;
+  border: solid 1px #000;
+  display: -webkit-flex;
+  display: -ms-flexbox;
+  display: flex;
+}
+
+#a {
+  width: 20%;
+  border: solid 1px #000;
+}
+
+#b {
+  width: 80vw;
+  border: solid 1px #000;
+  height: 200px;
+  margin-left: auto;
+}

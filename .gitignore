@@ -3,6 +3,9 @@
 # dependencies
 /node_modules
 
+# removing functions modules
+/functions/node_modules
+
 # testing
 /coverage
 
