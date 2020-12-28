@@ -16,7 +16,7 @@ import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import img from "../assets/gold.jpg";
 import moment from "moment";
 import { Link, Paper, TextField, Typography } from "@material-ui/core";
-import { backgroundContrast, backgroundMain } from "../themes/theme-config";
+import { backgroundContrast, backgroundMain, primaryColor } from "../themes/theme-config";
 import { useHistory, withRouter } from "react-router-dom";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
@@ -118,7 +118,13 @@ const useStyles = makeStyles((theme) => ({
   },
   tableRow: {
     "&:hover": {
-      backgroundColor: "blue !important"
+      backgroundColor: '#808080 !important',
+    },
+  },
+  deleteIcon:{
+    cursor: 'pointer',
+    "&:hover": {
+      color: 'red !important',
     },
   },
   productListCardsContainer: {},
@@ -192,8 +198,8 @@ console.log(productsOnBasket)
             />
           </TableCell>
           <TableCell>{totalPrice}</TableCell>
-          <TableCell>
-            <Delete onClick={() => handleDeleteProductFromBasket(element.id)} />
+          <TableCell >
+            <Delete className={classes.deleteIcon} onClick={() => handleDeleteProductFromBasket(element.id)} />
           </TableCell>
         </TableRow>
       );
