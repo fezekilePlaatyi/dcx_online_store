@@ -30,6 +30,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     textfield: {
       color: primaryColor,
+      fontSize: 12,
     },
     boxBtn: {
       float: "left",
@@ -37,6 +38,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderColor: primaryColor,
       color: primaryColor,
       width: "100%",
+      fontSize: 12,
     },
     boxWrapper: {
       margin: 10,
