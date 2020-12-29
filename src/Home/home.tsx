@@ -18,6 +18,12 @@ import Button from "@material-ui/core/Button";
 import { Paper } from "@material-ui/core";
 import { backgroundMain } from "../themes/theme-config";
 import Basket from "../Basket";
+import {
+  // backgroundMain,
+  primaryColor,
+  backgroundContrast,
+  //primaryText,
+} from "../themes/theme-config";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -73,9 +79,9 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: red[500],
   },
   productDetails: {
-    height: "100vh",
-    width: "100vw",
-    background: "#e3e3e3",
+    // height: "100vh",
+    // width: "100vw",
+    //   background: "#e3e3e3",
     display: "none",
   },
   productList: {
@@ -89,6 +95,33 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     width: "100%",
+  },
+  boxBtn: {
+    float: "left",
+    backgroundColor: backgroundContrast,
+    borderColor: primaryColor,
+    color: primaryColor,
+    width: "30%",
+  },
+  shopCategory: {
+    display: "flex",
+    flexDirection: "column",
+    marginBottom: 40,
+  },
+  shopCategoryHeading: {
+    display: "flex",
+    //flexDirection: 'column',
+    justifyContent: "space-between",
+  },
+  shopCategoryButtons: {
+    display: "flex",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "37%",
+    marginTop: 20,
+  },
+  shopCategoryHeadingMain: {
+    color: primaryColor,
   },
   productListCardsContainer: {},
   hidden: {
@@ -171,16 +204,6 @@ function Home({ activityStatus }: any) {
       dateModified: "19 / December / 2020",
       unitWeight: 100,
       price: 124084,
-    },
-    {
-      id: "DsdusnnshKdjwdwjsk",
-      name: "1kg Fine Silver Cast Bar (Flat)",
-      type: "silver",
-      description: "The complete Wildlife Society's 50th anniversary Silver plated animal medallion set, including the original box, dating to 1976-78.",
-      dateAdded: "20 / December / 2020",
-      dateModified: "21 / December / 2020",
-      unitWeight: 20,
-      price: 1751,
     },
     {
       id: "Ppadsndsjuydjwdwjsk",
@@ -331,13 +354,41 @@ function Home({ activityStatus }: any) {
             className={classes.productListCardsContainer}
             style={{ display: productDetailsBox ? "none" : "block" }}
           >
-            <h2>Product List(*)</h2>
-            <h2 className="pointer" onClick={() => goToBasketIfNotEmpty()}>
-              ({productsOnBasket.length}) <ShoppingCart />
-            </h2>
+            <div className={classes.shopCategory}>
+              <div className={classes.shopCategoryHeading}>
+                <h3 className={classes.shopCategoryHeadingMain}>
+                  Shop by category
+                </h3>
+                <h2 className="pointer" onClick={() => goToBasketIfNotEmpty()}>
+                  ({productsOnBasket.length}) <ShoppingCart />
+                </h2>
+              </div>
+              <div className={classes.shopCategoryButtons}>
+                <Button
+                  className={classes.boxBtn}
+                  variant="outlined"
+                // onClick={(event) => handleSignUp(event)}
+                >
+                  GOLD
+                </Button>
+                <Button
+                  className={classes.boxBtn}
+                  variant="outlined"
+                // onClick={(event) => handleSignUp(event)}
+                >
+                  SILVER
+                </Button>
+                <Button
+                  className={classes.boxBtn}
+                  variant="outlined"
+                // onClick={(event) => handleSignUp(event)}
+                >
+                  ALL
+                </Button>
+              </div>
+            </div>
             <div className={classes.productList}>{productList}</div>
           </div>
-
           {/* <h2
               onClick={() => proceedToPay()}
               style={{

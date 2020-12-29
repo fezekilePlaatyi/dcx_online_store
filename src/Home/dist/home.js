@@ -27,6 +27,7 @@ var Button_1 = require("@material-ui/core/Button");
 var core_1 = require("@material-ui/core");
 var theme_config_1 = require("../themes/theme-config");
 var Basket_1 = require("../Basket");
+var theme_config_2 = require("../themes/theme-config");
 var useStyles = styles_1.makeStyles(function (theme) { return ({
     root: {
         maxWidth: 345
@@ -81,9 +82,9 @@ var useStyles = styles_1.makeStyles(function (theme) { return ({
         backgroundColor: colors_1.red[500]
     },
     productDetails: {
-        height: "100vh",
-        width: "100vw",
-        background: "#e3e3e3",
+        // height: "100vh",
+        // width: "100vw",
+        //   background: "#e3e3e3",
         display: "none"
     },
     productList: {
@@ -97,6 +98,33 @@ var useStyles = styles_1.makeStyles(function (theme) { return ({
         display: "flex",
         flexDirection: "column",
         width: "100%"
+    },
+    boxBtn: {
+        float: "left",
+        backgroundColor: theme_config_2.backgroundContrast,
+        borderColor: theme_config_2.primaryColor,
+        color: theme_config_2.primaryColor,
+        width: "30%"
+    },
+    shopCategory: {
+        display: "flex",
+        flexDirection: "column",
+        marginBottom: 40
+    },
+    shopCategoryHeading: {
+        display: "flex",
+        //flexDirection: 'column',
+        justifyContent: "space-between"
+    },
+    shopCategoryButtons: {
+        display: "flex",
+        flexDirection: "row",
+        justifyContent: "space-between",
+        width: "37%",
+        marginTop: 20
+    },
+    shopCategoryHeadingMain: {
+        color: theme_config_2.primaryColor
     },
     productListCardsContainer: {},
     hidden: {
@@ -167,16 +195,6 @@ function Home(_a) {
             dateModified: "19 / December / 2020",
             unitWeight: 100,
             price: 124084
-        },
-        {
-            id: "DsdusnnshKdjwdwjsk",
-            name: "1kg Fine Silver Cast Bar (Flat)",
-            type: "silver",
-            description: "The complete Wildlife Society's 50th anniversary Silver plated animal medallion set, including the original box, dating to 1976-78.",
-            dateAdded: "20 / December / 2020",
-            dateModified: "21 / December / 2020",
-            unitWeight: 20,
-            price: 1751
         },
         {
             id: "Ppadsndsjuydjwdwjsk",
@@ -290,12 +308,18 @@ function Home(_a) {
                                         " ",
                                         react_1["default"].createElement(Button_1["default"], { onClick: function () { return handleNavigationClick("basket"); } }, "View Basket"))))))),
                 react_1["default"].createElement("div", { className: classes.productListCardsContainer, style: { display: productDetailsBox ? "none" : "block" } },
-                    react_1["default"].createElement("h2", null, "Product List(*)"),
-                    react_1["default"].createElement("h2", { className: "pointer", onClick: function () { return goToBasketIfNotEmpty(); } },
-                        "(",
-                        productsOnBasket.length,
-                        ") ",
-                        react_1["default"].createElement(icons_1.ShoppingCart, null)),
+                    react_1["default"].createElement("div", { className: classes.shopCategory },
+                        react_1["default"].createElement("div", { className: classes.shopCategoryHeading },
+                            react_1["default"].createElement("h3", { className: classes.shopCategoryHeadingMain }, "Shop by category"),
+                            react_1["default"].createElement("h2", { className: "pointer", onClick: function () { return goToBasketIfNotEmpty(); } },
+                                "(",
+                                productsOnBasket.length,
+                                ") ",
+                                react_1["default"].createElement(icons_1.ShoppingCart, null))),
+                        react_1["default"].createElement("div", { className: classes.shopCategoryButtons },
+                            react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined" }, "GOLD"),
+                            react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined" }, "SILVER"),
+                            react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined" }, "ALL"))),
                     react_1["default"].createElement("div", { className: classes.productList }, productList)))));
     };
     var _f = react_1.useState("main"), navigationOnHome = _f[0], setSavigationOnHome = _f[1];

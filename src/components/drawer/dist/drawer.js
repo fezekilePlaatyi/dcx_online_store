@@ -64,7 +64,8 @@ var ChevronRight_1 = require("@material-ui/icons/ChevronRight");
 var ListItem_1 = require("@material-ui/core/ListItem");
 var ListItemIcon_1 = require("@material-ui/core/ListItemIcon");
 var ListItemText_1 = require("@material-ui/core/ListItemText");
-var Dashboard_1 = require("@material-ui/icons/Dashboard");
+//import DashboardIcon from "@material-ui/icons/Dashboard";
+var Store_1 = require("@material-ui/icons/Store");
 var theme_config_1 = require("../../themes/theme-config");
 var core_1 = require("@material-ui/core");
 var react_router_1 = require("react-router");
@@ -169,6 +170,9 @@ var useStyles = styles_1.makeStyles(function (theme) {
         },
         hidden: {
             display: 'none'
+        },
+        logoContainerHeading: {
+            fontSize: 18
         }
     });
 });
@@ -195,7 +199,7 @@ var DrawerContainer = function (_a) {
         setOpen(false);
     };
     var brokerMenuItems = [
-        { label: "SHOP BY CATEGORY", icon: function () { return react_1["default"].createElement(Dashboard_1["default"], null); }, route: "/" },
+        { label: "SHOP BY CATEGORY", icon: function () { return react_1["default"].createElement(Store_1["default"], null); }, route: "/" },
         { label: "GOLD", icon: function () { return react_1["default"].createElement(CreditCard_1["default"], null); }, route: "/" },
         { label: "SILVER", icon: function () { return react_1["default"].createElement(CreditCard_1["default"], null); }, route: "/" },
     ];
@@ -209,7 +213,7 @@ var DrawerContainer = function (_a) {
                 react_1["default"].createElement("div", { className: classes.logoHeader },
                     react_1["default"].createElement("div", { className: classes.logoContainer },
                         react_1["default"].createElement("img", { style: { width: "60px", height: "auto" }, src: theme_config_1.logo, alt: "logo" })),
-                    react_1["default"].createElement(Typography_1["default"], { variant: "h6", noWrap: true }, "DCX Bullion")),
+                    react_1["default"].createElement(Typography_1["default"], { variant: "h6", noWrap: true, className: classes.logoContainerHeading }, "DCX Bullion")),
                 react_1["default"].createElement("div", null,
                     react_1["default"].createElement(core_1.Button, { onClick: function () { return history.push("/login"); }, className: activityStatus == false ? classes.boxBtn + " " : "" + classes.hidden, variant: "outlined" }, "Login"),
                     react_1["default"].createElement(core_1.Button, { onClick: function () { return history.push("/signup"); }, className: activityStatus == false ? classes.boxBtn + " " : "" + classes.hidden, variant: "outlined" }, "Register"),
@@ -231,8 +235,8 @@ var DrawerContainer = function (_a) {
             react_1["default"].createElement(List_1["default"], null, menuItems.map(function (x) {
                 var match = location.pathname.includes(x.route);
                 return (react_1["default"].createElement(ListItem_1["default"], { button: true, onClick: function () { return history.push(x.route); } },
-                    react_1["default"].createElement(ListItemIcon_1["default"], { style: { color: match ? theme_config_1.primaryColor : "white" } }, x.icon()),
-                    react_1["default"].createElement(ListItemText_1["default"], { style: { color: match ? theme_config_1.primaryColor : "white" }, className: classes.listItemText, primary: x.label })));
+                    react_1["default"].createElement(ListItemIcon_1["default"], { style: { color: match ? theme_config_1.primaryColor : theme_config_1.primaryText } }, x.icon()),
+                    react_1["default"].createElement(ListItemText_1["default"], { style: { color: match ? theme_config_1.primaryColor : theme_config_1.primaryText }, className: classes.listItemText, primary: x.label })));
             }))),
         react_1["default"].createElement("main", { className: classes.content },
             react_1["default"].createElement(Toolbar_1["default"], null),

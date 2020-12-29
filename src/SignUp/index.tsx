@@ -32,6 +32,13 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     textfield: {
       color: primaryColor,
+      width: "45%",
+      fontSize: 12,
+    },
+    textfieldID: {
+      color: primaryColor,
+      width: "100%",
+      fontSize: 12,
     },
     boxBtn: {
       float: "left",
@@ -60,7 +67,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      width: "100%",
+      width: "125%",
     },
     mobileContainer: {
       top: "15%",
@@ -251,7 +258,7 @@ const SignUpContainer = () => {
               />
             </div>
             <TextField
-              className={classes.textfield}
+              className={classes.textfieldID}
               autoComplete="off"
               margin="normal"
               label="ID Number"

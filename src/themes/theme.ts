@@ -1,4 +1,4 @@
-import { createMuiTheme } from '@material-ui/core/styles';
+import { createMuiTheme } from "@material-ui/core/styles";
 import {
   primaryColor,
   secondaryColor,
@@ -8,41 +8,72 @@ import {
   backgroundContrast,
   error,
   lightBorders,
-} from './theme-config';
+} from "./theme-config";
 
 const theme = createMuiTheme({
   overrides: {
     MuiTableCell: {
       root: {
-        wordBreak: 'normal',
+        wordBreak: "normal",
       },
     },
     MuiButton: {
       contained: {
-        '&$disabled': { backgroundColor: '#fff' },
+        "&$disabled": { backgroundColor: "#fff" },
+      },
+      label:{
+        fontSize: 14,
       },
     },
+    MuiListItemText:{
+      primary:{ 
+        fontSize: 14,
+      }, 
+    },
+    MuiSvgIcon:{
+      root:{
+        fontSize: 22,
+      },
+    },
+
     MuiOutlinedInput: {
       root: {
-        position: 'relative',
-        '& $notchedOutline': {
+        position: "relative",
+        "& $notchedOutline": {
           borderColor: primaryText,
         },
-        '&:hover:not($disabled):not($focused):not($error) $notchedOutline': {
+        "&:hover:not($disabled):not($focused):not($error) $notchedOutline": {
           borderColor: primaryText,
         },
+        fontSize: 14,
+      },
+    },
+    // MuiLink:{
+    //   root:{
+    //   "&$focused": {
+    //     color: primaryColor,
+    //   },
+    //   "&:hover": {
+    //     borderColor: primaryText,
+    //   },
+    // },
+    // },
+    MuiInputBase: {
+      formControl: {
+        fontSize: 14,
       },
     },
     MuiInput: {
       root: {
-        '&$disabled': { color: '#bababa' },
-        '&$underline:after': {
-          borderBottom: '1px solid rgba(200, 200, 200, 0.42)',
+        "&$disabled": { color: "#bababa" },
+        "&$underline:after": {
+          borderBottom: "1px solid rgba(200, 200, 200, 0.42)",
         },
 
-        '&$underline:before': {
-          borderBottom: '1px solid rgba(200, 200, 200, 0.42)',
+        "&$underline:before": {
+          borderBottom: "1px solid rgba(200, 200, 200, 0.42)",
         },
+        fontSize: 14,
       },
     },
     MuiIconButton: {
@@ -53,10 +84,11 @@ const theme = createMuiTheme({
     MuiAvatar: { colorDefault: { color: primaryColor } },
     MuiFormLabel: {
       root: {
-        '&$focused': {
+        "&$focused": {
           color: primaryColor,
         },
-        '&$disabled': { color: '#65666a' },
+        "&$disabled": { color: "#65666a" },
+        fontSize: 14,
       },
     },
     MuiPaper: {
@@ -68,7 +100,7 @@ const theme = createMuiTheme({
     // @ts-ignore
     MuiPickersCalendarHeader: {
       iconButton: {
-        backgroundColor: 'transparent',
+        backgroundColor: "transparent",
       },
       dayLabel: {
         color: primaryColor,
