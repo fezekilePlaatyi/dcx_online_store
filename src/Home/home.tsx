@@ -101,7 +101,7 @@ const useStyles = makeStyles((theme) => ({
     backgroundColor: backgroundContrast,
     borderColor: primaryColor,
     color: primaryColor,
-    width: "47%",
+    width: "30%",
   },
   shopCategory: {
     display: "flex",
@@ -113,12 +113,15 @@ const useStyles = makeStyles((theme) => ({
     //flexDirection: 'column',
     justifyContent: "space-between",
   },
-  shopCategoryButtons:{
+  shopCategoryButtons: {
     display: "flex",
-    flexDirection: 'row',
+    flexDirection: "row",
     justifyContent: "space-between",
-    width: "19%",
+    width: "37%",
     marginTop: 20,
+  },
+  shopCategoryHeadingMain: {
+    color: primaryColor,
   },
   productListCardsContainer: {},
 }));
@@ -309,7 +312,9 @@ function Home() {
           >
             <div className={classes.shopCategory}>
               <div className={classes.shopCategoryHeading}>
-                <h2>Shop by category</h2>
+                <h3 className={classes.shopCategoryHeadingMain}>
+                  Shop by category
+                </h3> 
                 <h2 className="pointer" onClick={() => goToBasketIfNotEmpty()}>
                   ({productsOnBasket.length}) <ShoppingCart />
                 </h2>
@@ -328,6 +333,13 @@ function Home() {
                   // onClick={(event) => handleSignUp(event)}
                 >
                   SILVER
+                </Button>
+                <Button
+                  className={classes.boxBtn}
+                  variant="outlined"
+                  // onClick={(event) => handleSignUp(event)}
+                >
+                  ALL
                 </Button>
               </div>
             </div>
