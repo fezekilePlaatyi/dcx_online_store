@@ -21,6 +21,9 @@ const theme = createMuiTheme({
       contained: {
         "&$disabled": { backgroundColor: "#fff" },
       },
+      label:{
+        fontSize: 14,
+      },
     },
     MuiOutlinedInput: {
       root: {
