@@ -59,7 +59,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      width: "80%",
+      width: "100%",
     },
     mobileContainer: {
       top: "15%",
