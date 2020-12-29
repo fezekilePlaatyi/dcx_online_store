@@ -163,9 +163,9 @@ const DrawerContainer: React.FC<DrawerContainerProps> = ({ children }) => {
   };
 
   var brokerMenuItems = [
-    { label: "HOME", icon: () => <DashboardIcon />, route: "/" },
-    // { label: "BASKET", icon: () => <DashboardIcon />, route: "/basket" },
-    // { label: "Orders", icon: () => <CreditCardIcon />, route: "/orders" },
+    { label: "SHOP BY CATEGORY", icon: () => <DashboardIcon />, route: "/" },
+    { label: "GOLD", icon: () => <CreditCardIcon />, route: "/" },
+    { label: "SILVER", icon: () => <CreditCardIcon />, route: "/" },
   ];
 
   let menuItems: MenuItem[] = brokerMenuItems;
