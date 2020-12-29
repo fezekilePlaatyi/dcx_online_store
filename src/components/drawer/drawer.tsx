@@ -20,7 +20,8 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import DashboardIcon from "@material-ui/icons/Dashboard"
+//import DashboardIcon from "@material-ui/icons/Dashboard";
+import StoreIcon from '@material-ui/icons/Store';
 import {
   backgroundMain,
   logo,
@@ -135,6 +136,9 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(3),
       backgroundColor: "white",
     },
+    logoContainerHeading:{
+      fontSize: 18,
+    },
   })
 );
 
@@ -163,7 +167,7 @@ const DrawerContainer: React.FC<DrawerContainerProps> = ({ children }) => {
   };
 
   var brokerMenuItems = [
-    { label: "SHOP BY CATEGORY", icon: () => <DashboardIcon />, route: "/" },
+    { label: "SHOP BY CATEGORY", icon: () => <StoreIcon />, route: "/" },
     { label: "GOLD", icon: () => <CreditCardIcon />, route: "/" },
     { label: "SILVER", icon: () => <CreditCardIcon />, route: "/" },
   ];
@@ -188,7 +192,7 @@ const DrawerContainer: React.FC<DrawerContainerProps> = ({ children }) => {
                 alt="logo"
               />
             </div>
-            <Typography variant="h6" noWrap>
+            <Typography variant="h6" noWrap className={classes.logoContainerHeading}>
               DCX Bullion
             </Typography>
           </div>

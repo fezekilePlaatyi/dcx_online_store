@@ -25,6 +25,17 @@ const theme = createMuiTheme({
         fontSize: 14,
       },
     },
+    MuiListItemText:{
+      primary:{ 
+        fontSize: 14,
+      }, 
+    },
+    MuiSvgIcon:{
+      root:{
+        fontSize: 22,
+      },
+    },
+
     MuiOutlinedInput: {
       root: {
         position: "relative",
