@@ -75,7 +75,7 @@ const useStyles = makeStyles((theme) => ({
   productDetails: {
     height: "100vh",
     width: "100vw",
-    background: "#e3e3e3",
+ //   background: "#e3e3e3",
     display: "none",
   },
   productList: {
