@@ -264,11 +264,11 @@ const DrawerContainer: React.FC<DrawerContainerProps> = ({ children }) => {
 
             return (
               <ListItem button onClick={() => history.push(x.route)}>
-                <ListItemIcon style={{ color: match ? primaryColor : "white" }}>
+                <ListItemIcon style={{ color: match ? primaryColor : primaryText }}>
                   {x.icon()}
                 </ListItemIcon>
                 <ListItemText
-                  style={{ color: match ? primaryColor : "white" }}
+                  style={{ color: match ? primaryColor : primaryText }}
                   className={classes.listItemText}
                   primary={x.label}
                 />
