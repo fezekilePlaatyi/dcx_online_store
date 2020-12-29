@@ -58,6 +58,7 @@ var CssBaseline_1 = require("@material-ui/core/CssBaseline");
 var Typography_1 = require("@material-ui/core/Typography");
 var Divider_1 = require("@material-ui/core/Divider");
 var IconButton_1 = require("@material-ui/core/IconButton");
+var CreditCard_1 = require("@material-ui/icons/CreditCard");
 var ChevronLeft_1 = require("@material-ui/icons/ChevronLeft");
 var ChevronRight_1 = require("@material-ui/icons/ChevronRight");
 var ListItem_1 = require("@material-ui/core/ListItem");
@@ -190,7 +191,9 @@ var DrawerContainer = function (_a) {
         setOpen(false);
     };
     var brokerMenuItems = [
-        { label: "HOME", icon: function () { return react_1["default"].createElement(Dashboard_1["default"], null); }, route: "/" },
+        { label: "SHOP BY CATEGORY", icon: function () { return react_1["default"].createElement(Dashboard_1["default"], null); }, route: "/" },
+        { label: "GOLD", icon: function () { return react_1["default"].createElement(CreditCard_1["default"], null); }, route: "/" },
+        { label: "SILVER", icon: function () { return react_1["default"].createElement(CreditCard_1["default"], null); }, route: "/" },
     ];
     var menuItems = brokerMenuItems;
     return (react_1["default"].createElement("div", { className: classes.root },
