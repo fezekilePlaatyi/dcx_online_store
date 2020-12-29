@@ -135,6 +135,9 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: theme.spacing(3),
       backgroundColor: "white",
     },
+    hidden: {
+      display: 'none',
+    }
   })
 );
 
@@ -146,10 +149,12 @@ interface MenuItem {
 
 type DrawerContainerProps = {};
 
-const DrawerContainer: React.FC<DrawerContainerProps> = ({ children }) => {
+const DrawerContainer = ({ children, activityStatus }: any) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+
+  console.log("TESTING STATUS", activityStatus)
 
   const history = useHistory();
 
@@ -195,34 +200,35 @@ const DrawerContainer: React.FC<DrawerContainerProps> = ({ children }) => {
           <div>
             <Button
               onClick={() => history.push("/login")}
-              className={classes.boxBtn}
+              className={activityStatus == false ? `${classes.boxBtn} ` : `${classes.hidden}`}
               variant="outlined"
             >
               Login
             </Button>
             <Button
               onClick={() => history.push("/signup")}
-              className={classes.boxBtn}
+              className={activityStatus == false ? `${classes.boxBtn} ` : `${classes.hidden}`}
               variant="outlined"
             >
               Register
             </Button>
             <Button
               onClick={() => history.push("/profile")}
-              className={classes.boxBtn}
+              className={activityStatus == true ? `${classes.boxBtn} ` : `${classes.hidden}`}
               variant="outlined"
             >
               Profile
             </Button>
             <Button
               onClick={() => history.push("/orderHistory")}
-              className={classes.boxBtn}
+              className={activityStatus == true ? `${classes.boxBtn} ` : `${classes.hidden}`}
               variant="outlined"
             >
               Order History
             </Button>
             <Button
-              className={classes.boxBtnSignOut}
+              className={activityStatus == true ? `${classes.boxBtnSignOut} ` : `${classes.hidden}`}
+
               variant="outlined"
               onClick={() => signOut()}
             >

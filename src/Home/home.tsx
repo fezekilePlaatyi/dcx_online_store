@@ -91,10 +91,15 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
   },
   productListCardsContainer: {},
+  hidden: {
+    display: 'none',
+  }
 }));
 
-function Home() {
+function Home({ activityStatus }: any) {
   const classes = useStyles();
+
+  console.log("ACTIVITY STATUS:", activityStatus)
 
   var defaultProduct: any = {
     id: "",
@@ -111,6 +116,7 @@ function Home() {
   const [productDetails, setProductDetails] = React.useState<any>(
     defaultProduct
   );
+  const [notificationMessage, setNotificationMessage] = useState("");
   //   const [orderHistory, setOrderHistory] = React.useState([]);
 
   const handleExpandClick = (productId: any) => {
@@ -122,11 +128,24 @@ function Home() {
   };
 
   const handleAddingProductToBasket = (productDetails: any) => {
-    console.log("adding item to basket...");
-    checkIfAlreadyAddedOnBasket(productDetails)
-      ? console.log("already added...")
-      : addProductToBasket((prevArray: any) => [...prevArray, productDetails]);
+    if (activityStatus == true) {
+      console.log("adding item to basket...");
+      checkIfAlreadyAddedOnBasket(productDetails)
+        ? console.log("already added...")
+        : addProductToBasket((prevArray: any) => [...prevArray, productDetails]);
+    } else {
+      setNotificationMessage("You need to be logged in to add product to busket.");
+      toggleToast();
+    }
   };
+
+  const toggleToast = () => {
+    var x: any = document.getElementById("snackbar");
+    x.className = "show";
+    setTimeout(function () {
+      x.className = x.className.replace("show", "");
+    }, 3000);
+  }
 
   const checkIfAlreadyAddedOnBasket = (productDetails: any) => {
     var found: any = !productsOnBasket.find(
@@ -144,33 +163,67 @@ function Home() {
 
   let products = [
     {
-      id: "wdHKuhdwu2ybbxss",
-      name: "Gold oz 2nnx",
+      id: "wdHKuhdwuapdxss",
+      name: "100g Fine Gold Minted Medallion",
       type: "gold",
-      description: "Some gold blah blah",
+      description: "The 1oz Fine Gold Medallion (24 Carat) will have an unlimited mintage and is linked to the current gold spot price and Rand/Dollar exchange rate which will give investors exposure to the spot gold price and also provide a hedge.",
       dateAdded: "19 / December / 2020",
       dateModified: "19 / December / 2020",
-      price: 200,
+      unitWeight: 100,
+      price: 124084,
     },
     {
-      id: "PpadsndHKdjwdwjsk",
-      name: "Gold 5029K",
-      type: "gold",
-      description: "Blah blah blah",
+      id: "DsdusnnshKdjwdwjsk",
+      name: "1kg Fine Silver Cast Bar (Flat)",
+      type: "silver",
+      description: "The complete Wildlife Society's 50th anniversary Silver plated animal medallion set, including the original box, dating to 1976-78.",
       dateAdded: "20 / December / 2020",
       dateModified: "21 / December / 2020",
-      price: 900,
+      unitWeight: 20,
+      price: 1751,
     },
     {
-      id: "LkkddjkdHKuhdwsdjdw",
-      name: "Silver JKk",
+      id: "Ppadsndsjuydjwdwjsk",
+      name: "1oz Fine Gold Medallion",
+      type: "gold",
+      description: "The complete Wildlife Society's 50th anniversary gold plated animal medallion set, including the original box, dating to 1976-78.",
+      dateAdded: "20 / December / 2020",
+      dateModified: "21 / December / 2020",
+      unitWeight: 31,
+      price: 38751,
+    },
+    {
+      id: "DWHWWEdsksHKdjwdwjsk",
+      name: "100g Fine Silver Minted Bar",
       type: "silver",
-      description: "Some silverish stone blah blah",
+      description: "The complete Wildlife Society's 50th anniversary Silver plated animal medallion set, including the original box, dating to 1976-78.",
+      dateAdded: "20 / December / 2020",
+      dateModified: "21 / December / 2020",
+      unitWeight: 31,
+      price: 28751,
+    },
+    {
+      id: "LkkddjkdHluhdwsdjdw",
+      name: "1/10oz Fine Gold Medallion",
+      type: "gold",
+      description: "The 1oz Fine Gold Medallion (24 Carat) will have an unlimited mintage and is linked to the current gold spot price and Rand/Dollar exchange rate which will give investors exposure to the spot gold price and also provide a hedge.",
       dateAdded: "19 / November / 2020",
       dateModified: "12 / December / 2020",
+      unitWeight: 3,
       price: 100,
     },
+    {
+      id: "DWHWWEssndHKsdsdqejsk",
+      name: "1kg Fine Silver Minted Medallion",
+      type: "silver",
+      description: "The complete Wildlife Society's 50th anniversary Silver plated animal medallion set, including the original box, dating to 1976-78.",
+      dateAdded: "20 / December / 2020",
+      dateModified: "21 / December / 2020",
+      unitWeight: 1,
+      price: 1000,
+    },
   ];
+
   let productList: any = [];
 
   products.forEach((element) => {
@@ -211,6 +264,7 @@ function Home() {
   const Main = () => {
     return (
       <div>
+        <div id="snackbar">{notificationMessage}</div>
         <Paper className={classes.paper}>
           <div
             className={classes.productDetails}

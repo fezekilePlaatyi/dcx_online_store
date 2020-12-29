@@ -2,6 +2,7 @@ import React, { Component, useEffect, useState } from "react";
 import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
 
 import PrivateRoute from "./PrivateRoute";
+import HomeRoute from "./HomeRoute";
 import app from "./base";
 
 import Home from "./Home/home";
@@ -47,18 +48,17 @@ const App = () => {
   return (
     <Router>
       <div>
-        <PrivateRoute
+        {/* <PrivateRoute
           exact
           path="/"
           component={Home}
           authenticated={authenticated}
-        />
-        <PrivateRoute
+        /> */}
+        <HomeRoute
           exact
-          path="/home"
+          path="/"
           component={Home}
-          authenticated={authenticated}
-        />
+          authenticated={authenticated} />
         <PrivateRoute
           exact
           path="/basket"
@@ -69,6 +69,12 @@ const App = () => {
           exact
           path="/profile"
           component={Profile}
+          authenticated={authenticated}
+        />
+        <PrivateRoute
+          exact
+          path="/orderHistory"
+          component={OrderHistory}
           authenticated={authenticated}
         />
         <Route exact path="/login" component={LogIn} />

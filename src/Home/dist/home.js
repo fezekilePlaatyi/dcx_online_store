@@ -98,10 +98,15 @@ var useStyles = styles_1.makeStyles(function (theme) { return ({
         flexDirection: "column",
         width: "100%"
     },
-    productListCardsContainer: {}
+    productListCardsContainer: {},
+    hidden: {
+        display: 'none'
+    }
 }); });
-function Home() {
+function Home(_a) {
+    var activityStatus = _a.activityStatus;
     var classes = useStyles();
+    console.log("ACTIVITY STATUS:", activityStatus);
     var defaultProduct = {
         id: "",
         name: "",
@@ -111,9 +116,10 @@ function Home() {
         dateModified: moment_1["default"](new Date()),
         price: 0
     };
-    var _a = react_1["default"].useState([]), productsOnBasket = _a[0], addProductToBasket = _a[1];
-    var _b = react_1["default"].useState(false), productDetailsBox = _b[0], displayProductDetailsBox = _b[1];
-    var _c = react_1["default"].useState(defaultProduct), productDetails = _c[0], setProductDetails = _c[1];
+    var _b = react_1["default"].useState([]), productsOnBasket = _b[0], addProductToBasket = _b[1];
+    var _c = react_1["default"].useState(false), productDetailsBox = _c[0], displayProductDetailsBox = _c[1];
+    var _d = react_1["default"].useState(defaultProduct), productDetails = _d[0], setProductDetails = _d[1];
+    var _e = react_1.useState(""), notificationMessage = _e[0], setNotificationMessage = _e[1];
     //   const [orderHistory, setOrderHistory] = React.useState([]);
     var handleExpandClick = function (productId) {
         if (productId != "back") {
@@ -123,10 +129,23 @@ function Home() {
         displayProductDetailsBox(!productDetailsBox);
     };
     var handleAddingProductToBasket = function (productDetails) {
-        console.log("adding item to basket...");
-        checkIfAlreadyAddedOnBasket(productDetails)
-            ? console.log("already added...")
-            : addProductToBasket(function (prevArray) { return __spreadArrays(prevArray, [productDetails]); });
+        if (activityStatus == true) {
+            console.log("adding item to basket...");
+            checkIfAlreadyAddedOnBasket(productDetails)
+                ? console.log("already added...")
+                : addProductToBasket(function (prevArray) { return __spreadArrays(prevArray, [productDetails]); });
+        }
+        else {
+            setNotificationMessage("You need to be logged in to add product to busket.");
+            toggleToast();
+        }
+    };
+    var toggleToast = function () {
+        var x = document.getElementById("snackbar");
+        x.className = "show";
+        setTimeout(function () {
+            x.className = x.className.replace("show", "");
+        }, 3000);
     };
     var checkIfAlreadyAddedOnBasket = function (productDetails) {
         var found = !productsOnBasket.find(function (item) { return item.id == productDetails.id; })
@@ -136,35 +155,68 @@ function Home() {
     };
     var goToBasketIfNotEmpty = function () {
         if (productsOnBasket.length > 0)
-            handleNavigationClick('basket');
+            handleNavigationClick("basket");
     };
     var products = [
         {
-            id: "wdHKuhdwu2ybbxss",
-            name: "Gold oz 2nnx",
+            id: "wdHKuhdwuapdxss",
+            name: "100g Fine Gold Minted Medallion",
             type: "gold",
-            description: "Some gold blah blah",
+            description: "The 1oz Fine Gold Medallion (24 Carat) will have an unlimited mintage and is linked to the current gold spot price and Rand/Dollar exchange rate which will give investors exposure to the spot gold price and also provide a hedge.",
             dateAdded: "19 / December / 2020",
             dateModified: "19 / December / 2020",
-            price: 200
+            unitWeight: 100,
+            price: 124084
         },
         {
-            id: "PpadsndHKdjwdwjsk",
-            name: "Gold 5029K",
-            type: "gold",
-            description: "Blah blah blah",
+            id: "DsdusnnshKdjwdwjsk",
+            name: "1kg Fine Silver Cast Bar (Flat)",
+            type: "silver",
+            description: "The complete Wildlife Society's 50th anniversary Silver plated animal medallion set, including the original box, dating to 1976-78.",
             dateAdded: "20 / December / 2020",
             dateModified: "21 / December / 2020",
-            price: 900
+            unitWeight: 20,
+            price: 1751
         },
         {
-            id: "LkkddjkdHKuhdwsdjdw",
-            name: "Silver JKk",
+            id: "Ppadsndsjuydjwdwjsk",
+            name: "1oz Fine Gold Medallion",
+            type: "gold",
+            description: "The complete Wildlife Society's 50th anniversary gold plated animal medallion set, including the original box, dating to 1976-78.",
+            dateAdded: "20 / December / 2020",
+            dateModified: "21 / December / 2020",
+            unitWeight: 31,
+            price: 38751
+        },
+        {
+            id: "DWHWWEdsksHKdjwdwjsk",
+            name: "100g Fine Silver Minted Bar",
             type: "silver",
-            description: "Some silverish stone blah blah",
+            description: "The complete Wildlife Society's 50th anniversary Silver plated animal medallion set, including the original box, dating to 1976-78.",
+            dateAdded: "20 / December / 2020",
+            dateModified: "21 / December / 2020",
+            unitWeight: 31,
+            price: 28751
+        },
+        {
+            id: "LkkddjkdHluhdwsdjdw",
+            name: "1/10oz Fine Gold Medallion",
+            type: "gold",
+            description: "The 1oz Fine Gold Medallion (24 Carat) will have an unlimited mintage and is linked to the current gold spot price and Rand/Dollar exchange rate which will give investors exposure to the spot gold price and also provide a hedge.",
             dateAdded: "19 / November / 2020",
             dateModified: "12 / December / 2020",
+            unitWeight: 3,
             price: 100
+        },
+        {
+            id: "DWHWWEssndHKsdsdqejsk",
+            name: "1kg Fine Silver Minted Medallion",
+            type: "silver",
+            description: "The complete Wildlife Society's 50th anniversary Silver plated animal medallion set, including the original box, dating to 1976-78.",
+            dateAdded: "20 / December / 2020",
+            dateModified: "21 / December / 2020",
+            unitWeight: 1,
+            price: 1000
         },
     ];
     var productList = [];
@@ -195,6 +247,7 @@ function Home() {
     });
     var Main = function () {
         return (react_1["default"].createElement("div", null,
+            react_1["default"].createElement("div", { id: "snackbar" }, notificationMessage),
             react_1["default"].createElement(core_1.Paper, { className: classes.paper },
                 react_1["default"].createElement("div", { className: classes.productDetails, style: { display: productDetailsBox ? "block" : "none" } },
                     react_1["default"].createElement(IconButton_1["default"], { onClick: function () { return handleExpandClick("back"); }, "aria-expanded": productDetailsBox, "aria-label": "show more" },
@@ -210,14 +263,16 @@ function Home() {
                                     productDetails.name),
                                 react_1["default"].createElement(Typography_1["default"], { variant: "subtitle1", color: "textSecondary" },
                                     react_1["default"].createElement("b", null, "Price:"),
-                                    "  R ",
+                                    " R ",
                                     productDetails.price),
                                 react_1["default"].createElement("div", null,
                                     react_1["default"].createElement(Typography_1["default"], { component: "p" },
                                         react_1["default"].createElement("b", null, "Details:"),
                                         " ",
                                         productDetails.description),
-                                    react_1["default"].createElement(Button_1["default"], { onClick: function () { return handleAddingProductToBasket(productDetails); }, style: {
+                                    react_1["default"].createElement(Button_1["default"], { onClick: function () {
+                                            return handleAddingProductToBasket(productDetails);
+                                        }, style: {
                                             display: checkIfAlreadyAddedOnBasket(productDetails)
                                                 ? "none"
                                                 : "block"
@@ -233,7 +288,7 @@ function Home() {
                                         react_1["default"].createElement(icons_1.ShoppingCart, null),
                                         " |",
                                         " ",
-                                        react_1["default"].createElement(Button_1["default"], { onClick: function () { return handleNavigationClick('basket'); } }, "View Basket"))))))),
+                                        react_1["default"].createElement(Button_1["default"], { onClick: function () { return handleNavigationClick("basket"); } }, "View Basket"))))))),
                 react_1["default"].createElement("div", { className: classes.productListCardsContainer, style: { display: productDetailsBox ? "none" : "block" } },
                     react_1["default"].createElement("h2", null, "Product List(*)"),
                     react_1["default"].createElement("h2", { className: "pointer", onClick: function () { return goToBasketIfNotEmpty(); } },
@@ -243,19 +298,19 @@ function Home() {
                         react_1["default"].createElement(icons_1.ShoppingCart, null)),
                     react_1["default"].createElement("div", { className: classes.productList }, productList)))));
     };
-    var _d = react_1.useState('main'), navigationOnHome = _d[0], setSavigationOnHome = _d[1];
+    var _f = react_1.useState("main"), navigationOnHome = _f[0], setSavigationOnHome = _f[1];
     var handleNavigationClick = function (nameOfComponent) {
         console.log("navigating click handler..");
         setSavigationOnHome(nameOfComponent);
     };
     var handleNavigationOnHome = function (nameOfComponent) {
         switch (nameOfComponent) {
-            case 'main':
-                return (react_1["default"].createElement(Main, null));
-            case 'basket':
+            case "main":
+                return react_1["default"].createElement(Main, null);
+            case "basket":
                 return (react_1["default"].createElement(Basket_1["default"], { productsOnBasket: productsOnBasket, addProductToBasket: addProductToBasket, handleNavigationOnHome: handleNavigationOnHome }));
         }
     };
-    return (react_1["default"].createElement("div", null, handleNavigationOnHome(navigationOnHome)));
+    return react_1["default"].createElement("div", null, handleNavigationOnHome(navigationOnHome));
 }
 exports["default"] = Home;

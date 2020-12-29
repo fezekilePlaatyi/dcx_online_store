@@ -25,12 +25,16 @@ exports.__esModule = true;
 var react_1 = require("react");
 var react_router_dom_1 = require("react-router-dom");
 var drawer_1 = require("./components/drawer/drawer");
-function PrivateRoute(_a) {
+function HomeRoute(_a) {
     var Component = _a.component, authenticated = _a.authenticated, rest = __rest(_a, ["component", "authenticated"]);
     return (react_1["default"].createElement(react_router_dom_1.Route, __assign({}, rest, { render: function (props) {
-            return authenticated === true ? (react_1["default"].createElement(drawer_1["default"], { activityStatus: authenticated },
+            // authenticated === true ?
+            return (react_1["default"].createElement(drawer_1["default"], { activityStatus: authenticated },
                 " ",
-                react_1["default"].createElement(Component, __assign({}, props, rest)))) : (react_1["default"].createElement(react_router_dom_1.Redirect, { to: "/login" }));
+                react_1["default"].createElement(Component, __assign({ activityStatus: authenticated }, props, rest)))
+            // ) : (
+            // <Redirect to="/login" />
+            );
         } })));
 }
-exports["default"] = PrivateRoute;
+exports["default"] = HomeRoute;

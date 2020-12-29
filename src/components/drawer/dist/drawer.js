@@ -166,15 +166,19 @@ var useStyles = styles_1.makeStyles(function (theme) {
             flexGrow: 1,
             padding: theme.spacing(3),
             backgroundColor: "white"
+        },
+        hidden: {
+            display: 'none'
         }
     });
 });
 var DrawerContainer = function (_a) {
     var _b, _c, _d;
-    var children = _a.children;
+    var children = _a.children, activityStatus = _a.activityStatus;
     var classes = useStyles();
     var theme = styles_1.useTheme();
     var _e = react_1["default"].useState(false), open = _e[0], setOpen = _e[1];
+    console.log("TESTING STATUS", activityStatus);
     var history = react_router_1.useHistory();
     var signOut = function () { return __awaiter(void 0, void 0, void 0, function () {
         return __generator(this, function (_a) {
@@ -207,11 +211,11 @@ var DrawerContainer = function (_a) {
                         react_1["default"].createElement("img", { style: { width: "60px", height: "auto" }, src: theme_config_1.logo, alt: "logo" })),
                     react_1["default"].createElement(Typography_1["default"], { variant: "h6", noWrap: true }, "DCX Bullion")),
                 react_1["default"].createElement("div", null,
-                    react_1["default"].createElement(core_1.Button, { onClick: function () { return history.push("/login"); }, className: classes.boxBtn, variant: "outlined" }, "Login"),
-                    react_1["default"].createElement(core_1.Button, { onClick: function () { return history.push("/signup"); }, className: classes.boxBtn, variant: "outlined" }, "Register"),
-                    react_1["default"].createElement(core_1.Button, { onClick: function () { return history.push("/profile"); }, className: classes.boxBtn, variant: "outlined" }, "Profile"),
-                    react_1["default"].createElement(core_1.Button, { onClick: function () { return history.push("/orderHistory"); }, className: classes.boxBtn, variant: "outlined" }, "Order History"),
-                    react_1["default"].createElement(core_1.Button, { className: classes.boxBtnSignOut, variant: "outlined", onClick: function () { return signOut(); } }, "Sign Out")))),
+                    react_1["default"].createElement(core_1.Button, { onClick: function () { return history.push("/login"); }, className: activityStatus == false ? classes.boxBtn + " " : "" + classes.hidden, variant: "outlined" }, "Login"),
+                    react_1["default"].createElement(core_1.Button, { onClick: function () { return history.push("/signup"); }, className: activityStatus == false ? classes.boxBtn + " " : "" + classes.hidden, variant: "outlined" }, "Register"),
+                    react_1["default"].createElement(core_1.Button, { onClick: function () { return history.push("/profile"); }, className: activityStatus == true ? classes.boxBtn + " " : "" + classes.hidden, variant: "outlined" }, "Profile"),
+                    react_1["default"].createElement(core_1.Button, { onClick: function () { return history.push("/orderHistory"); }, className: activityStatus == true ? classes.boxBtn + " " : "" + classes.hidden, variant: "outlined" }, "Order History"),
+                    react_1["default"].createElement(core_1.Button, { className: activityStatus == true ? classes.boxBtnSignOut + " " : "" + classes.hidden, variant: "outlined", onClick: function () { return signOut(); } }, "Sign Out")))),
         react_1["default"].createElement(Drawer_1["default"], { variant: "permanent", className: clsx_1["default"](classes.drawer, (_c = {},
                 _c[classes.drawerOpen] = !open,
                 _c[classes.drawerClose] = open,
