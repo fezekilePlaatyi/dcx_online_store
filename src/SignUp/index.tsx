@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     form: {
       marginTop: 20,
-      marginBottom: 20,
+     // marginBottom: 20,
       display: "flex",
       flexDirection: "column",
       width: "100%",
@@ -112,6 +112,18 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: "column",
       alignItems: "flex-end",
       width: "100%",
+    },
+    forgotDivider: {
+      marginRight: 10,
+      marginLeft: 10,
+      color: primaryColor,
+    },
+    buttonsDiv: {
+      width: "100%",
+      display: "flex",
+      flexDirection: "row",
+      //alignItems: "flex-end",
+      justifyContent: "flex-end",
     },
   })
 );
@@ -285,10 +297,11 @@ const SignUpContainer = () => {
             </div>
             <div className={classes.sentEmailText}>{registrationResponse}</div>
           </form>
-          <div className={classes.linkContainer}>
+          <div className={classes.buttonsDiv}>
             <Link className={classes.forgot} href="/login">
-              LOGIN
+              Login
             </Link>
+            <div className={classes.forgotDivider}>|</div>
             <Link className={classes.forgot} href="/">
               Home
             </Link>

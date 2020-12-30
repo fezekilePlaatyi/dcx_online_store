@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
       // alignItems: "center",
       justifyContent: "center",
       backgroundColor: backgroundMain,
-      padding: "44px",
+      padding: "30px",
     },
     textfield: {
       color: primaryColor,
@@ -85,7 +85,8 @@ const useStyles = makeStyles((theme: Theme) =>
       color: primaryColor,
     },
     whiteText: {
-      color: primaryColor,
+      color: primaryText,
+      fontSize: 14,
     },
     sentEmailText: {
       color: primaryColor,
@@ -161,7 +162,7 @@ const Profile = () => {
               alt="logo"
             />
           </div> */}
-          <div className={classes.heading}>PROFILE</div>
+          <h3 className={classes.heading}>PROFILE</h3>
         </div>
         <div className={classes.whiteText}>
           Please update personal information

@@ -156,8 +156,23 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 10,
     fontSize: 14,
   },
+  boxBtnBack: {
+    float: "left",
+    color: primaryColor,
+    backgroundColor: backgroundContrast,
+    borderColor: primaryColor,
+   // textTransform: "capitalize",
+    marginBottom: 15,
+    fontSize: 14,
+  },
   tableCells: {
     fontSize: 14,
+  },
+  backButton: {
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "self-end",
+    color: primaryColor,
   },
   productListCardsContainer: {},
 }));
@@ -193,7 +208,7 @@ const Basket = (props: any) => {
   let productsOnBasket = props.productsOnBasket.map((obj: any) => ({ ...obj, quantity: 1 }));
   let addProductToBasket = props.addProductToBasket;
   let handleNavigationOnHome = props.handleNavigationOnHome;
-  let handleNavigationClick = props.handleNavigationClick
+  let handleNavigationClick = props.handleNavigationClick;
 
   let productsOnBasketList: any = [];
   console.log(productsOnBasket);
@@ -247,7 +262,7 @@ const Basket = (props: any) => {
   }
 
   function handleNavigateBackToHomePage() {
-    handleNavigationClick("main")
+    handleNavigationClick("main");
     handleNavigationOnHome("main");
   }
 
@@ -256,26 +271,42 @@ const Basket = (props: any) => {
   return (
     <div>
       <Paper className={classes.paper}>
-
-        <h2>
-          <IconButton
-            onClick={() => handleNavigateBackToHomePage()}>
+        <h3 className={classes.backButton}>
+          <Button
+            className={classes.boxBtnBack}
+            variant="outlined"
+            onClick={() => handleNavigateBackToHomePage()}
+          >
             <ChevronLeft /> back
-          </IconButton>
+          </Button>
           BASKET
-        </h2>
+        </h3>
         <div className={classes.paperContetnt}>
           <TableContainer component={Paper} className={classes.tableDiv}>
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell className={classes.tableCells} align="left">#</TableCell>
-                  <TableCell className={classes.tableCells} align="left">Name</TableCell>
-                  <TableCell className={classes.tableCells} align="left">Description</TableCell>
-                  <TableCell className={classes.tableCells} align="left">Price(R)</TableCell>
-                  <TableCell className={classes.tableCells} align="left">Quantity</TableCell>
-                  <TableCell className={classes.tableCells} align="left">Total price(R)</TableCell>
-                  <TableCell className={classes.tableCells} align="left">Delete</TableCell>
+                  <TableCell className={classes.tableCells} align="left">
+                    #
+                  </TableCell>
+                  <TableCell className={classes.tableCells} align="left">
+                    Name
+                  </TableCell>
+                  <TableCell className={classes.tableCells} align="left">
+                    Description
+                  </TableCell>
+                  <TableCell className={classes.tableCells} align="left">
+                    Price(R)
+                  </TableCell>
+                  <TableCell className={classes.tableCells} align="left">
+                    Quantity
+                  </TableCell>
+                  <TableCell className={classes.tableCells} align="left">
+                    Total price(R)
+                  </TableCell>
+                  <TableCell className={classes.tableCells} align="left">
+                    Delete
+                  </TableCell>
                 </TableRow>
               </TableHead>
               <TableBody>{productsOnBasketList}</TableBody>
