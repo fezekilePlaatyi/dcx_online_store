@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexDirection: "column",
       // alignItems: "center",
-      justifyContent: "center",
+     // justifyContent: "center",
       backgroundColor: backgroundMain,
       padding: "30px",
     },
@@ -119,6 +119,16 @@ const useStyles = makeStyles((theme: Theme) =>
     passwordBlock: {
       marginTop: 30,
     },
+    textfieldDetails: {
+      // marginRight: "29rem",
+      display: "flex",
+      marginBottom: "3rem",
+      fontSize: 14,
+    },
+    textfieldDetailsFirst: {
+      color: primaryColor,
+      marginRight: 20,
+    },
   })
 );
 
@@ -165,146 +175,40 @@ const Profile = () => {
           <h3 className={classes.heading}>PROFILE</h3>
         </div>
         <div className={classes.whiteText}>
-          Please update personal information
+          You can update your personal information and password
         </div>
         <form className={classes.form}>
-          <div className={classes.textfieldBlock}>
-            <TextField
-              className={classes.textfield}
-              autoComplete="off"
-              margin="normal"
-              label="First name"
-              variant="outlined"
-              required
-              value={firstName}
-              onChange={(event) => setFirstName(event.target.value)}
-              InputProps={{
-                autoComplete: "off",
-              }}
-              autoFocus
-            />
-            <TextField
-              className={classes.textfield}
-              autoComplete="off"
-              margin="normal"
-              label="Last name"
-              variant="outlined"
-              value={lastName}
-              onChange={(event) => setLastName(event.target.value)}
-              required
-              InputProps={{
-                autoComplete: "off",
-              }}
-              autoFocus
-            />
+          {/* <div className={classes.textfieldBlock}> */}
+          <div className={classes.textfieldDetails}>
+            <div className={classes.textfieldDetailsFirst}>First Name: </div>{" "}
+            Nicholas
           </div>
-          <div className={classes.textfieldBlock}>
-            <TextField
-              className={classes.textfield}
-              autoComplete="off"
-              margin="normal"
-              label="Phone number"
-              variant="outlined"
-              value={phoneNumber}
-              onChange={(event) => setPhoneNumber(event.target.value)}
-              required
-              InputProps={{
-                autoComplete: "off",
-              }}
-              autoFocus
-            />
-            <TextField
-              className={classes.textfield}
-              autoComplete="off"
-              margin="normal"
-              label="Email"
-              variant="outlined"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-              required
-              InputProps={{
-                autoComplete: "off",
-              }}
-              autoFocus
-            />
+          <div className={classes.textfieldDetails}>
+            <div className={classes.textfieldDetailsFirst}>Last Name:</div>{" "}
+            Bennet
           </div>
-          <div className={classes.textfieldBlock}>
-            <TextField
-              className={classes.textfield}
-              autoComplete="off"
-              margin="normal"
-              label="ID Number"
-              variant="outlined"
-              value={idNumber}
-              onChange={(event) => setIdNumber(event.target.value)}
-              required
-              InputProps={{
-                autoComplete: "off",
-              }}
-              autoFocus
-            />
-            <TextField
-              className={classes.textfield}
-              autoComplete="off"
-              margin="normal"
-              label="Address"
-              variant="outlined"
-              value={address}
-              onChange={(event) => setAddress(event.target.value)}
-              required
-              InputProps={{
-                autoComplete: "off",
-              }}
-              autoFocus
-            />
+          {/* </div> */}
+          {/* <div className={classes.textfieldBlock}> */}
+          <div className={classes.textfieldDetails}>
+            <div className={classes.textfieldDetailsFirst}>Phone Number:</div>{" "}
+            0791234567
           </div>
-          <div className={classes.passwordBlock}>
-            <div className={classes.whiteText}>Change password</div>
-            <div className={classes.textfieldBlockPassword}>
-              <TextField
-                className={classes.textfield}
-                autoComplete="off"
-                margin="normal"
-                label="Old password"
-                variant="outlined"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                required
-                InputProps={{
-                  autoComplete: "off",
-                }}
-                autoFocus
-              />
-              <TextField
-                className={classes.textfield}
-                autoComplete="off"
-                margin="normal"
-                label="New password"
-                variant="outlined"
-                value={confirmPassword}
-                onChange={(event) => setConfirmPassword(event.target.value)}
-                required
-                InputProps={{
-                  autoComplete: "off",
-                }}
-                autoFocus
-              />
-              <TextField
-                className={classes.textfield}
-                autoComplete="off"
-                margin="normal"
-                label="Confirm new password"
-                variant="outlined"
-                value={confirmPassword}
-                onChange={(event) => setConfirmPassword(event.target.value)}
-                required
-                InputProps={{
-                  autoComplete: "off",
-                }}
-                autoFocus
-              />
-            </div>
+          <div className={classes.textfieldDetails}>
+            <div className={classes.textfieldDetailsFirst}>Email:</div>{" "}
+            nicholas@test.com
           </div>
+          {/* </div> */}
+          {/* <div className={classes.textfieldBlock}> */}
+          <div className={classes.textfieldDetails}>
+            <div className={classes.textfieldDetailsFirst}>ID Number:</div>{" "}
+            1234567891235
+          </div>
+          <div className={classes.textfieldDetails}>
+            <div className={classes.textfieldDetailsFirst}>Address:</div> You
+            can update address in Update Profile section
+          </div>
+          {/* </div> */}
+
           <div className={classes.buttonsContainer}>
             <div className={classes.loginButtonContainer}>
               <Button
