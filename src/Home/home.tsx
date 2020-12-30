@@ -16,7 +16,7 @@ import img from "../assets/gold.jpg";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
 import { Paper } from "@material-ui/core";
-import { backgroundMain } from "../themes/theme-config";
+import { backgroundMain, primaryText } from "../themes/theme-config";
 import Basket from "../Basket";
 import {
   // backgroundMain,
@@ -121,12 +121,26 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 20,
   },
   shopCategoryHeadingMain: {
+    color: primaryText,
+  },
+  heading: {
+    margin: "15px 0px",
     color: primaryColor,
+  },
+  pointer: {
+    backgroundColor: backgroundContrast,
+    borderColor: primaryColor,
+    color: primaryColor,
+  },
+  cart: {
+    display: "flex",
+    alignItems: "center",
+    fontSize: 18,
   },
   productListCardsContainer: {},
   hidden: {
-    display: 'none',
-  }
+    display: "none",
+  },
 }));
 
 function Home({ activityStatus }: any) {
@@ -147,9 +161,9 @@ function Home({ activityStatus }: any) {
   const [productDetails, setProductDetails] = React.useState<any>(
     defaultProduct
   );
-  const [notificationMessage, setNotificationMessage] = useState("")
-  const [productTypeToDisplay, setProductListCategory] = useState("all")
-  const [productList, setProductList] = React.useState<any>([])
+  const [notificationMessage, setNotificationMessage] = useState("");
+  const [productTypeToDisplay, setProductListCategory] = useState("all");
+  const [productList, setProductList] = React.useState<any>([]);
 
   const handleExpandClick = (productId: any) => {
     if (productId != "back") {
@@ -164,9 +178,14 @@ function Home({ activityStatus }: any) {
       console.log("adding item to basket...");
       checkIfAlreadyAddedOnBasket(productDetails)
         ? console.log("already added...")
-        : addProductToBasket((prevArray: any) => [...prevArray, productDetails]);
+        : addProductToBasket((prevArray: any) => [
+            ...prevArray,
+            productDetails,
+          ]);
     } else {
-      setNotificationMessage("You need to be logged in to add product to busket.");
+      setNotificationMessage(
+        "You need to be logged in to add product to busket."
+      );
       toggleToast();
     }
   };
@@ -177,7 +196,7 @@ function Home({ activityStatus }: any) {
     setTimeout(function () {
       x.className = x.className.replace("show", "");
     }, 3000);
-  }
+  };
 
   const checkIfAlreadyAddedOnBasket = (productDetails: any) => {
     var found: any = !productsOnBasket.find(
@@ -190,9 +209,8 @@ function Home({ activityStatus }: any) {
   };
 
   const updateProductListCategory = (productType: string) => {
-    setProductListCategory(productType)
-  }
-
+    setProductListCategory(productType);
+  };
 
   const goToBasketIfNotEmpty = () => {
     if (productsOnBasket.length > 0) handleNavigationClick("basket");
@@ -203,7 +221,8 @@ function Home({ activityStatus }: any) {
       id: "wdHKuhdwuapdxss",
       name: "100g Fine Gold Minted Medallion",
       type: "gold",
-      description: "The 1oz Fine Gold Medallion (24 Carat) will have an unlimited mintage and is linked to the current gold spot price and Rand/Dollar exchange rate which will give investors exposure to the spot gold price and also provide a hedge.",
+      description:
+        "The 1oz Fine Gold Medallion (24 Carat) will have an unlimited mintage and is linked to the current gold spot price and Rand/Dollar exchange rate which will give investors exposure to the spot gold price and also provide a hedge.",
       dateAdded: "19 / December / 2020",
       dateModified: "19 / December / 2020",
       unitWeight: 100,
@@ -213,7 +232,8 @@ function Home({ activityStatus }: any) {
       id: "Ppadsndsjuydjwdwjsk",
       name: "1oz Fine Gold Medallion",
       type: "gold",
-      description: "The complete Wildlife Society's 50th anniversary gold plated animal medallion set, including the original box, dating to 1976-78.",
+      description:
+        "The complete Wildlife Society's 50th anniversary gold plated animal medallion set, including the original box, dating to 1976-78.",
       dateAdded: "20 / December / 2020",
       dateModified: "21 / December / 2020",
       unitWeight: 31,
@@ -223,7 +243,8 @@ function Home({ activityStatus }: any) {
       id: "DWHWWEdsksHKdjwdwjsk",
       name: "100g Fine Silver Minted Bar",
       type: "silver",
-      description: "The complete Wildlife Society's 50th anniversary Silver plated animal medallion set, including the original box, dating to 1976-78.",
+      description:
+        "The complete Wildlife Society's 50th anniversary Silver plated animal medallion set, including the original box, dating to 1976-78.",
       dateAdded: "20 / December / 2020",
       dateModified: "21 / December / 2020",
       unitWeight: 31,
@@ -233,7 +254,8 @@ function Home({ activityStatus }: any) {
       id: "LkkddjkdHluhdwsdjdw",
       name: "1/10oz Fine Gold Medallion",
       type: "gold",
-      description: "The 1oz Fine Gold Medallion (24 Carat) will have an unlimited mintage and is linked to the current gold spot price and Rand/Dollar exchange rate which will give investors exposure to the spot gold price and also provide a hedge.",
+      description:
+        "The 1oz Fine Gold Medallion (24 Carat) will have an unlimited mintage and is linked to the current gold spot price and Rand/Dollar exchange rate which will give investors exposure to the spot gold price and also provide a hedge.",
       dateAdded: "19 / November / 2020",
       dateModified: "12 / December / 2020",
       unitWeight: 3,
@@ -243,7 +265,8 @@ function Home({ activityStatus }: any) {
       id: "DWHWWEssndHKsdsdqejsk",
       name: "1kg Fine Silver Minted Medallion",
       type: "silver",
-      description: "The complete Wildlife Society's 50th anniversary Silver plated animal medallion set, including the original box, dating to 1976-78.",
+      description:
+        "The complete Wildlife Society's 50th anniversary Silver plated animal medallion set, including the original box, dating to 1976-78.",
       dateAdded: "20 / December / 2020",
       dateModified: "21 / December / 2020",
       unitWeight: 1,
@@ -252,23 +275,27 @@ function Home({ activityStatus }: any) {
   ];
 
   const displayProductList = (productType: string) => {
-    let updateProductByCategory: any = []
+    let updateProductByCategory: any = [];
     productList.splice(0, productList.length);
-    if (productType == 'all') {
-      updateUIOnProductCatergoryChange(products)
+    if (productType == "all") {
+      updateUIOnProductCatergoryChange(products);
     } else {
       updateProductByCategory = products.filter(function (element) {
         return element.type == productType;
-      })
-      updateUIOnProductCatergoryChange(updateProductByCategory)
+      });
+      updateUIOnProductCatergoryChange(updateProductByCategory);
     }
-  }
+  };
 
   const updateUIOnProductCatergoryChange = (updateProductByCategory: any) => {
     updateProductByCategory.forEach((element: any) => {
       productList.push(
         <Card className={classes.root} style={{ marginRight: 30 }}>
-          <CardMedia className={classes.media} image={img} title="plcae holder" />
+          <CardMedia
+            className={classes.media}
+            image={img}
+            title="plcae holder"
+          />
           <CardContent>
             <Typography variant="body2" color="textSecondary" component="h3">
               <b>Name: {element.name}</b>
@@ -297,11 +324,11 @@ function Home({ activityStatus }: any) {
             </IconButton>
           </CardActions>
         </Card>
-      )
+      );
     });
-  }
+  };
 
-  displayProductList(productTypeToDisplay)
+  displayProductList(productTypeToDisplay);
 
   const Main = () => {
     return (
@@ -374,33 +401,41 @@ function Home({ activityStatus }: any) {
             style={{ display: productDetailsBox ? "none" : "block" }}
           >
             <div className={classes.shopCategory}>
+              <h3 className={classes.heading}>INVEST IN YOUR FUTURE NOW!</h3>
               <div className={classes.shopCategoryHeading}>
                 <h3 className={classes.shopCategoryHeadingMain}>
                   Shop by category
                 </h3>
-                <h2 className="pointer" onClick={() => goToBasketIfNotEmpty()}>
-                  ({productsOnBasket.length}) <ShoppingCart />
-                </h2>
+                <Button
+                  variant="outlined"
+                  className={classes.pointer}
+                  onClick={() => goToBasketIfNotEmpty()}
+                >
+                  <div className={classes.cart}>
+                    {" "}
+                    ({productsOnBasket.length}) <ShoppingCart />
+                  </div>
+                </Button>
               </div>
               <div className={classes.shopCategoryButtons}>
                 <Button
                   className={classes.boxBtn}
                   variant="outlined"
-                  onClick={(evet) => updateProductListCategory('gold')}
+                  onClick={(evet) => updateProductListCategory("gold")}
                 >
                   GOLD
                 </Button>
                 <Button
                   className={classes.boxBtn}
                   variant="outlined"
-                  onClick={(event) => updateProductListCategory('silver')}
+                  onClick={(event) => updateProductListCategory("silver")}
                 >
                   SILVER
                 </Button>
                 <Button
                   className={classes.boxBtn}
                   variant="outlined"
-                  onClick={(event) => updateProductListCategory('all')}
+                  onClick={(event) => updateProductListCategory("all")}
                 >
                   ALL
                 </Button>
@@ -418,13 +453,12 @@ function Home({ activityStatus }: any) {
   const handleNavigationClick = (nameOfComponent: any) => {
     console.log("navigating click handler..");
     if (nameOfComponent == "main" && productDetailsBox == true) {
-      displayProductDetailsBox(false)
+      displayProductDetailsBox(false);
     }
     setSavigationOnHome(nameOfComponent);
   };
 
   const handleNavigationOnHome = (nameOfComponent: any) => {
-
     switch (nameOfComponent) {
       case "main":
         return <Main />;
