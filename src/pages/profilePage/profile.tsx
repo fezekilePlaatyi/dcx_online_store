@@ -144,10 +144,10 @@ const Profile = () => {
     //       `* Click on link sent to email ${email}, to verify your email address and login.`
     //     );
     // })
-      // .catch((error: any) => {
-      //   console.log(error);
-      //   alert(error.message.toString());
-      // });
+    // .catch((error: any) => {
+    //   console.log(error);
+    //   alert(error.message.toString());
+    // });
   };
 
   return (
@@ -308,6 +308,7 @@ const Profile = () => {
           <div className={classes.buttonsContainer}>
             <div className={classes.loginButtonContainer}>
               <Button
+                href="/updateProfile"
                 className={classes.boxBtn}
                 variant="outlined"
                 onClick={updateCustomer}
@@ -315,10 +316,10 @@ const Profile = () => {
                 UPDATE PROFILE
               </Button>
               <Button
-              href='/changePassword'
+                href="/changePassword"
                 className={classes.boxBtn}
                 variant="outlined"
-               // onClick={updateCustomer}
+                // onClick={updateCustomer}
               >
                 CHANGE PASWWORD
               </Button>

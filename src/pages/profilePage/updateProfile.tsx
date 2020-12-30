@@ -31,7 +31,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexDirection: "column",
       // alignItems: "center",
-      justifyContent: "center",
+     // justifyContent: "center",
       backgroundColor: backgroundMain,
       padding: "30px",
     },
@@ -144,10 +144,10 @@ const UpdateProfile = () => {
     //       `* Click on link sent to email ${email}, to verify your email address and login.`
     //     );
     // })
-      // .catch((error: any) => {
-      //   console.log(error);
-      //   alert(error.message.toString());
-      // });
+    // .catch((error: any) => {
+    //   console.log(error);
+    //   alert(error.message.toString());
+    // });
   };
 
   return (
@@ -155,14 +155,7 @@ const UpdateProfile = () => {
       <div className={classes.boxWrapper}>
         {/* <Paper className={classes.paper} elevation={3} square={true}> */}
         <div>
-          {/* <div className={classes.logoContainer}>
-            <img
-              style={{ width: "70px", height: "auto" }}
-              src={logo}
-              alt="logo"
-            />
-          </div> */}
-          <h3 className={classes.heading}>PROFILE</h3>
+          <h3 className={classes.heading}>UPDATE PROFILE</h3>
         </div>
         <div className={classes.whiteText}>
           Please update personal information
@@ -258,53 +251,7 @@ const UpdateProfile = () => {
               autoFocus
             />
           </div>
-          <div className={classes.passwordBlock}>
-            <div className={classes.whiteText}>Change password</div>
-            <div className={classes.textfieldBlockPassword}>
-              <TextField
-                className={classes.textfield}
-                autoComplete="off"
-                margin="normal"
-                label="Old password"
-                variant="outlined"
-                value={password}
-                onChange={(event) => setPassword(event.target.value)}
-                required
-                InputProps={{
-                  autoComplete: "off",
-                }}
-                autoFocus
-              />
-              <TextField
-                className={classes.textfield}
-                autoComplete="off"
-                margin="normal"
-                label="New password"
-                variant="outlined"
-                value={confirmPassword}
-                onChange={(event) => setConfirmPassword(event.target.value)}
-                required
-                InputProps={{
-                  autoComplete: "off",
-                }}
-                autoFocus
-              />
-              <TextField
-                className={classes.textfield}
-                autoComplete="off"
-                margin="normal"
-                label="Confirm new password"
-                variant="outlined"
-                value={confirmPassword}
-                onChange={(event) => setConfirmPassword(event.target.value)}
-                required
-                InputProps={{
-                  autoComplete: "off",
-                }}
-                autoFocus
-              />
-            </div>
-          </div>
+
           <div className={classes.buttonsContainer}>
             <div className={classes.loginButtonContainer}>
               <Button
@@ -312,17 +259,17 @@ const UpdateProfile = () => {
                 variant="outlined"
                 onClick={updateCustomer}
               >
-                SAVE
+                SUBMIT
+              </Button>
+              <Button
+                href="/profile"
+                className={classes.boxBtn}
+                variant="outlined"
+                // onClick={updateCustomer}
+              >
+                PROFILE
               </Button>
             </div>
-            {/* <div className={classes.linkContainer}>
-              <Link className={classes.forgot} href="#/login">
-                LOGIN
-            </Link>
-              <Link className={classes.forgot} href="#/home">
-                Home
-            </Link>
-            </div> */}
           </div>
           <div className={classes.sentEmailText}>{registrationResponse}</div>
         </form>

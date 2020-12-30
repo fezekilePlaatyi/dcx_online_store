@@ -16,6 +16,7 @@ import Contact from "./pages/contactPage/contactPage";
 import About from "./pages/aboutUsPage/aboutUsPage";
 import CheckOut from "./pages/checkOutPage/checkOutPage";
 import ChangePassword from "./pages/profilePage/changePassword";
+import UpdateProfile from "./pages/profilePage/updateProfile";
 
 function onAuthStateChange(
   setLoading: any,
@@ -110,6 +111,12 @@ const App = () => {
           exact
           path="/changePassword"
           component={ChangePassword}
+          authenticated={authenticated}
+        />
+        <PrivateRoute
+          exact
+          path="/updateProfile"
+          component={UpdateProfile}
           authenticated={authenticated}
         />
         <Route exact path="/login" component={LogIn} />
