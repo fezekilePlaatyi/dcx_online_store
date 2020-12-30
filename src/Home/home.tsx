@@ -28,6 +28,7 @@ import {
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
+    width: '40%',
   },
   textField: {
     margin: theme.spacing(1),
@@ -68,6 +69,9 @@ const useStyles = makeStyles((theme) => ({
   expand: {
     transform: "rotate(0deg)",
     marginLeft: "auto",
+    backgroundColor: backgroundContrast,
+    borderColor: primaryColor,
+    color: primaryColor,
     transition: theme.transitions.create("transform", {
       duration: theme.transitions.duration.shortest,
     }),
@@ -136,6 +140,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     alignItems: "center",
     fontSize: 18,
+  },
+  cardDetails:{
+    fontSize: 14,
   },
   productListCardsContainer: {},
   hidden: {
@@ -294,34 +301,37 @@ function Home({ activityStatus }: any) {
           <CardMedia
             className={classes.media}
             image={img}
-            title="plcae holder"
+            title="Image"
           />
           <CardContent>
-            <Typography variant="body2" color="textSecondary" component="h3">
-              <b>Name: {element.name}</b>
+            <Typography  className={classes.cardDetails} variant="body2" color="textSecondary" component="h3">
+             {element.name}
             </Typography>
             <br></br>
-            <Typography variant="body2" color="textSecondary" component="h3">
-              <b>Price: R {element.price}</b>
+            <Typography className={classes.cardDetails} variant="body2" color="textSecondary" component="h3">
+              Price: R {element.price}
             </Typography>{" "}
           </CardContent>
           <CardActions disableSpacing>
-            <IconButton aria-label="add to favorites">
+            {/* <IconButton aria-label="add to favorites">
               <FavoriteIcon />
             </IconButton>
             <IconButton aria-label="share">
               <ShareIcon />
-            </IconButton>
-            <IconButton
+            </IconButton> */}
+            {/* <div>Details</div> */}
+
+            <Button variant='outlined'
               className={clsx(classes.expand, {
                 [classes.expandOpen]: productDetailsBox,
               })}
               onClick={() => handleExpandClick(element.id)}
               aria-expanded={productDetailsBox}
-              aria-label="show more"
-            >
+              aria-label="Show more"
+            > Details
               <ExpandMoreIcon />
-            </IconButton>
+            </Button>
+
           </CardActions>
         </Card>
       );
@@ -350,7 +360,7 @@ function Home({ activityStatus }: any) {
               <CardMedia
                 className={classes.cover}
                 image={img}
-                title="plcae holder"
+                title="Image"
               />
               <div className={classes.details}>
                 <CardContent className={classes.content}>
