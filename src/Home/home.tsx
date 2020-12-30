@@ -132,8 +132,6 @@ const useStyles = makeStyles((theme) => ({
 function Home({ activityStatus }: any) {
   const classes = useStyles();
 
-  console.log("ACTIVITY STATUS:", activityStatus)
-
   var defaultProduct: any = {
     id: "",
     name: "",
@@ -149,11 +147,9 @@ function Home({ activityStatus }: any) {
   const [productDetails, setProductDetails] = React.useState<any>(
     defaultProduct
   );
-  const [notificationMessage, setNotificationMessage] = useState("");
-  const [productTypeToDisplay, setProductListCategory] = useState("all");
-  // let productList: any = [];
-  const [productList, setProductList] = React.useState<any>([]);
-  //   const [orderHistory, setOrderHistory] = React.useState([]);
+  const [notificationMessage, setNotificationMessage] = useState("")
+  const [productTypeToDisplay, setProductListCategory] = useState("all")
+  const [productList, setProductList] = React.useState<any>([])
 
   const handleExpandClick = (productId: any) => {
     if (productId != "back") {
@@ -412,31 +408,23 @@ function Home({ activityStatus }: any) {
             </div>
             <div className={classes.productList}>{productList}</div>
           </div>
-          {/* <h2
-              onClick={() => proceedToPay()}
-              style={{
-                display: productsOnBasketList.length == 0 ? "none" : "block",
-              }}
-            >
-              PAY
-            </h2>
-            
-            <div>
-              <h2>History </h2>
-              {orderHistory.join(",").toString()}
-            </div> */}
         </Paper>
       </div>
     );
   };
 
   const [navigationOnHome, setSavigationOnHome] = useState("main");
+
   const handleNavigationClick = (nameOfComponent: any) => {
     console.log("navigating click handler..");
+    if (nameOfComponent == "main" && productDetailsBox == true) {
+      displayProductDetailsBox(false)
+    }
     setSavigationOnHome(nameOfComponent);
   };
 
   const handleNavigationOnHome = (nameOfComponent: any) => {
+
     switch (nameOfComponent) {
       case "main":
         return <Main />;
@@ -446,6 +434,7 @@ function Home({ activityStatus }: any) {
             productsOnBasket={productsOnBasket}
             addProductToBasket={addProductToBasket}
             handleNavigationOnHome={handleNavigationOnHome}
+            handleNavigationClick={handleNavigationClick}
           />
         );
     }

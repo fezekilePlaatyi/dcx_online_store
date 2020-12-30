@@ -134,7 +134,6 @@ var useStyles = styles_1.makeStyles(function (theme) { return ({
 function Home(_a) {
     var activityStatus = _a.activityStatus;
     var classes = useStyles();
-    console.log("ACTIVITY STATUS:", activityStatus);
     var defaultProduct = {
         id: "",
         name: "",
@@ -149,9 +148,7 @@ function Home(_a) {
     var _d = react_1["default"].useState(defaultProduct), productDetails = _d[0], setProductDetails = _d[1];
     var _e = react_1.useState(""), notificationMessage = _e[0], setNotificationMessage = _e[1];
     var _f = react_1.useState("all"), productTypeToDisplay = _f[0], setProductListCategory = _f[1];
-    // let productList: any = [];
     var _g = react_1["default"].useState([]), productList = _g[0], setProductList = _g[1];
-    //   const [orderHistory, setOrderHistory] = React.useState([]);
     var handleExpandClick = function (productId) {
         if (productId != "back") {
             var product = products.find(function (item) { return item.id == productId; });
@@ -346,6 +343,9 @@ function Home(_a) {
     var _h = react_1.useState("main"), navigationOnHome = _h[0], setSavigationOnHome = _h[1];
     var handleNavigationClick = function (nameOfComponent) {
         console.log("navigating click handler..");
+        if (nameOfComponent == "main" && productDetailsBox == true) {
+            displayProductDetailsBox(false);
+        }
         setSavigationOnHome(nameOfComponent);
     };
     var handleNavigationOnHome = function (nameOfComponent) {
@@ -353,7 +353,7 @@ function Home(_a) {
             case "main":
                 return react_1["default"].createElement(Main, null);
             case "basket":
-                return (react_1["default"].createElement(Basket_1["default"], { productsOnBasket: productsOnBasket, addProductToBasket: addProductToBasket, handleNavigationOnHome: handleNavigationOnHome }));
+                return (react_1["default"].createElement(Basket_1["default"], { productsOnBasket: productsOnBasket, addProductToBasket: addProductToBasket, handleNavigationOnHome: handleNavigationOnHome, handleNavigationClick: handleNavigationClick }));
         }
     };
     return react_1["default"].createElement("div", null, handleNavigationOnHome(navigationOnHome));

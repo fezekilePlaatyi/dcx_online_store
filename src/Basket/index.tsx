@@ -188,6 +188,7 @@ const Basket = (props: any) => {
   let productsOnBasket = props.productsOnBasket;
   let addProductToBasket = props.addProductToBasket;
   let handleNavigationOnHome = props.handleNavigationOnHome;
+  let handleNavigationClick = props.handleNavigationClick
 
   let productsOnBasketList: any = [];
 
@@ -241,14 +242,21 @@ const Basket = (props: any) => {
   );
 
   function test() {
-    // handleNavigationOnHome("main");
-    alert("Hello")
+    handleNavigationClick("main")
+    handleNavigationOnHome("main");
   }
 
   return (
     <div>
       <Paper className={classes.paper}>
-        <h2 onClick={() => test()}>BASKET </h2>
+
+        <h2>
+          <IconButton
+            onClick={() => test()}>
+            <ChevronLeft /> back
+          </IconButton>
+          BASKET
+        </h2>
         <div className={classes.paperContetnt}>
           <TableContainer component={Paper} className={classes.tableDiv}>
             <Table aria-label="simple table">

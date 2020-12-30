@@ -13,6 +13,8 @@ var __assign = (this && this.__assign) || function () {
 exports.__esModule = true;
 var react_1 = require("react");
 var styles_1 = require("@material-ui/core/styles");
+var icons_1 = require("@material-ui/icons/");
+var IconButton_1 = require("@material-ui/core/IconButton");
 var colors_1 = require("@material-ui/core/colors");
 var Delete_1 = require("@material-ui/icons/Delete");
 var core_1 = require("@material-ui/core");
@@ -172,6 +174,7 @@ var Basket = function (props) {
     var productsOnBasket = props.productsOnBasket;
     var addProductToBasket = props.addProductToBasket;
     var handleNavigationOnHome = props.handleNavigationOnHome;
+    var handleNavigationClick = props.handleNavigationClick;
     var productsOnBasketList = [];
     //let totalPrice = element.price * qty;
     productsOnBasket.map(function (obj) { return (__assign(__assign({}, obj), { quantity: "1" })); });
@@ -196,12 +199,16 @@ var Basket = function (props) {
                 react_1["default"].createElement(Delete_1["default"], { className: classes.deleteIcon, onClick: function () { return handleDeleteProductFromBasket(element.id); } }))));
     });
     function test() {
-        // handleNavigationOnHome("main");
-        alert("Hello");
+        handleNavigationClick("main");
+        handleNavigationOnHome("main");
     }
     return (react_1["default"].createElement("div", null,
         react_1["default"].createElement(core_1.Paper, { className: classes.paper },
-            react_1["default"].createElement("h2", { onClick: function () { return test(); } }, "BASKET "),
+            react_1["default"].createElement("h2", null,
+                react_1["default"].createElement(IconButton_1["default"], { onClick: function () { return test(); } },
+                    react_1["default"].createElement(icons_1.ChevronLeft, null),
+                    " back"),
+                "BASKET"),
             react_1["default"].createElement("div", { className: classes.paperContetnt },
                 react_1["default"].createElement(TableContainer_1["default"], { component: core_1.Paper, className: classes.tableDiv },
                     react_1["default"].createElement(Table_1["default"], { "aria-label": "simple table" },
