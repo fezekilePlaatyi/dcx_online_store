@@ -46,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderColor: primaryColor,
       color: primaryColor,
       marginRight: 10,
-      width: "30%",
+      width: "25%",
     },
     boxWrapper: {
       margin: 10,
@@ -122,7 +122,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Profile = () => {
+const UpdateProfile = () => {
   const classes = useStyles();
 
   const [firstName, setFirstName] = useState("");
@@ -312,15 +312,7 @@ const Profile = () => {
                 variant="outlined"
                 onClick={updateCustomer}
               >
-                UPDATE PROFILE
-              </Button>
-              <Button
-              href='/changePassword'
-                className={classes.boxBtn}
-                variant="outlined"
-               // onClick={updateCustomer}
-              >
-                CHANGE PASWWORD
+                SAVE
               </Button>
             </div>
             {/* <div className={classes.linkContainer}>
@@ -340,4 +332,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default UpdateProfile;
