@@ -19,7 +19,6 @@ import {
   // Typography,
   //Typography,
 } from "@material-ui/core";
-import CustomerService from '../../services/customer-service'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,7 +46,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderColor: primaryColor,
       color: primaryColor,
       marginRight: 10,
-      width: "30%",
+      width: "25%",
     },
     boxWrapper: {
       margin: 10,
@@ -123,7 +122,7 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const Profile = () => {
+const UpdateProfile = () => {
   const classes = useStyles();
 
   const [firstName, setFirstName] = useState("");
@@ -145,32 +144,11 @@ const Profile = () => {
     //       `* Click on link sent to email ${email}, to verify your email address and login.`
     //     );
     // })
-    // .catch((error: any) => {
-    //   console.log(error);
-    //   alert(error.message.toString());
-    // });
+      // .catch((error: any) => {
+      //   console.log(error);
+      //   alert(error.message.toString());
+      // });
   };
-
-
-
-  let customerService = new CustomerService()
-
-
-  // customerService.sendPasswordResetEmail().then(function () {
-  //   alert("Email sent.")
-  // }).catch(function (error: any) {
-  //   alert("Error occured")
-  //   console.log(error)
-  // });
-
-  customerService.getUserDetails().then((data: any) => {
-    console.log("Data")
-    console.log(data.data())
-  })
-    .catch((error: any) => {
-      alert("Error getting your profile details.")
-      console.log(error)
-    })
 
   return (
     <div className={classes.mainContainer}>
@@ -334,15 +312,7 @@ const Profile = () => {
                 variant="outlined"
                 onClick={updateCustomer}
               >
-                UPDATE PROFILE
-              </Button>
-              <Button
-              href='/changePassword'
-                className={classes.boxBtn}
-                variant="outlined"
-               // onClick={updateCustomer}
-              >
-                CHANGE PASWWORD
+                SAVE
               </Button>
             </div>
             {/* <div className={classes.linkContainer}>
@@ -362,4 +332,4 @@ const Profile = () => {
   );
 };
 
-export default Profile;
+export default UpdateProfile;
