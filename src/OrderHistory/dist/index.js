@@ -39,7 +39,6 @@ exports.__esModule = true;
 var react_1 = require("react");
 var styles_1 = require("@material-ui/core/styles");
 var colors_1 = require("@material-ui/core/colors");
-var Accordion_1 = require("react-bootstrap/Accordion");
 var theme_config_1 = require("../themes/theme-config");
 var react_router_dom_1 = require("react-router-dom");
 var invoice_service_1 = require("../services/invoice-service");
@@ -169,6 +168,6 @@ var OrderHistory = function () {
             "Order History(",
             invoices.length,
             ")"),
-        react_1["default"].createElement(Accordion_1["default"], { style: { color: "black" }, defaultActiveKey: "0" }, invoices)));
+        react_1["default"].createElement("div", { style: { color: "black" } }, invoices)));
 };
 exports["default"] = OrderHistory;

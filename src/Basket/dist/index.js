@@ -198,14 +198,14 @@ var Basket = function (props) {
             react_1["default"].createElement(TableCell_1["default"], null,
                 react_1["default"].createElement(Delete_1["default"], { className: classes.deleteIcon, onClick: function () { return handleDeleteProductFromBasket(element.id); } }))));
     });
-    function test() {
+    function handleNavigateBackToHomePage() {
         handleNavigationClick("main");
         handleNavigationOnHome("main");
     }
     return (react_1["default"].createElement("div", null,
         react_1["default"].createElement(core_1.Paper, { className: classes.paper },
             react_1["default"].createElement("h2", null,
-                react_1["default"].createElement(IconButton_1["default"], { onClick: function () { return test(); } },
+                react_1["default"].createElement(IconButton_1["default"], { onClick: function () { return handleNavigateBackToHomePage(); } },
                     react_1["default"].createElement(icons_1.ChevronLeft, null),
                     " back"),
                 "BASKET"),

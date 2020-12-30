@@ -16,10 +16,6 @@ import ShareIcon from "@material-ui/icons/Share";
 import Delete from "@material-ui/icons/Delete";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import img from "../assets/gold.jpg";
-import Accordion from 'react-bootstrap/Accordion'
-import Card from 'react-bootstrap/Card'
-import { useAccordionToggle } from 'react-bootstrap/AccordionToggle';
-// const decoratedOnClick = useAccordionToggle(eventKey, onClick);
 import moment from "moment";
 import {
     Link,
@@ -161,9 +157,9 @@ const OrderHistory = () => {
     return (
         <div>
             <h2 style={{ color: "black" }}>Order History({invoices.length})</h2>
-            <Accordion style={{ color: "black" }} defaultActiveKey="0">
+            <div style={{ color: "black" }}>
                 {invoices}
-            </Accordion>
+            </div>
         </div>
     );
 }

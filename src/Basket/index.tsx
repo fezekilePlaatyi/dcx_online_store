@@ -241,7 +241,7 @@ const Basket = (props: any) => {
     }
   );
 
-  function test() {
+  function handleNavigateBackToHomePage() {
     handleNavigationClick("main")
     handleNavigationOnHome("main");
   }
@@ -252,7 +252,7 @@ const Basket = (props: any) => {
 
         <h2>
           <IconButton
-            onClick={() => test()}>
+            onClick={() => handleNavigateBackToHomePage()}>
             <ChevronLeft /> back
           </IconButton>
           BASKET
@@ -293,21 +293,6 @@ const Basket = (props: any) => {
             </Paper>
           </div>
         </div>
-
-        {/* <div className="table table-striped">
-        <thead>
-          <tr>
-            <th >Name</th>
-            <th>Description</th>
-            <th>Price(R)</th>
-            <th>Quantity</th>
-            <th>Delete</th>
-          </tr>
-        </thead>
-        <tbody className={classes.tableCell}>
-       
-        </tbody>
-      </div> */}
       </Paper>
     </div>
   );
