@@ -39,12 +39,14 @@ exports.__esModule = true;
 var react_1 = require("react");
 var styles_1 = require("@material-ui/core/styles");
 var colors_1 = require("@material-ui/core/colors");
+var AccordionToggle_1 = require("react-bootstrap/AccordionToggle");
 var theme_config_1 = require("../themes/theme-config");
 var react_router_dom_1 = require("react-router-dom");
 var invoice_service_1 = require("../services/invoice-service");
 var useStyles = styles_1.makeStyles(function (theme) { return ({
     root: {
-        maxWidth: 345
+        maxWidth: 345,
+        color: "black"
     },
     textField: {
         margin: theme.spacing(1),
@@ -118,6 +120,14 @@ var OrderHistory = function () {
     var classes = useStyles();
     var history = react_router_dom_1.useHistory();
     var _a = react_1["default"].useState([]), orderHistory = _a[0], setOrderHistory = _a[1];
+    function CustomToggle(_a) {
+        var children = _a.children, eventKey = _a.eventKey;
+        var decoratedOnClick = AccordionToggle_1.useAccordionToggle(eventKey, function () {
+            return console.log('totally custom!');
+        });
+        return (react_1["default"].createElement("button", { type: "button", onClick: decoratedOnClick }, children));
+    }
+    var _b = react_1.useState([]), invoicesData = _b[0], setInvoiceData = _b[1];
     var displayOrderHistory = function () { return __awaiter(void 0, void 0, void 0, function () {
         var invoiceInstance;
         return __generator(this, function (_a) {
@@ -126,18 +136,10 @@ var OrderHistory = function () {
                     invoiceInstance = new invoice_service_1["default"]();
                     return [4 /*yield*/, invoiceInstance.getInvoicesByUserId()
                             .then(function (data) {
-                            var invoicesData = [];
-                            data.docs.forEach(function (item) {
-                                // invoicesData.push();
-                                for (var property in item.Document) {
-                                    console.log("" + item[property]);
-                                }
-                                // item.forEach((itemm: any) => {
-                                //     console.log(itemm)
-                                // })
+                            data.forEach(function (doc) {
+                                invoicesData.push(doc.data());
                             });
-                            // console.log(invoicesData)
-                            // setOrderHistory(invoicesData)
+                            setOrderHistory(invoicesData);
                         })["catch"](function (error) {
                             alert(error.toString());
                         })];
@@ -148,8 +150,33 @@ var OrderHistory = function () {
         });
     }); };
     displayOrderHistory();
+    var invoices = [];
+    invoicesData.forEach(addInvoiceToAccordingList);
+    function addInvoiceToAccordingList(element, index, array) {
+        for (var _i = 0, _a = Object.entries(element); _i < _a.length; _i++) {
+            var _b = _a[_i], key = _b[0], value = _b[1];
+            var invoice = value;
+            invoices.push(react_1["default"].createElement("div", { className: "panel panel-default" },
+                react_1["default"].createElement("div", { className: "panel-heading" },
+                    react_1["default"].createElement("h4", { className: "panel-title" },
+                        react_1["default"].createElement("a", { "data-toggle": "collapse", "data-parent": "#accordion", href: "#collapse1" }, invoice[0].name))),
+                react_1["default"].createElement("div", { id: "collapse1", className: "panel-collapse collapse in" },
+                    react_1["default"].createElement("div", { className: "panel-body" },
+                        react_1["default"].createElement("p", null,
+                            react_1["default"].createElement("b", null, "Description:"),
+                            " ",
+                            invoice[0].description),
+                        react_1["default"].createElement("p", null,
+                            react_1["default"].createElement("b", null, "Price:"),
+                            " ",
+                            invoice[0].price)))));
+        }
+    }
     return (react_1["default"].createElement("div", null,
-        react_1["default"].createElement("h2", null, "Order History"),
-        orderHistory));
+        react_1["default"].createElement("h2", { style: { color: "black" } },
+            "Order History(",
+            invoices.length,
+            ")"),
+        react_1["default"].createElement("div", { style: { color: "black" } }, invoices)));
 };
 exports["default"] = OrderHistory;

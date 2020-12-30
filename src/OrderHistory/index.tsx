@@ -6,7 +6,6 @@ import {
     ChevronLeft,
     ShoppingCart,
 } from "@material-ui/icons/";
-import Card from "@material-ui/core/Card";
 import CardMedia from "@material-ui/core/CardMedia";
 import CardContent from "@material-ui/core/CardContent";
 import CardActions from "@material-ui/core/CardActions";
@@ -17,6 +16,10 @@ import ShareIcon from "@material-ui/icons/Share";
 import Delete from "@material-ui/icons/Delete";
 import ExpandMoreIcon from "@material-ui/icons/ExpandMore";
 import img from "../assets/gold.jpg";
+import Accordion from 'react-bootstrap/Accordion'
+import Card from 'react-bootstrap/Card'
+import { useAccordionToggle } from 'react-bootstrap/AccordionToggle';
+// const decoratedOnClick = useAccordionToggle(eventKey, onClick);
 import moment from "moment";
 import {
     Link,
@@ -33,6 +36,7 @@ import InvoiceService from '../services/invoice-service'
 const useStyles = makeStyles((theme) => ({
     root: {
         maxWidth: 345,
+        color: "black",
     },
     textField: {
         margin: theme.spacing(1),
@@ -109,25 +113,35 @@ const OrderHistory = () => {
 
     const classes = useStyles();
     const history = useHistory();
-    const [orderHistory, setOrderHistory] = React.useState([]);
+    const [orderHistory, setOrderHistory] = React.useState<any>([]);
 
+    function CustomToggle({ children, eventKey }: any) {
+        const decoratedOnClick = useAccordionToggle(eventKey, () =>
+            console.log('totally custom!'),
+        );
+
+        return (
+            <button
+                type="button"
+                onClick={decoratedOnClick}
+            >
+                {children}
+            </button>
+        );
+    }
+
+    const [invoicesData, setInvoiceData] = useState<any>([]);
     const displayOrderHistory = async () => {
         let invoiceInstance = new InvoiceService()
         await invoiceInstance.getInvoicesByUserId()
             .then((data) => {
-                var invoicesData: any = [];
-                data.docs.forEach((item: any) => {
-                    // invoicesData.push();
 
-                    for (const property in item.Document) {
-                        console.log(`${item[property]}`);
-                    }
-                    // item.forEach((itemm: any) => {
-                    //     console.log(itemm)
-                    // })
+
+                data.forEach((doc: any) => {
+                    invoicesData.push(doc.data());
                 });
-                // console.log(invoicesData)
-                // setOrderHistory(invoicesData)
+                setOrderHistory(invoicesData)
+
             })
             .catch((error) => {
                 alert(error.toString());
@@ -136,10 +150,39 @@ const OrderHistory = () => {
 
     displayOrderHistory()
 
+    let invoices: any = []
+
+    invoicesData.forEach(addInvoiceToAccordingList)
+
+    function addInvoiceToAccordingList(element: any, index: any, array: any) {
+        for (const [key, value] of Object.entries(element)) {
+            var invoice: any = value
+            invoices.push(
+                <div className="panel panel-default">
+                    <div className="panel-heading">
+                        <h4 className="panel-title">
+                            <a data-toggle="collapse" data-parent="#accordion" href="#collapse1">
+                                {invoice[0].name}</a>
+                        </h4>
+                    </div>
+                    <div id="collapse1" className="panel-collapse collapse in">
+                        <div className="panel-body">
+                            <p><b>Description:</b> {invoice[0].description}</p>
+                            <p><b>Price:</b> {invoice[0].price}</p>
+                        </div>
+                    </div>
+                </div >
+
+            )
+        }
+    }
+
     return (
         <div>
-            <h2>Order History</h2>
-            {orderHistory}
+            <h2 style={{ color: "black" }}>Order History({invoices.length})</h2>
+            <div style={{ color: "black" }}>
+                {invoices}
+            </div>
         </div>
     );
 }
