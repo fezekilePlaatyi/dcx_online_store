@@ -28,7 +28,7 @@ import {
 const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
-    width: '40%',
+    width: "40%",
   },
   textField: {
     margin: theme.spacing(1),
@@ -50,7 +50,7 @@ const useStyles = makeStyles((theme) => ({
     flex: "1 0 auto",
   },
   cover: {
-    width: 151,
+    width: "25%",
   },
   controls: {
     display: "flex",
@@ -107,6 +107,28 @@ const useStyles = makeStyles((theme) => ({
     color: primaryColor,
     width: "30%",
   },
+  boxBtnAddMain: {
+    //float: "left",
+    backgroundColor: backgroundContrast,
+    borderColor: primaryColor,
+    color: primaryColor,
+    // width: "20%",
+    // marginTop: 20,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
+  boxBtnAdd: {
+    //float: "left",
+    backgroundColor: backgroundContrast,
+    borderColor: primaryColor,
+    color: primaryText,
+    // width: "20%",
+    // marginTop: 20,
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   shopCategory: {
     display: "flex",
     flexDirection: "column",
@@ -141,8 +163,19 @@ const useStyles = makeStyles((theme) => ({
     alignItems: "center",
     fontSize: 18,
   },
-  cardDetails:{
+  cardDetails: {
     fontSize: 14,
+  },
+  contentDetailsName: {
+    marginBottom: 15,
+  },
+  contentDetails: {
+    marginBottom: 10,
+    fontSize: 14,
+  },
+  divider: {
+    marginRight: 15,
+    marginLeft: 15,
   },
   productListCardsContainer: {},
   hidden: {
@@ -298,17 +331,23 @@ function Home({ activityStatus }: any) {
     updateProductByCategory.forEach((element: any) => {
       productList.push(
         <Card className={classes.root} style={{ marginRight: 30 }}>
-          <CardMedia
-            className={classes.media}
-            image={img}
-            title="Image"
-          />
+          <CardMedia className={classes.media} image={img} title="Image" />
           <CardContent>
-            <Typography  className={classes.cardDetails} variant="body2" color="textSecondary" component="h3">
-             {element.name}
+            <Typography
+              className={classes.cardDetails}
+              variant="body2"
+              color="textSecondary"
+              component="h3"
+            >
+              {element.name}
             </Typography>
             <br></br>
-            <Typography className={classes.cardDetails} variant="body2" color="textSecondary" component="h3">
+            <Typography
+              className={classes.cardDetails}
+              variant="body2"
+              color="textSecondary"
+              component="h3"
+            >
               Price: R {element.price}
             </Typography>{" "}
           </CardContent>
@@ -321,17 +360,19 @@ function Home({ activityStatus }: any) {
             </IconButton> */}
             {/* <div>Details</div> */}
 
-            <Button variant='outlined'
+            <Button
+              variant="outlined"
               className={clsx(classes.expand, {
                 [classes.expandOpen]: productDetailsBox,
               })}
               onClick={() => handleExpandClick(element.id)}
               aria-expanded={productDetailsBox}
               aria-label="Show more"
-            > Details
+            >
+              {" "}
+              Details
               <ExpandMoreIcon />
             </Button>
-
           </CardActions>
         </Card>
       );
@@ -357,32 +398,41 @@ function Home({ activityStatus }: any) {
               <ChevronLeft /> back
             </IconButton>
             <Card className={classes.productDisplayRoot}>
-              <CardMedia
-                className={classes.cover}
-                image={img}
-                title="Image"
-              />
+              <CardMedia className={classes.cover} image={img} title="Image" />
               <div className={classes.details}>
                 <CardContent className={classes.content}>
-                  <Typography component="h5" variant="h5">
+                  <Typography
+                    className={classes.contentDetailsName}
+                    component="h5"
+                    variant="h5"
+                  >
                     <b> Name: </b> {productDetails.name}
                   </Typography>
-                  <Typography variant="subtitle1" color="textSecondary">
+                  <Typography
+                    className={classes.contentDetails}
+                    variant="subtitle1"
+                    color="textSecondary"
+                  >
                     <b>Price:</b> R {productDetails.price}
                   </Typography>
                   <div>
-                    <Typography component="p">
+                    <Typography
+                      className={classes.contentDetails}
+                      component="p"
+                    >
                       <b>Details:</b> {productDetails.description}
                     </Typography>
 
                     <Button
+                      variant="outlined"
+                      className={classes.boxBtnAddMain}
                       onClick={() =>
                         handleAddingProductToBasket(productDetails)
                       }
                       style={{
                         display: checkIfAlreadyAddedOnBasket(productDetails)
                           ? "none"
-                          : "block",
+                          : "flex",
                       }}
                     >
                       + Add <ShoppingCart />
@@ -392,12 +442,19 @@ function Home({ activityStatus }: any) {
                       component="p"
                       style={{
                         display: checkIfAlreadyAddedOnBasket(productDetails)
-                          ? "block"
+                          ? "flex"
                           : "none",
+                        color: primaryText,
+                        alignItems: "center",
+                        fontSize: 14,
                       }}
                     >
-                      Added <ShoppingCart /> |{" "}
-                      <Button onClick={() => handleNavigationClick("basket")}>
+                      Added <ShoppingCart />{" "}
+                      <div className={classes.divider}>|</div>
+                      <Button
+                        className={classes.boxBtnAdd}
+                        onClick={() => handleNavigationClick("basket")}
+                      >
                         View Basket
                       </Button>
                     </Typography>
