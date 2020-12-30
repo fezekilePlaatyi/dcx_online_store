@@ -156,7 +156,7 @@ const useStyles = makeStyles((theme) => ({
     marginRight: 10,
     fontSize: 14,
   },
-  tableCells:{
+  tableCells: {
     fontSize: 14,
   },
   productListCardsContainer: {},
@@ -241,7 +241,8 @@ const Basket = (props: any) => {
   );
 
   function test() {
-    handleNavigationOnHome("main");
+    // handleNavigationOnHome("main");
+    alert("Hello")
   }
 
   return (

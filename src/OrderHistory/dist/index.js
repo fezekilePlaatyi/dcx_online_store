@@ -128,10 +128,16 @@ var OrderHistory = function () {
                             .then(function (data) {
                             var invoicesData = [];
                             data.docs.forEach(function (item) {
-                                // invoicesData.push(item.data());
+                                // invoicesData.push();
+                                for (var property in item.Document) {
+                                    console.log("" + item[property]);
+                                }
+                                // item.forEach((itemm: any) => {
+                                //     console.log(itemm)
+                                // })
                             });
-                            console.log(invoicesData);
-                            // setOrderHistory(invoicesData);
+                            // console.log(invoicesData)
+                            // setOrderHistory(invoicesData)
                         })["catch"](function (error) {
                             alert(error.toString());
                         })];
@@ -141,7 +147,7 @@ var OrderHistory = function () {
             }
         });
     }); };
-    // displayOrderHistory()
+    displayOrderHistory();
     return (react_1["default"].createElement("div", null,
         react_1["default"].createElement("h2", null, "Order History"),
         orderHistory));

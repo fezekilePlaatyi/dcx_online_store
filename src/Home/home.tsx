@@ -150,6 +150,9 @@ function Home({ activityStatus }: any) {
     defaultProduct
   );
   const [notificationMessage, setNotificationMessage] = useState("");
+  const [productTypeToDisplay, setProductListCategory] = useState("all");
+  // let productList: any = [];
+  const [productList, setProductList] = React.useState<any>([]);
   //   const [orderHistory, setOrderHistory] = React.useState([]);
 
   const handleExpandClick = (productId: any) => {
@@ -189,6 +192,11 @@ function Home({ activityStatus }: any) {
 
     return found;
   };
+
+  const updateProductListCategory = (productType: string) => {
+    setProductListCategory(productType)
+  }
+
 
   const goToBasketIfNotEmpty = () => {
     if (productsOnBasket.length > 0) handleNavigationClick("basket");
@@ -247,42 +255,57 @@ function Home({ activityStatus }: any) {
     },
   ];
 
-  let productList: any = [];
+  const displayProductList = (productType: string) => {
+    let updateProductByCategory: any = []
+    productList.splice(0, productList.length);
+    if (productType == 'all') {
+      updateUIOnProductCatergoryChange(products)
+    } else {
+      updateProductByCategory = products.filter(function (element) {
+        return element.type == productType;
+      })
+      updateUIOnProductCatergoryChange(updateProductByCategory)
+    }
+  }
 
-  products.forEach((element) => {
-    productList.push(
-      <Card className={classes.root} style={{ marginRight: 30 }}>
-        <CardMedia className={classes.media} image={img} title="plcae holder" />
-        <CardContent>
-          <Typography variant="body2" color="textSecondary" component="h3">
-            <b>Name: {element.name}</b>
-          </Typography>
-          <br></br>
-          <Typography variant="body2" color="textSecondary" component="h3">
-            <b>Price: R {element.price}</b>
-          </Typography>{" "}
-        </CardContent>
-        <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites">
-            <FavoriteIcon />
-          </IconButton>
-          <IconButton aria-label="share">
-            <ShareIcon />
-          </IconButton>
-          <IconButton
-            className={clsx(classes.expand, {
-              [classes.expandOpen]: productDetailsBox,
-            })}
-            onClick={() => handleExpandClick(element.id)}
-            aria-expanded={productDetailsBox}
-            aria-label="show more"
-          >
-            <ExpandMoreIcon />
-          </IconButton>
-        </CardActions>
-      </Card>
-    );
-  });
+  const updateUIOnProductCatergoryChange = (updateProductByCategory: any) => {
+    updateProductByCategory.forEach((element: any) => {
+      productList.push(
+        <Card className={classes.root} style={{ marginRight: 30 }}>
+          <CardMedia className={classes.media} image={img} title="plcae holder" />
+          <CardContent>
+            <Typography variant="body2" color="textSecondary" component="h3">
+              <b>Name: {element.name}</b>
+            </Typography>
+            <br></br>
+            <Typography variant="body2" color="textSecondary" component="h3">
+              <b>Price: R {element.price}</b>
+            </Typography>{" "}
+          </CardContent>
+          <CardActions disableSpacing>
+            <IconButton aria-label="add to favorites">
+              <FavoriteIcon />
+            </IconButton>
+            <IconButton aria-label="share">
+              <ShareIcon />
+            </IconButton>
+            <IconButton
+              className={clsx(classes.expand, {
+                [classes.expandOpen]: productDetailsBox,
+              })}
+              onClick={() => handleExpandClick(element.id)}
+              aria-expanded={productDetailsBox}
+              aria-label="show more"
+            >
+              <ExpandMoreIcon />
+            </IconButton>
+          </CardActions>
+        </Card>
+      )
+    });
+  }
+
+  displayProductList(productTypeToDisplay)
 
   const Main = () => {
     return (
@@ -367,21 +390,21 @@ function Home({ activityStatus }: any) {
                 <Button
                   className={classes.boxBtn}
                   variant="outlined"
-                // onClick={(event) => handleSignUp(event)}
+                  onClick={(evet) => updateProductListCategory('gold')}
                 >
                   GOLD
                 </Button>
                 <Button
                   className={classes.boxBtn}
                   variant="outlined"
-                // onClick={(event) => handleSignUp(event)}
+                  onClick={(event) => updateProductListCategory('silver')}
                 >
                   SILVER
                 </Button>
                 <Button
                   className={classes.boxBtn}
                   variant="outlined"
-                // onClick={(event) => handleSignUp(event)}
+                  onClick={(event) => updateProductListCategory('all')}
                 >
                   ALL
                 </Button>

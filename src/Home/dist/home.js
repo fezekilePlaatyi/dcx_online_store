@@ -148,6 +148,9 @@ function Home(_a) {
     var _c = react_1["default"].useState(false), productDetailsBox = _c[0], displayProductDetailsBox = _c[1];
     var _d = react_1["default"].useState(defaultProduct), productDetails = _d[0], setProductDetails = _d[1];
     var _e = react_1.useState(""), notificationMessage = _e[0], setNotificationMessage = _e[1];
+    var _f = react_1.useState("all"), productTypeToDisplay = _f[0], setProductListCategory = _f[1];
+    // let productList: any = [];
+    var _g = react_1["default"].useState([]), productList = _g[0], setProductList = _g[1];
     //   const [orderHistory, setOrderHistory] = React.useState([]);
     var handleExpandClick = function (productId) {
         if (productId != "back") {
@@ -180,6 +183,9 @@ function Home(_a) {
             ? false
             : true;
         return found;
+    };
+    var updateProductListCategory = function (productType) {
+        setProductListCategory(productType);
     };
     var goToBasketIfNotEmpty = function () {
         if (productsOnBasket.length > 0)
@@ -237,32 +243,47 @@ function Home(_a) {
             price: 1000
         },
     ];
-    var productList = [];
-    products.forEach(function (element) {
-        var _a;
-        productList.push(react_1["default"].createElement(Card_1["default"], { className: classes.root, style: { marginRight: 30 } },
-            react_1["default"].createElement(CardMedia_1["default"], { className: classes.media, image: gold_jpg_1["default"], title: "plcae holder" }),
-            react_1["default"].createElement(CardContent_1["default"], null,
-                react_1["default"].createElement(Typography_1["default"], { variant: "body2", color: "textSecondary", component: "h3" },
-                    react_1["default"].createElement("b", null,
-                        "Name: ",
-                        element.name)),
-                react_1["default"].createElement("br", null),
-                react_1["default"].createElement(Typography_1["default"], { variant: "body2", color: "textSecondary", component: "h3" },
-                    react_1["default"].createElement("b", null,
-                        "Price: R ",
-                        element.price)),
-                " "),
-            react_1["default"].createElement(CardActions_1["default"], { disableSpacing: true },
-                react_1["default"].createElement(IconButton_1["default"], { "aria-label": "add to favorites" },
-                    react_1["default"].createElement(Favorite_1["default"], null)),
-                react_1["default"].createElement(IconButton_1["default"], { "aria-label": "share" },
-                    react_1["default"].createElement(Share_1["default"], null)),
-                react_1["default"].createElement(IconButton_1["default"], { className: clsx_1["default"](classes.expand, (_a = {},
-                        _a[classes.expandOpen] = productDetailsBox,
-                        _a)), onClick: function () { return handleExpandClick(element.id); }, "aria-expanded": productDetailsBox, "aria-label": "show more" },
-                    react_1["default"].createElement(ExpandMore_1["default"], null)))));
-    });
+    var displayProductList = function (productType) {
+        var updateProductByCategory = [];
+        productList.splice(0, productList.length);
+        if (productType == 'all') {
+            updateUIOnProductCatergoryChange(products);
+        }
+        else {
+            updateProductByCategory = products.filter(function (element) {
+                return element.type == productType;
+            });
+            updateUIOnProductCatergoryChange(updateProductByCategory);
+        }
+    };
+    var updateUIOnProductCatergoryChange = function (updateProductByCategory) {
+        updateProductByCategory.forEach(function (element) {
+            var _a;
+            productList.push(react_1["default"].createElement(Card_1["default"], { className: classes.root, style: { marginRight: 30 } },
+                react_1["default"].createElement(CardMedia_1["default"], { className: classes.media, image: gold_jpg_1["default"], title: "plcae holder" }),
+                react_1["default"].createElement(CardContent_1["default"], null,
+                    react_1["default"].createElement(Typography_1["default"], { variant: "body2", color: "textSecondary", component: "h3" },
+                        react_1["default"].createElement("b", null,
+                            "Name: ",
+                            element.name)),
+                    react_1["default"].createElement("br", null),
+                    react_1["default"].createElement(Typography_1["default"], { variant: "body2", color: "textSecondary", component: "h3" },
+                        react_1["default"].createElement("b", null,
+                            "Price: R ",
+                            element.price)),
+                    " "),
+                react_1["default"].createElement(CardActions_1["default"], { disableSpacing: true },
+                    react_1["default"].createElement(IconButton_1["default"], { "aria-label": "add to favorites" },
+                        react_1["default"].createElement(Favorite_1["default"], null)),
+                    react_1["default"].createElement(IconButton_1["default"], { "aria-label": "share" },
+                        react_1["default"].createElement(Share_1["default"], null)),
+                    react_1["default"].createElement(IconButton_1["default"], { className: clsx_1["default"](classes.expand, (_a = {},
+                            _a[classes.expandOpen] = productDetailsBox,
+                            _a)), onClick: function () { return handleExpandClick(element.id); }, "aria-expanded": productDetailsBox, "aria-label": "show more" },
+                        react_1["default"].createElement(ExpandMore_1["default"], null)))));
+        });
+    };
+    displayProductList(productTypeToDisplay);
     var Main = function () {
         return (react_1["default"].createElement("div", null,
             react_1["default"].createElement("div", { id: "snackbar" }, notificationMessage),
@@ -317,12 +338,12 @@ function Home(_a) {
                                 ") ",
                                 react_1["default"].createElement(icons_1.ShoppingCart, null))),
                         react_1["default"].createElement("div", { className: classes.shopCategoryButtons },
-                            react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined" }, "GOLD"),
-                            react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined" }, "SILVER"),
-                            react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined" }, "ALL"))),
+                            react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined", onClick: function (evet) { return updateProductListCategory('gold'); } }, "GOLD"),
+                            react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined", onClick: function (event) { return updateProductListCategory('silver'); } }, "SILVER"),
+                            react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined", onClick: function (event) { return updateProductListCategory('all'); } }, "ALL"))),
                     react_1["default"].createElement("div", { className: classes.productList }, productList)))));
     };
-    var _f = react_1.useState("main"), navigationOnHome = _f[0], setSavigationOnHome = _f[1];
+    var _h = react_1.useState("main"), navigationOnHome = _h[0], setSavigationOnHome = _h[1];
     var handleNavigationClick = function (nameOfComponent) {
         console.log("navigating click handler..");
         setSavigationOnHome(nameOfComponent);

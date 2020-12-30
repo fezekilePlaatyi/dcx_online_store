@@ -117,17 +117,24 @@ const OrderHistory = () => {
             .then((data) => {
                 var invoicesData: any = [];
                 data.docs.forEach((item: any) => {
-                    // invoicesData.push(item.data());
+                    // invoicesData.push();
+
+                    for (const property in item.Document) {
+                        console.log(`${item[property]}`);
+                    }
+                    // item.forEach((itemm: any) => {
+                    //     console.log(itemm)
+                    // })
                 });
-                console.log(invoicesData)
-                // setOrderHistory(invoicesData);
+                // console.log(invoicesData)
+                // setOrderHistory(invoicesData)
             })
             .catch((error) => {
                 alert(error.toString());
             });
     };
 
-    // displayOrderHistory()
+    displayOrderHistory()
 
     return (
         <div>
