@@ -90,7 +90,7 @@ const useStyles = makeStyles((theme: Theme) =>
     linkContainer: {
       display: "flex",
       flexDirection: "row",
-     // alignItems: "flex-end",
+      justifyContent: "flex-end",
       width: '100%',
     },
     forgot: {
@@ -172,7 +172,7 @@ const ForgotPassword = () => {
           </form>
           <div className={classes.linkContainer}>
             <Link className={classes.forgot} href="/login">
-              LOGIN
+              Login
             </Link>
             <div className={classes.forgotDivider}>|</div>
             <Link className={classes.forgot} href="/">
