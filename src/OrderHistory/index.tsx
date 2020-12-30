@@ -110,33 +110,17 @@ const useStyles = makeStyles((theme) => ({
 
 
 const OrderHistory = () => {
-
     const classes = useStyles();
     const history = useHistory();
     const [orderHistory, setOrderHistory] = React.useState<any>([]);
-
-    function CustomToggle({ children, eventKey }: any) {
-        const decoratedOnClick = useAccordionToggle(eventKey, () =>
-            console.log('totally custom!'),
-        );
-
-        return (
-            <button
-                type="button"
-                onClick={decoratedOnClick}
-            >
-                {children}
-            </button>
-        );
-    }
-
     const [invoicesData, setInvoiceData] = useState<any>([]);
+    let invoices: any = []
+
     const displayOrderHistory = async () => {
         let invoiceInstance = new InvoiceService()
         await invoiceInstance.getInvoicesByUserId()
             .then((data) => {
-
-
+                invoicesData.splice(0, invoicesData.length);
                 data.forEach((doc: any) => {
                     invoicesData.push(doc.data());
                 });
@@ -147,10 +131,6 @@ const OrderHistory = () => {
                 alert(error.toString());
             });
     };
-
-    displayOrderHistory()
-
-    let invoices: any = []
 
     invoicesData.forEach(addInvoiceToAccordingList)
 
@@ -165,24 +145,25 @@ const OrderHistory = () => {
                                 {invoice[0].name}</a>
                         </h4>
                     </div>
-                    <div className="panel-collapse collapse in">
+                    <div id="collapse1" className="panel-collapse collapse in">
                         <div className="panel-body">
-                            <p><b>Description:</b> {invoice[0].description}</p>
-                            <p><b>Price:</b> {invoice[0].price}</p>
+                            <p>Description: {invoice[0].description}</p>
+                            <p>Price: {invoice[0].price}</p>
                         </div>
                     </div>
                 </div >
-
             )
         }
     }
 
+    displayOrderHistory()
+
     return (
         <div>
             <h2 style={{ color: "black" }}>Order History({invoices.length})</h2>
-            <div style={{ color: "black" }}>
+            <Accordion style={{ color: "black" }} defaultActiveKey="0">
                 {invoices}
-            </div>
+            </Accordion>
         </div>
     );
 }

@@ -39,7 +39,7 @@ exports.__esModule = true;
 var react_1 = require("react");
 var styles_1 = require("@material-ui/core/styles");
 var colors_1 = require("@material-ui/core/colors");
-var AccordionToggle_1 = require("react-bootstrap/AccordionToggle");
+var Accordion_1 = require("react-bootstrap/Accordion");
 var theme_config_1 = require("../themes/theme-config");
 var react_router_dom_1 = require("react-router-dom");
 var invoice_service_1 = require("../services/invoice-service");
@@ -120,14 +120,8 @@ var OrderHistory = function () {
     var classes = useStyles();
     var history = react_router_dom_1.useHistory();
     var _a = react_1["default"].useState([]), orderHistory = _a[0], setOrderHistory = _a[1];
-    function CustomToggle(_a) {
-        var children = _a.children, eventKey = _a.eventKey;
-        var decoratedOnClick = AccordionToggle_1.useAccordionToggle(eventKey, function () {
-            return console.log('totally custom!');
-        });
-        return (react_1["default"].createElement("button", { type: "button", onClick: decoratedOnClick }, children));
-    }
     var _b = react_1.useState([]), invoicesData = _b[0], setInvoiceData = _b[1];
+    var invoices = [];
     var displayOrderHistory = function () { return __awaiter(void 0, void 0, void 0, function () {
         var invoiceInstance;
         return __generator(this, function (_a) {
@@ -136,6 +130,7 @@ var OrderHistory = function () {
                     invoiceInstance = new invoice_service_1["default"]();
                     return [4 /*yield*/, invoiceInstance.getInvoicesByUserId()
                             .then(function (data) {
+                            invoicesData.splice(0, invoicesData.length);
                             data.forEach(function (doc) {
                                 invoicesData.push(doc.data());
                             });
@@ -149,8 +144,6 @@ var OrderHistory = function () {
             }
         });
     }); };
-    displayOrderHistory();
-    var invoices = [];
     invoicesData.forEach(addInvoiceToAccordingList);
     function addInvoiceToAccordingList(element, index, array) {
         for (var _i = 0, _a = Object.entries(element); _i < _a.length; _i++) {
@@ -163,20 +156,19 @@ var OrderHistory = function () {
                 react_1["default"].createElement("div", { id: "collapse1", className: "panel-collapse collapse in" },
                     react_1["default"].createElement("div", { className: "panel-body" },
                         react_1["default"].createElement("p", null,
-                            react_1["default"].createElement("b", null, "Description:"),
-                            " ",
+                            "Description: ",
                             invoice[0].description),
                         react_1["default"].createElement("p", null,
-                            react_1["default"].createElement("b", null, "Price:"),
-                            " ",
+                            "Price: ",
                             invoice[0].price)))));
         }
     }
+    displayOrderHistory();
     return (react_1["default"].createElement("div", null,
         react_1["default"].createElement("h2", { style: { color: "black" } },
             "Order History(",
             invoices.length,
             ")"),
-        react_1["default"].createElement("div", { style: { color: "black" } }, invoices)));
+        react_1["default"].createElement(Accordion_1["default"], { style: { color: "black" }, defaultActiveKey: "0" }, invoices)));
 };
 exports["default"] = OrderHistory;
