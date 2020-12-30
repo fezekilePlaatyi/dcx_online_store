@@ -225,7 +225,7 @@ const Profile = () => {
                 variant="outlined"
                 // onClick={updateCustomer}
               >
-                CHANGE PASWWORD
+                CHANGE PASSWORD
               </Button>
             </div>
             {/* <div className={classes.linkContainer}>
