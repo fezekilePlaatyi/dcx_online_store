@@ -97,6 +97,9 @@ const useStyles = makeStyles((theme) => ({
   orgerDetails: {
     fontSize: 14,
   },
+  h3: {
+    marginBottom: 30,
+  },
   productListCardsContainer: {},
 }));
 
@@ -131,13 +134,13 @@ const OrderHistory = () => {
       invoices.push(
         <div className="panel panel-default">
           <div className="panel-heading">
-            <h4 className="panel-title" >
+            <h4 className="panel-title">
               <a
                 data-toggle="collapse"
                 data-parent="#accordion"
                 href="#collapse1"
               >
-              <b>{invoice[0].name}</b>  
+                <b>{invoice[0].name}</b>
               </a>
             </h4>
           </div>
@@ -161,7 +164,7 @@ const OrderHistory = () => {
   return (
     <div>
       <Paper className={classes.paper}>
-        <h3 style={{ color: primaryColor }}>
+        <h3 className={classes.h3} style={{ color: primaryColor }}>
           Order History ({invoices.length})
         </h3>
         <div style={{ color: backgroundContrast }}>{invoices}</div>
