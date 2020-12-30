@@ -19,6 +19,8 @@ import {
   // Typography,
   //Typography,
 } from "@material-ui/core";
+import CustomerService from '../../services/customer-service'
+import { useHistory, useLocation } from "react-router";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -31,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexDirection: "column",
       // alignItems: "center",
-     // justifyContent: "center",
+      // justifyContent: "center",
       backgroundColor: backgroundMain,
       padding: "30px",
     },
@@ -124,36 +126,48 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const UpdateProfile = () => {
   const classes = useStyles();
+  const history = useHistory();
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [phoneNumber, setPhoneNumber] = useState("");
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
   const [idNumber, setIdNumber] = useState("");
   const [address, setAddress] = useState("");
   const [registrationResponse, setRegistrationResponse] = useState("");
 
+  const navigateToUpdateProfile = () => {
+    history.push("/profile")
+  }
+
   const updateCustomer = async () => {
     console.log("updating customer information...");
-    // await firebase
-    //   .registerCustomer(firstName, email, password)
-    //   .then(() => {
-    //     setRegistrationResponse(
-    //       `* Click on link sent to email ${email}, to verify your email address and login.`
-    //     );
-    // })
-    // .catch((error: any) => {
-    //   console.log(error);
-    //   alert(error.message.toString());
-    // });
+    let customerService = new CustomerService()
+
+    let userDetails: any = {
+      firstName: firstName,
+      lastName: lastName,
+      phoneNumber: phoneNumber,
+      email: email,
+      idNumber: idNumber,
+      address: address
+    }
+
+    customerService.updateUserDetail(userDetails)
+      .then(() => {
+        setRegistrationResponse(
+          `*Successfuly updated user profile.`
+        );
+      })
+      .catch((error: any) => {
+        console.log(error);
+        alert(error.message.toString());
+      });
   };
 
   return (
     <div className={classes.mainContainer}>
       <div className={classes.boxWrapper}>
-        {/* <Paper className={classes.paper} elevation={3} square={true}> */}
         <div>
           <h3 className={classes.heading}>UPDATE PROFILE</h3>
         </div>
@@ -262,10 +276,9 @@ const UpdateProfile = () => {
                 SUBMIT
               </Button>
               <Button
-                href="/profile"
+                onClick={navigateToUpdateProfile}
                 className={classes.boxBtn}
                 variant="outlined"
-                // onClick={updateCustomer}
               >
                 PROFILE
               </Button>
@@ -273,7 +286,6 @@ const UpdateProfile = () => {
           </div>
           <div className={classes.sentEmailText}>{registrationResponse}</div>
         </form>
-        {/* </Paper> */}
       </div>
     </div>
   );

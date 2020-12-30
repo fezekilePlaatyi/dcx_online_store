@@ -55,6 +55,19 @@ var UserService = /** @class */ (function () {
                 return [2 /*return*/];
             });
         }); };
+        this.updateUserDetail = function (userDetails) { return __awaiter(_this, void 0, void 0, function () {
+            var userId;
+            return __generator(this, function (_a) {
+                try {
+                    userId = this.auth.currentUser.uid;
+                    return [2 /*return*/, this.db.collection("customers").doc(userId).set(userDetails)];
+                }
+                catch (error) {
+                    return [2 /*return*/, error];
+                }
+                return [2 /*return*/];
+            });
+        }); };
         this.sendPasswordResetEmail = function () { return __awaiter(_this, void 0, void 0, function () {
             var user;
             return __generator(this, function (_a) {

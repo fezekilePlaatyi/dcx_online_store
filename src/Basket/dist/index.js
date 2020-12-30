@@ -168,6 +168,18 @@ var useStyles = styles_1.makeStyles(function (theme) { return ({
         alignItems: "self-end",
         color: theme_config_1.primaryColor
     },
+    tableRowDescription: {
+        width: "35%",
+        textAlign: 'justify',
+        fontSize: 12
+    },
+    tableCellsQty: {
+        width: "10%",
+        fontSize: 14
+    },
+    tableRowValue: {
+        fontSize: 12
+    },
     productListCardsContainer: {}
 }); });
 var Basket = function (props) {
@@ -187,34 +199,45 @@ var Basket = function (props) {
             var x = document.getElementById(totalPriceId);
             x.innerHTML = parseInt(value) * productsOnBasket[index].price;
         }
+        updateUIOnProductChange(productsOnBasket);
     };
     var productsOnBasket = props.productsOnBasket.map(function (obj) { return (__assign(__assign({}, obj), { quantity: 1 })); });
     var addProductToBasket = props.addProductToBasket;
     var handleNavigationOnHome = props.handleNavigationOnHome;
     var handleNavigationClick = props.handleNavigationClick;
     var _a = react_1.useState("basket"), navigationOnBasket = _a[0], setNavigationOnBasket = _a[1];
+    var _b = react_1.useState(0), subTotalPrice = _b[0], setSubTotalPrice = _b[1];
     var productsOnBasketList = [];
-    console.log(productsOnBasket);
     var updateUIOnProductChange = function (productsOnBasket) {
+        console.log(productsOnBasket);
+        var subTotalPrice = 0;
+        var counter = 0;
         productsOnBasket.forEach(function (element) {
             var totalPrice = element.price * parseInt(element.quantity);
-            console.log("TOTAL HEY", totalPrice);
             var totalPriceId = "totalPrice_" + element.id;
+            subTotalPrice = subTotalPrice + totalPrice;
+            counter++;
             productsOnBasketList.push(react_1["default"].createElement(TableRow_1["default"], { hover: true, className: classes.tableRow, key: element.id },
-                react_1["default"].createElement(TableCell_1["default"], null, +1),
-                react_1["default"].createElement(TableCell_1["default"], null, element.name),
-                react_1["default"].createElement(TableCell_1["default"], null, element.description),
-                react_1["default"].createElement(TableCell_1["default"], null, totalPrice),
-                react_1["default"].createElement(TableCell_1["default"], null,
+                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowValue }),
+                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowValue }, element.name),
+                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowDescription }, element.description),
+                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowValue }, totalPrice),
+                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowValue },
                     react_1["default"].createElement(core_1.TextField, { InputProps: {
                             inputProps: { min: 1 },
                             style: { width: "50%" }
                         }, className: classes.textField, type: "number", defaultValue: 1, onChange: function (event) {
                             return handleUpdateQuantity(element.id, event.target.value);
                         } })),
-                react_1["default"].createElement(TableCell_1["default"], { id: totalPriceId }, parseInt(element.price)),
-                react_1["default"].createElement(TableCell_1["default"], null,
+                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowValue, id: totalPriceId }, parseInt(element.price)),
+                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowValue },
                     react_1["default"].createElement(Delete_1["default"], { className: classes.deleteIcon, onClick: function () { return handleDeleteProductFromBasket(element.id); } }))));
+            if (counter == productsOnBasket.length) {
+                var subTotalPriceId = "subTotalPrice";
+                var x = document.getElementById(subTotalPriceId);
+                if (x !== null)
+                    x.innerHTML = subTotalPrice;
+            }
         });
     };
     function handleNavigateBackToHomePage() {
@@ -238,9 +261,9 @@ var Basket = function (props) {
                                     react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "#"),
                                     react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Name"),
                                     react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Description"),
-                                    react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Price(R)"),
-                                    react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Quantity"),
-                                    react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Total price(R)"),
+                                    react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Price (R)"),
+                                    react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCellsQty, align: "left" }, "Quantity"),
+                                    react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Total price (R)"),
                                     react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Delete"))),
                             react_1["default"].createElement(TableBody_1["default"], null, productsOnBasketList))),
                     react_1["default"].createElement("div", null,
@@ -248,8 +271,10 @@ var Basket = function (props) {
                             react_1["default"].createElement("div", null,
                                 react_1["default"].createElement("div", { className: classes.paperSummaryHeading }, "Basket summary"),
                                 react_1["default"].createElement("div", { className: classes.paperSummaryTotal },
-                                    "TOTAL ( # of items): total cost",
-                                    " "),
+                                    "TOTAL ( ",
+                                    productsOnBasketList.length,
+                                    " of items): total cost R ",
+                                    react_1["default"].createElement("span", { id: "subTotalPrice" }, ".")),
                                 react_1["default"].createElement("div", null,
                                     react_1["default"].createElement(core_1.Button, { className: classes.boxBtn, onClick: function () { return handleNavigationClickOnBasket("checkout"); }, variant: "outlined" }, "Checkout")))))))));
     };

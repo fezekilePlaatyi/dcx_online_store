@@ -68,7 +68,7 @@ const useStyles = makeStyles((theme: Theme) =>
     h4: {
       marginLeft: 15,
     },
-    aboutBlock:{
+    aboutBlock: {
       width: '55%',
       marginBottom: 20,
     }

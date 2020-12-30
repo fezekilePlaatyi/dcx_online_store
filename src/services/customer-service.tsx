@@ -20,6 +20,15 @@ class UserService {
         }
     }
 
+    updateUserDetail = async (userDetails: any) => {
+        try {
+            var userId = this.auth.currentUser.uid
+            return this.db.collection("customers").doc(userId).set(userDetails)
+        } catch (error) {
+            return error
+        }
+    }
+
 
     sendPasswordResetEmail = async () => {
         try {

@@ -20,6 +20,7 @@ import {
   //Typography,
 } from "@material-ui/core";
 import CustomerService from '../../services/customer-service'
+import { useHistory, useLocation } from "react-router";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -32,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexDirection: "column",
       // alignItems: "center",
-     // justifyContent: "center",
+      // justifyContent: "center",
       backgroundColor: backgroundMain,
       padding: "30px",
     },
@@ -135,133 +136,88 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const Profile = () => {
   const classes = useStyles();
+  const history = useHistory();
 
-  const [firstName, setFirstName] = useState("");
-  const [lastName, setLastName] = useState("");
-  const [phoneNumber, setPhoneNumber] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [idNumber, setIdNumber] = useState("");
-  const [address, setAddress] = useState("");
-  const [registrationResponse, setRegistrationResponse] = useState("");
-
-  const updateCustomer = async () => {
-    console.log("updating customer information...");
-    // await firebase
-    //   .registerCustomer(firstName, email, password)
-    //   .then(() => {
-    //     setRegistrationResponse(
-    //       `* Click on link sent to email ${email}, to verify your email address and login.`
-    //     );
-    // })
-    // .catch((error: any) => {
-    //   console.log(error);
-    //   alert(error.message.toString());
-    // });
-  };
-
-
-
+  const [userDetails, setUserDetails] = useState<any>({})
   let customerService = new CustomerService()
 
-
-  // customerService.sendPasswordResetEmail().then(function () {
-  //   alert("Email sent.")
-  // }).catch(function (error: any) {
-  //   alert("Error occured")
-  //   console.log(error)
-  // });
+  const sendPasswordResetEmailHandler = () => {
+    customerService.sendPasswordResetEmail().then(function () {
+      alert("Email sent with Link to reset password.")
+    }).catch(function (error: any) {
+      alert("Error occured while trying to send link.")
+      console.log(error)
+    });
+  }
 
   customerService.getUserDetails().then((data: any) => {
     console.log("Data")
-    console.log(data.data())
+    console.log(data.data().firstName)
+    setUserDetails(data.data())
   })
     .catch((error: any) => {
       alert("Error getting your profile details.")
       console.log(error)
     })
 
+  const navigateToUpdateProfile = () => {
+    history.push("/updateProfile")
+  }
+
   return (
     <div className={classes.mainContainer}>
       <div className={classes.boxWrapper}>
-        {/* <Paper className={classes.paper} elevation={3} square={true}> */}
         <div>
-          {/* <div className={classes.logoContainer}>
-            <img
-              style={{ width: "70px", height: "auto" }}
-              src={logo}
-              alt="logo"
-            />
-          </div> */}
           <h3 className={classes.heading}>PROFILE</h3>
         </div>
         <div className={classes.whiteText}>
           You can update your personal information and password
         </div>
         <form className={classes.form}>
-          {/* <div className={classes.textfieldBlock}> */}
           <div className={classes.textfieldDetails}>
             <div className={classes.textfieldDetailsFirst}>First Name: </div>{" "}
-            Nicholas
+            {userDetails.firstName}
           </div>
           <div className={classes.textfieldDetails}>
             <div className={classes.textfieldDetailsFirst}>Last Name:</div>{" "}
-            Bennet
+            {userDetails.lastName}
           </div>
-          {/* </div> */}
-          {/* <div className={classes.textfieldBlock}> */}
           <div className={classes.textfieldDetails}>
             <div className={classes.textfieldDetailsFirst}>Phone Number:</div>{" "}
-            0791234567
+            {userDetails.phoneNumber}
           </div>
           <div className={classes.textfieldDetails}>
             <div className={classes.textfieldDetailsFirst}>Email:</div>{" "}
-            nicholas@test.com
+            {userDetails.email}
           </div>
-          {/* </div> */}
-          {/* <div className={classes.textfieldBlock}> */}
           <div className={classes.textfieldDetails}>
             <div className={classes.textfieldDetailsFirst}>ID Number:</div>{" "}
-            1234567891235
+            {userDetails.idNumber}
           </div>
           <div className={classes.textfieldDetails}>
-            <div className={classes.textfieldDetailsFirst}>Address:</div> You
-            can update address in Update Profile section
+            <div className={classes.textfieldDetailsFirst}>Address:</div>
+            {userDetails.address}
           </div>
-          {/* </div> */}
 
           <div className={classes.buttonsContainer}>
             <div className={classes.loginButtonContainer}>
               <Button
-                href="/updateProfile"
+                onClick={navigateToUpdateProfile}
                 className={classes.boxBtn}
                 variant="outlined"
-                onClick={updateCustomer}
               >
                 UPDATE PROFILE
               </Button>
               <Button
-                href="/changePassword"
                 className={classes.boxBtn}
                 variant="outlined"
-                // onClick={updateCustomer}
+                onClick={sendPasswordResetEmailHandler}
               >
                 CHANGE PASWWORD
               </Button>
             </div>
-            {/* <div className={classes.linkContainer}>
-              <Link className={classes.forgot} href="#/login">
-                LOGIN
-            </Link>
-              <Link className={classes.forgot} href="#/home">
-                Home
-            </Link>
-            </div> */}
           </div>
-          <div className={classes.sentEmailText}>{registrationResponse}</div>
         </form>
-        {/* </Paper> */}
       </div>
     </div>
   );

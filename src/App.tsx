@@ -2,9 +2,9 @@ import React, { Component, useEffect, useState } from "react";
 import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
 
 import PrivateRoute from "./PrivateRoute";
+import NonPrivateRoutesWithDrawer from "./NonPrivateRoutesWithDrawer"
 import HomeRoute from "./HomeRoute";
 import app from "./base";
-
 import Home from "./Home/home";
 import LogIn from "./LogIn";
 import SignUp from "./SignUp";
@@ -17,6 +17,7 @@ import About from "./pages/aboutUsPage/aboutUsPage";
 import CheckOut from "./pages/checkOutPage/checkOutPage";
 import ChangePassword from "./pages/profilePage/changePassword";
 import UpdateProfile from "./pages/profilePage/updateProfile";
+
 
 function onAuthStateChange(
   setLoading: any,
@@ -89,13 +90,13 @@ const App = () => {
           component={OrderHistory}
           authenticated={authenticated}
         />
-        <PrivateRoute
+        <NonPrivateRoutesWithDrawer
           exact
           path="/contact"
           component={Contact}
           authenticated={authenticated}
         />
-        <PrivateRoute
+        <NonPrivateRoutesWithDrawer
           exact
           path="/about"
           component={About}

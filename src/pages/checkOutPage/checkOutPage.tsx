@@ -8,6 +8,7 @@ import {
   primaryText,
   //  logo,
 } from "../../themes/theme-config";
+import { useHistory, useLocation } from "react-router";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
@@ -19,6 +20,7 @@ import {
   // Typography,
   //Typography,
 } from "@material-ui/core";
+import InvoiceService from '../../services/invoice-service'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -27,11 +29,11 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingTop: 20,
     },
     mainContainer: {
-      minHeight: "100vh",
+      minHeight: "calcu(100vh - 100px)",
       display: "flex",
       flexDirection: "column",
       // alignItems: "center",
-      justifyContent: "center",
+      // justifyContent: "center",
       backgroundColor: backgroundMain,
       padding: "30px",
     },
@@ -121,7 +123,7 @@ const useStyles = makeStyles((theme: Theme) =>
       color: primaryColor,
     },
     textfieldPostal: {
-      width: "10%",
+      width: "19%",
     },
     passwordBlock: {
       marginTop: 30,
@@ -131,8 +133,30 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const CheckOut = (props: any) => {
   const classes = useStyles();
+  const history = useHistory();
+
+  const [postalCode, setPostalCode] = useState("")
+  const [address, setAddress] = useState("")
+
   console.log("PRODUCTS LIST")
   console.log(props.productsOnBasket)
+
+  const procceddToPay = () => {
+    if (address == "" || postalCode == "") {
+      alert("Please enter address correctly.")
+      return
+    } else {
+      let invoiceService = new InvoiceService()
+      invoiceService.createInvoice(props.productsOnBasket).then(function () {
+        alert("Done Making Payment, You will be redirected to your Orders.")
+        history.push("/orderHistory")
+      })
+        .catch((error) => {
+          alert("An error occured while making creating an Invoice.")
+        })
+    }
+  }
+
 
   return (
     <div className={classes.mainContainer}>
@@ -152,8 +176,8 @@ const CheckOut = (props: any) => {
             label="Address"
             variant="outlined"
             required
-            // value={firstName}
-            // onChange={(event) => setFirstName(event.target.value)}
+            value={address}
+            onChange={(event) => setAddress(event.target.value)}
             InputProps={{
               autoComplete: "off",
             }}
@@ -165,8 +189,8 @@ const CheckOut = (props: any) => {
             margin="normal"
             label="Postal Code"
             variant="outlined"
-            // value={lastName}
-            // onChange={(event) => setLastName(event.target.value)}
+            value={postalCode}
+            onChange={(event) => setPostalCode(event.target.value)}
             required
             InputProps={{
               autoComplete: "off",
@@ -236,12 +260,13 @@ const CheckOut = (props: any) => {
             />
           </div>
         </div> */}
+
         <div className={classes.buttonsContainer}>
           <div className={classes.loginButtonContainer}>
             <Button
               className={classes.boxBtn}
               variant="outlined"
-            // onClick={updateCustomer}
+              onClick={procceddToPay}
             >
               PAY NOW
             </Button>
