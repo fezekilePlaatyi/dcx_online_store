@@ -19,6 +19,7 @@ import {
   // Typography,
   //Typography,
 } from "@material-ui/core";
+import CustomerService from '../../services/customer-service'
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -144,11 +145,32 @@ const Profile = () => {
     //       `* Click on link sent to email ${email}, to verify your email address and login.`
     //     );
     // })
-      // .catch((error: any) => {
-      //   console.log(error);
-      //   alert(error.message.toString());
-      // });
+    // .catch((error: any) => {
+    //   console.log(error);
+    //   alert(error.message.toString());
+    // });
   };
+
+
+
+  let customerService = new CustomerService()
+
+
+  // customerService.sendPasswordResetEmail().then(function () {
+  //   alert("Email sent.")
+  // }).catch(function (error: any) {
+  //   alert("Error occured")
+  //   console.log(error)
+  // });
+
+  customerService.getUserDetails().then((data: any) => {
+    console.log("Data")
+    console.log(data.data())
+  })
+    .catch((error: any) => {
+      alert("Error getting your profile details.")
+      console.log(error)
+    })
 
   return (
     <div className={classes.mainContainer}>

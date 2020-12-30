@@ -76,7 +76,7 @@ const useStyles = makeStyles((theme: Theme) =>
       top: "10%",
     },
     loginButtonContainer: {
-     // margin: theme.spacing(1),
+      // margin: theme.spacing(1),
       position: "relative",
       width: "100%",
       marginBottom: 20,
@@ -93,7 +93,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     form: {
       marginTop: 20,
-     // marginBottom: 20,
+      // marginBottom: 20,
       display: "flex",
       flexDirection: "column",
       width: "100%",
@@ -149,6 +149,7 @@ const SignUpContainer = () => {
         .createUserWithEmailAndPassword(email, password)
         .then((user) => {
           let customerInstance = new CustomerService();
+
           customerInstance.signUpUser({
             firstName: firstName,
             lastName: lastName,
@@ -157,11 +158,14 @@ const SignUpContainer = () => {
             idNumber: idNumber,
           });
 
-          //   if (user && user.emailVerified === false) {
-          //     user.sendEmailVerification().then(function () {
-          //       setRegistrationResponse(`Successfully registered. Please open link sent to ${email} to verify email and continue to login.`)
-          //     });
-          //   }
+          if (user && user.emailVerified === false) {
+            user.sendEmailVerification().then(function () {
+              setRegistrationResponse(`Successfully registered. Please open link sent to ${email} to verify email and continue to login.`)
+            });
+          } else {
+            setRegistrationResponse(`An error occured while trying to register user with email ${email}.`)
+
+          }
         });
     } catch (error) {
       setRegistrationResponse(error.message);

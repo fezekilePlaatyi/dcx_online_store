@@ -1,4 +1,40 @@
 "use strict";
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
+var __generator = (this && this.__generator) || function (thisArg, body) {
+    var _ = { label: 0, sent: function() { if (t[0] & 1) throw t[1]; return t[1]; }, trys: [], ops: [] }, f, y, t, g;
+    return g = { next: verb(0), "throw": verb(1), "return": verb(2) }, typeof Symbol === "function" && (g[Symbol.iterator] = function() { return this; }), g;
+    function verb(n) { return function (v) { return step([n, v]); }; }
+    function step(op) {
+        if (f) throw new TypeError("Generator is already executing.");
+        while (_) try {
+            if (f = 1, y && (t = op[0] & 2 ? y["return"] : op[0] ? y["throw"] || ((t = y["return"]) && t.call(y), 0) : y.next) && !(t = t.call(y, op[1])).done) return t;
+            if (y = 0, t) op = [op[0] & 2, t.value];
+            switch (op[0]) {
+                case 0: case 1: t = op; break;
+                case 4: _.label++; return { value: op[1], done: false };
+                case 5: _.label++; y = op[1]; op = [0]; continue;
+                case 7: op = _.ops.pop(); _.trys.pop(); continue;
+                default:
+                    if (!(t = _.trys, t = t.length > 0 && t[t.length - 1]) && (op[0] === 6 || op[0] === 2)) { _ = 0; continue; }
+                    if (op[0] === 3 && (!t || (op[1] > t[0] && op[1] < t[3]))) { _.label = op[1]; break; }
+                    if (op[0] === 6 && _.label < t[1]) { _.label = t[1]; t = op; break; }
+                    if (t && _.label < t[2]) { _.label = t[2]; _.ops.push(op); break; }
+                    if (t[2]) _.ops.pop();
+                    _.trys.pop(); continue;
+            }
+            op = body.call(thisArg, _);
+        } catch (e) { op = [6, e]; y = 0; } finally { f = t = 0; }
+        if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
+    }
+};
 var __spreadArrays = (this && this.__spreadArrays) || function () {
     for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
     for (var r = Array(s), k = 0, i = 0; i < il; i++)
@@ -28,6 +64,7 @@ var core_1 = require("@material-ui/core");
 var theme_config_1 = require("../themes/theme-config");
 var Basket_1 = require("../Basket");
 var theme_config_2 = require("../themes/theme-config");
+var base_1 = require("../base");
 var useStyles = styles_1.makeStyles(function (theme) { return ({
     root: {
         maxWidth: 345
@@ -124,14 +161,33 @@ var useStyles = styles_1.makeStyles(function (theme) { return ({
         marginTop: 20
     },
     shopCategoryHeadingMain: {
+        color: theme_config_1.primaryText
+    },
+    heading: {
+        margin: "15px 0px",
         color: theme_config_2.primaryColor
+    },
+    pointer: {
+        backgroundColor: theme_config_2.backgroundContrast,
+        borderColor: theme_config_2.primaryColor,
+        color: theme_config_2.primaryColor
+    },
+    cart: {
+        display: "flex",
+        alignItems: "center",
+        fontSize: 18
     },
     productListCardsContainer: {},
     hidden: {
-        display: 'none'
+        display: "none"
+    },
+    cursorPointer: {
+        cursor: 'pointer',
+        color: '#CC9933'
     }
 }); });
 function Home(_a) {
+    var _this = this;
     var activityStatus = _a.activityStatus;
     var classes = useStyles();
     var defaultProduct = {
@@ -161,7 +217,9 @@ function Home(_a) {
             console.log("adding item to basket...");
             checkIfAlreadyAddedOnBasket(productDetails)
                 ? console.log("already added...")
-                : addProductToBasket(function (prevArray) { return __spreadArrays(prevArray, [productDetails]); });
+                : addProductToBasket(function (prevArray) { return __spreadArrays(prevArray, [
+                    productDetails,
+                ]); });
         }
         else {
             setNotificationMessage("You need to be logged in to add product to busket.");
@@ -243,7 +301,7 @@ function Home(_a) {
     var displayProductList = function (productType) {
         var updateProductByCategory = [];
         productList.splice(0, productList.length);
-        if (productType == 'all') {
+        if (productType == "all") {
             updateUIOnProductCatergoryChange(products);
         }
         else {
@@ -327,17 +385,20 @@ function Home(_a) {
                                         react_1["default"].createElement(Button_1["default"], { onClick: function () { return handleNavigationClick("basket"); } }, "View Basket"))))))),
                 react_1["default"].createElement("div", { className: classes.productListCardsContainer, style: { display: productDetailsBox ? "none" : "block" } },
                     react_1["default"].createElement("div", { className: classes.shopCategory },
+                        react_1["default"].createElement("h3", { className: classes.heading }, "INVEST IN YOUR FUTURE NOW!"),
                         react_1["default"].createElement("div", { className: classes.shopCategoryHeading },
                             react_1["default"].createElement("h3", { className: classes.shopCategoryHeadingMain }, "Shop by category"),
-                            react_1["default"].createElement("h2", { className: "pointer", onClick: function () { return goToBasketIfNotEmpty(); } },
-                                "(",
-                                productsOnBasket.length,
-                                ") ",
-                                react_1["default"].createElement(icons_1.ShoppingCart, null))),
+                            react_1["default"].createElement(Button_1["default"], { variant: "outlined", className: classes.pointer, onClick: function () { return goToBasketIfNotEmpty(); } },
+                                react_1["default"].createElement("div", { className: classes.cart },
+                                    " ",
+                                    "(",
+                                    productsOnBasket.length,
+                                    ") ",
+                                    react_1["default"].createElement(icons_1.ShoppingCart, null)))),
                         react_1["default"].createElement("div", { className: classes.shopCategoryButtons },
-                            react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined", onClick: function (evet) { return updateProductListCategory('gold'); } }, "GOLD"),
-                            react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined", onClick: function (event) { return updateProductListCategory('silver'); } }, "SILVER"),
-                            react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined", onClick: function (event) { return updateProductListCategory('all'); } }, "ALL"))),
+                            react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined", onClick: function (evet) { return updateProductListCategory("gold"); } }, "GOLD"),
+                            react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined", onClick: function (event) { return updateProductListCategory("silver"); } }, "SILVER"),
+                            react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined", onClick: function (event) { return updateProductListCategory("all"); } }, "ALL"))),
                     react_1["default"].createElement("div", { className: classes.productList }, productList)))));
     };
     var _h = react_1.useState("main"), navigationOnHome = _h[0], setSavigationOnHome = _h[1];
@@ -356,6 +417,32 @@ function Home(_a) {
                 return (react_1["default"].createElement(Basket_1["default"], { productsOnBasket: productsOnBasket, addProductToBasket: addProductToBasket, handleNavigationOnHome: handleNavigationOnHome, handleNavigationClick: handleNavigationClick }));
         }
     };
-    return react_1["default"].createElement("div", null, handleNavigationOnHome(navigationOnHome));
+    var logout = function () { return __awaiter(_this, void 0, void 0, function () {
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0: return [4 /*yield*/, base_1["default"].auth().signOut()];
+                case 1:
+                    _a.sent();
+                    return [2 /*return*/];
+            }
+        });
+    }); };
+    var user = base_1["default"].auth().currentUser;
+    if (user) {
+        if (user.emailVerified) {
+            return react_1["default"].createElement("div", null, handleNavigationOnHome(navigationOnHome));
+        }
+        else {
+            return (react_1["default"].createElement(core_1.Paper, { className: classes.paper },
+                react_1["default"].createElement("div", null,
+                    react_1["default"].createElement("h2", null, "Please verify email and login again!"),
+                    react_1["default"].createElement("h4", null,
+                        "You can ",
+                        react_1["default"].createElement("span", { onClick: logout, className: classes.cursorPointer }, "Logout")))));
+        }
+    }
+    else {
+        return react_1["default"].createElement("div", null, handleNavigationOnHome(navigationOnHome));
+    }
 }
 exports["default"] = Home;

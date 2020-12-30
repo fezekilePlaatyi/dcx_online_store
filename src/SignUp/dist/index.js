@@ -62,13 +62,21 @@ var useStyles = styles_1.makeStyles(function (theme) {
             padding: "44px"
         },
         textfield: {
-            color: theme_config_1.primaryColor
+            color: theme_config_1.primaryColor,
+            width: "45%",
+            fontSize: 12
+        },
+        textfieldID: {
+            color: theme_config_1.primaryColor,
+            width: "100%",
+            fontSize: 12
         },
         boxBtn: {
             float: "left",
             backgroundColor: theme_config_1.backgroundContrast,
             borderColor: theme_config_1.primaryColor,
-            color: theme_config_1.primaryColor
+            color: theme_config_1.primaryColor,
+            width: "100%"
         },
         boxWrapper: {
             margin: 10,
@@ -76,20 +84,21 @@ var useStyles = styles_1.makeStyles(function (theme) {
         },
         buttonsContainer: {
             marginTop: 20,
-            marginBottom: 20,
+            // marginBottom: 20,
             display: "flex",
             justifyContent: "space-between",
-            alignItems: "center"
+            alignItems: "center",
+            width: "100%"
         },
         paper: {
-            padding: 15,
+            padding: 25,
             overflow: "auto",
             backgroundColor: theme_config_1.backgroundContrast,
             border: "none",
             display: "flex",
             flexDirection: "column",
             alignItems: "center",
-            width: "100%"
+            width: "125%"
         },
         mobileContainer: {
             top: "15%"
@@ -98,8 +107,10 @@ var useStyles = styles_1.makeStyles(function (theme) {
             top: "10%"
         },
         loginButtonContainer: {
-            margin: theme.spacing(1),
-            position: "relative"
+            // margin: theme.spacing(1),
+            position: "relative",
+            width: "100%",
+            marginBottom: 20
         },
         heading: {
             margin: "15px 0px",
@@ -113,7 +124,7 @@ var useStyles = styles_1.makeStyles(function (theme) {
         },
         form: {
             marginTop: 20,
-            marginBottom: 20,
+            // marginBottom: 20,
             display: "flex",
             flexDirection: "column",
             width: "100%"
@@ -124,12 +135,26 @@ var useStyles = styles_1.makeStyles(function (theme) {
             justifyContent: "space-between"
         },
         forgot: {
-            color: theme_config_1.primaryColor
+            color: theme_config_1.primaryColor,
+            marginBottom: 10
         },
         linkContainer: {
-            display: 'flex',
-            flexDirection: 'column',
-            alignItems: 'flex-end'
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "flex-end",
+            width: "100%"
+        },
+        forgotDivider: {
+            marginRight: 10,
+            marginLeft: 10,
+            color: theme_config_1.primaryColor
+        },
+        buttonsDiv: {
+            width: "100%",
+            display: "flex",
+            flexDirection: "row",
+            //alignItems: "flex-end",
+            justifyContent: "flex-end"
         }
     });
 });
@@ -155,19 +180,23 @@ var SignUpContainer = function () {
                     _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, base_1["default"]
                             .auth()
-                            .createUserWithEmailAndPassword(email, password).then(function (user) {
+                            .createUserWithEmailAndPassword(email, password)
+                            .then(function (user) {
                             var customerInstance = new customer_service_1["default"]();
                             customerInstance.signUpUser({
-                                "firstName": firstName,
-                                "lastName": lastName,
-                                "phoneNumber": phoneNumber,
-                                "email": email,
-                                "idNumber": idNumber
+                                firstName: firstName,
+                                lastName: lastName,
+                                phoneNumber: phoneNumber,
+                                email: email,
+                                idNumber: idNumber
                             });
                             if (user && user.emailVerified === false) {
                                 user.sendEmailVerification().then(function () {
                                     setRegistrationResponse("Successfully registered. Please open link sent to " + email + " to verify email and continue to login.");
                                 });
+                            }
+                            else {
+                                setRegistrationResponse("An error occured while trying to register user with email " + email + ".");
                             }
                         })];
                 case 2:
@@ -188,33 +217,37 @@ var SignUpContainer = function () {
                     react_1["default"].createElement("div", { className: classes.heading }, "REGISTER")),
                 react_1["default"].createElement("div", { className: classes.whiteText }, "Please enter required information below"),
                 react_1["default"].createElement("form", { className: classes.form },
-                    react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "First name", variant: "outlined", required: true, value: firstName, onChange: function (event) { return setFirstName(event.target.value); }, InputProps: {
-                            autoComplete: "off"
-                        }, autoFocus: true }),
-                    react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "Last name", variant: "outlined", value: lastName, onChange: function (event) { return setLastName(event.target.value); }, required: true, InputProps: {
-                            autoComplete: "off"
-                        }, autoFocus: true }),
-                    react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "Phone number", variant: "outlined", value: phoneNumber, onChange: function (event) { return setPhoneNumber(event.target.value); }, required: true, InputProps: {
-                            autoComplete: "off"
-                        }, autoFocus: true }),
-                    react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "Email", variant: "outlined", value: email, onChange: function (event) { return setEmail(event.target.value); }, required: true, InputProps: {
-                            autoComplete: "off"
-                        }, autoFocus: true }),
-                    react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "Password", variant: "outlined", value: password, onChange: function (event) { return setPassword(event.target.value); }, required: true, InputProps: {
-                            autoComplete: "off"
-                        }, autoFocus: true }),
-                    react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "Confirm password", variant: "outlined", value: confirmPassword, onChange: function (event) { return setConfirmPassword(event.target.value); }, required: true, InputProps: {
-                            autoComplete: "off"
-                        }, autoFocus: true }),
-                    react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "ID Number", variant: "outlined", value: idNumber, onChange: function (event) { return setIdNumber(event.target.value); }, required: true, InputProps: {
+                    react_1["default"].createElement("div", { className: classes.textfieldBlock },
+                        react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "First name", variant: "outlined", required: true, value: firstName, onChange: function (event) { return setFirstName(event.target.value); }, InputProps: {
+                                autoComplete: "off"
+                            }, autoFocus: true }),
+                        react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "Last name", variant: "outlined", value: lastName, onChange: function (event) { return setLastName(event.target.value); }, required: true, InputProps: {
+                                autoComplete: "off"
+                            }, autoFocus: true })),
+                    react_1["default"].createElement("div", { className: classes.textfieldBlock },
+                        react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "Phone number", variant: "outlined", value: phoneNumber, onChange: function (event) { return setPhoneNumber(event.target.value); }, required: true, InputProps: {
+                                autoComplete: "off"
+                            }, autoFocus: true }),
+                        react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "Email", variant: "outlined", value: email, onChange: function (event) { return setEmail(event.target.value); }, required: true, InputProps: {
+                                autoComplete: "off"
+                            }, autoFocus: true })),
+                    react_1["default"].createElement("div", { className: classes.textfieldBlock },
+                        react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "Password", variant: "outlined", value: password, onChange: function (event) { return setPassword(event.target.value); }, required: true, InputProps: {
+                                autoComplete: "off"
+                            }, autoFocus: true }),
+                        react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "Confirm password", variant: "outlined", value: confirmPassword, onChange: function (event) { return setConfirmPassword(event.target.value); }, required: true, InputProps: {
+                                autoComplete: "off"
+                            }, autoFocus: true })),
+                    react_1["default"].createElement(TextField_1["default"], { className: classes.textfieldID, autoComplete: "off", margin: "normal", label: "ID Number", variant: "outlined", value: idNumber, onChange: function (event) { return setIdNumber(event.target.value); }, required: true, InputProps: {
                             autoComplete: "off"
                         }, autoFocus: true }),
                     react_1["default"].createElement("div", { className: classes.buttonsContainer },
                         react_1["default"].createElement("div", { className: classes.loginButtonContainer },
-                            react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined", onClick: function (event) { return handleSignUp(event); } }, "Submit")),
-                        react_1["default"].createElement("div", { className: classes.linkContainer },
-                            react_1["default"].createElement(core_1.Link, { className: classes.forgot, href: "/login" }, "LOGIN"),
-                            react_1["default"].createElement(core_1.Link, { className: classes.forgot, href: "/" }, "Home"))),
-                    react_1["default"].createElement("div", { className: classes.sentEmailText }, registrationResponse))))));
+                            react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined", onClick: function (event) { return handleSignUp(event); } }, "Submit"))),
+                    react_1["default"].createElement("div", { className: classes.sentEmailText }, registrationResponse)),
+                react_1["default"].createElement("div", { className: classes.buttonsDiv },
+                    react_1["default"].createElement(core_1.Link, { className: classes.forgot, href: "/login" }, "Login"),
+                    react_1["default"].createElement("div", { className: classes.forgotDivider }, "|"),
+                    react_1["default"].createElement(core_1.Link, { className: classes.forgot, href: "/" }, "Home"))))));
 };
 exports["default"] = react_router_1.withRouter(SignUpContainer);

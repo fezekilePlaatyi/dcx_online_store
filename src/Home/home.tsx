@@ -24,6 +24,7 @@ import {
   backgroundContrast,
   //primaryText,
 } from "../themes/theme-config";
+import app from "../base";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -141,6 +142,10 @@ const useStyles = makeStyles((theme) => ({
   hidden: {
     display: "none",
   },
+  cursorPointer: {
+    cursor: 'pointer',
+    color: '#CC9933',
+  }
 }));
 
 function Home({ activityStatus }: any) {
@@ -179,9 +184,9 @@ function Home({ activityStatus }: any) {
       checkIfAlreadyAddedOnBasket(productDetails)
         ? console.log("already added...")
         : addProductToBasket((prevArray: any) => [
-            ...prevArray,
-            productDetails,
-          ]);
+          ...prevArray,
+          productDetails,
+        ]);
     } else {
       setNotificationMessage(
         "You need to be logged in to add product to busket."
@@ -474,7 +479,27 @@ function Home({ activityStatus }: any) {
     }
   };
 
-  return <div>{handleNavigationOnHome(navigationOnHome)}</div>;
+  const logout = async () => {
+    await app.auth().signOut();
+  }
+  var user = app.auth().currentUser;
+
+  if (user) {
+    if (user.emailVerified) {
+      return <div>{handleNavigationOnHome(navigationOnHome)}</div>;
+    } else {
+      return (
+        <Paper className={classes.paper}>
+          <div>
+            <h2>Please verify email and login again!</h2>
+            <h4>You can <span onClick={logout} className={classes.cursorPointer}>Logout</span></h4>
+          </div>
+        </Paper>
+      );
+    }
+  } else {
+    return <div>{handleNavigationOnHome(navigationOnHome)}</div>;
+  }
 }
 
 export default Home;
