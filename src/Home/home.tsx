@@ -453,4 +453,5 @@ function Home({ activityStatus }: any) {
 
   return <div>{handleNavigationOnHome(navigationOnHome)}</div>;
 }
+
 export default Home;

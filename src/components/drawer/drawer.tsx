@@ -32,6 +32,7 @@ import {
 import { Button } from "@material-ui/core";
 import { useHistory, useLocation } from "react-router";
 import app from "../../base";
+import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 
 const drawerWidth = 240;
 
@@ -172,8 +173,8 @@ const DrawerContainer = ({ children, activityStatus }: any) => {
   };
 
   var brokerMenuItems = [
-    { label: "SHOP BY CATEGORY", icon: () => <StoreIcon />, route: "/" },
-    { label: "GOLD", icon: () => <CreditCardIcon />, route: "/" },
+    { label: "HOME", icon: () => <StoreIcon />, route: "/" },
+    { label: "CONTACT US", icon: () => <AlternateEmailIcon />, route: "/contact" },
     { label: "SILVER", icon: () => <CreditCardIcon />, route: "/" },
   ];
 

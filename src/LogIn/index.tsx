@@ -1,11 +1,7 @@
 import React, { Component, useState } from "react";
 import { withRouter } from "react-router";
 import app from "../base";
-import {
-  createStyles,
-  makeStyles,
-  Theme
-} from "@material-ui/core/styles";
+import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import {
   backgroundMain,
   backgroundContrast,
@@ -13,13 +9,7 @@ import {
   logo,
 } from "../themes/theme-config";
 
-import {
-  Button,
-  Link,
-  Paper,
-  TextField,
-  Typography
-} from "@material-ui/core";
+import { Button, Link, Paper, TextField, Typography } from "@material-ui/core";
 import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -43,6 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
     forgot: {
       color: primaryColor,
       marginBottom: 10,
+     // marginLeft: 15,
     },
     boxBtn: {
       float: "left",
@@ -65,14 +56,14 @@ const useStyles = makeStyles((theme: Theme) =>
     buttonsContainerRegister: {
       marginTop: 20,
       display: "flex",
-      flexDirection: 'column',
-      alignItems: 'center',
+      flexDirection: "column",
+      alignItems: "center",
     },
     buttonsDiv: {
       width: "100%",
       display: "flex",
-      flexDirection: 'column',
-      alignItems: "flex-end",
+      flexDirection: "row",
+      //alignItems: "flex-end",
       justifyContent: "flex-end",
     },
     errorMessage: {
@@ -95,7 +86,6 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     mobileContainerRegister: {
       top: "10%",
-
     },
     loginButtonContainer: {
       position: "relative",
@@ -112,6 +102,11 @@ const useStyles = makeStyles((theme: Theme) =>
       fontSize: 16,
       margin: 15,
     },
+    forgotDivider: {
+      marginRight: 10,
+      marginLeft: 10,
+      color: primaryColor,
+    },
   })
 );
 
@@ -122,8 +117,6 @@ const LogInContainer = () => {
   const [password, setpassword] = useState("");
   const [errorMessage, setError] = useState("");
 
-
-
   const handleSignUp = async () => {
     try {
       const user = await app
@@ -131,7 +124,7 @@ const LogInContainer = () => {
         .signInWithEmailAndPassword(username, password);
       history.push("/");
     } catch (error) {
-      setError(error.message.split('. ', 1)[0]);
+      setError(error.message.split(". ", 1)[0]);
     }
   };
 
@@ -188,13 +181,15 @@ const LogInContainer = () => {
 
               <div className={classes.buttonsContainer}>
                 <div className={classes.loginButtonContainer}>
-                  {<Button
-                    onClick={() => handleSignUp()}
-                    className={classes.boxBtn}
-                    variant="outlined"
-                  >
-                    Login
-                </Button>}
+                  {
+                    <Button
+                      onClick={() => handleSignUp()}
+                      className={classes.boxBtn}
+                      variant="outlined"
+                    >
+                      Login
+                    </Button>
+                  }
                 </div>
               </div>
 
@@ -202,9 +197,11 @@ const LogInContainer = () => {
                 <Link className={classes.forgot} href="forgotPassword">
                   Forgot Password?
                 </Link>
+                <div className={classes.forgotDivider}>|</div>
                 <Link className={classes.forgot} href="register">
                   Register
                 </Link>
+                <div className={classes.forgotDivider}>|</div>
                 <Link className={classes.forgot} href="/">
                   Home
                 </Link>
@@ -213,8 +210,8 @@ const LogInContainer = () => {
           </div>
         </Paper>
       </div>
-    </div >
+    </div>
   );
-}
+};
 
 export default withRouter(LogInContainer);

@@ -89,13 +89,18 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     linkContainer: {
       display: "flex",
-      flexDirection: "column",
-      alignItems: "flex-end",
+      flexDirection: "row",
+     // alignItems: "flex-end",
       width: '100%',
     },
     forgot: {
       color: primaryColor,
       marginBottom: 10,
+    },
+    forgotDivider: {
+      marginRight: 10,
+      marginLeft: 10,
+      color: primaryColor,
     },
   })
 );
@@ -169,6 +174,7 @@ const ForgotPassword = () => {
             <Link className={classes.forgot} href="/login">
               LOGIN
             </Link>
+            <div className={classes.forgotDivider}>|</div>
             <Link className={classes.forgot} href="/">
               Home
             </Link>
