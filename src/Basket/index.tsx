@@ -161,7 +161,7 @@ const useStyles = makeStyles((theme) => ({
     color: primaryColor,
     backgroundColor: backgroundContrast,
     borderColor: primaryColor,
-   // textTransform: "capitalize",
+    // textTransform: "capitalize",
     marginBottom: 15,
     fontSize: 14,
   },
@@ -173,6 +173,18 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     alignItems: "self-end",
     color: primaryColor,
+  },
+  tableRowDescription: {
+    width: "35%",
+    textAlign: 'justify',
+    fontSize: 12,
+  },
+  tableCellsQty:{
+    width: "10%",
+    fontSize: 14,
+  },
+  tableRowValue:{
+    fontSize: 12,
   },
   productListCardsContainer: {},
 }));
@@ -190,7 +202,7 @@ const Basket = (props: any) => {
 
   const handleUpdateQuantity = (productId: any, value: any) => {
     console.log("updating quantity..");
-    let test: any = productsOnBasket
+    let test: any = productsOnBasket;
 
     var index: number = productsOnBasket.findIndex(
       (product: any) => product.id === productId
@@ -198,14 +210,16 @@ const Basket = (props: any) => {
 
     if (index !== -1) {
       productsOnBasket[index].quantity = parseInt(value);
-      var totalPriceId: any = "totalPrice_" + productId
+      var totalPriceId: any = "totalPrice_" + productId;
       var x: any = document.getElementById(totalPriceId);
-      x.innerHTML = parseInt(value) * productsOnBasket[index].price
+      x.innerHTML = parseInt(value) * productsOnBasket[index].price;
     }
-
   };
 
-  let productsOnBasket = props.productsOnBasket.map((obj: any) => ({ ...obj, quantity: 1 }));
+  let productsOnBasket = props.productsOnBasket.map((obj: any) => ({
+    ...obj,
+    quantity: 1,
+  }));
   let addProductToBasket = props.addProductToBasket;
   let handleNavigationOnHome = props.handleNavigationOnHome;
   let handleNavigationClick = props.handleNavigationClick;
@@ -224,17 +238,19 @@ const Basket = (props: any) => {
       }) => {
         let totalPrice = element.price * parseInt(element.quantity);
         console.log("TOTAL HEY", totalPrice);
-        var totalPriceId: any = "totalPrice_" + element.id
+        var totalPriceId: any = "totalPrice_" + element.id;
         productsOnBasketList.push(
           <TableRow hover className={classes.tableRow} key={element.id}>
-            <TableCell>{+1}</TableCell>
-            <TableCell>{element.name}</TableCell>
-            <TableCell>{element.description}</TableCell>
-            <TableCell>{totalPrice}</TableCell>
+            <TableCell className={classes.tableRowValue}>{+1}</TableCell>
+            <TableCell className={classes.tableRowValue}>{element.name}</TableCell>
+            <TableCell className={classes.tableRowDescription}>
+              {element.description}
+            </TableCell>
+            <TableCell className={classes.tableRowValue}>{totalPrice}</TableCell>
             {/* <TableCell>
             <NumberFormat thousandSeparator={true} value={element.price} />
           </TableCell> */}
-            <TableCell>
+            <TableCell className={classes.tableRowValue}>
               <TextField
                 InputProps={{
                   inputProps: { min: 1 },
@@ -248,25 +264,25 @@ const Basket = (props: any) => {
                 }
               />
             </TableCell>
-            <TableCell id={totalPriceId}>{parseInt(element.price)}</TableCell>
-            <TableCell>
+            <TableCell className={classes.tableRowValue} id={totalPriceId}>{parseInt(element.price)}</TableCell>
+            <TableCell className={classes.tableRowValue}>
               <Delete
                 className={classes.deleteIcon}
                 onClick={() => handleDeleteProductFromBasket(element.id)}
               />
             </TableCell>
-          </TableRow >
+          </TableRow>
         );
       }
     );
-  }
+  };
 
   function handleNavigateBackToHomePage() {
     handleNavigationClick("main");
     handleNavigationOnHome("main");
   }
 
-  updateUIOnProductChange(productsOnBasket)
+  updateUIOnProductChange(productsOnBasket);
 
   return (
     <div>
@@ -296,13 +312,13 @@ const Basket = (props: any) => {
                     Description
                   </TableCell>
                   <TableCell className={classes.tableCells} align="left">
-                    Price(R)
+                    Price (R)
                   </TableCell>
-                  <TableCell className={classes.tableCells} align="left">
+                  <TableCell className={classes.tableCellsQty} align="left">
                     Quantity
                   </TableCell>
                   <TableCell className={classes.tableCells} align="left">
-                    Total price(R)
+                    Total price (R)
                   </TableCell>
                   <TableCell className={classes.tableCells} align="left">
                     Delete
@@ -323,7 +339,11 @@ const Basket = (props: any) => {
                   TOTAL ( # of items): total cost{" "}
                 </div>
                 <div>
-                  <Button className={classes.boxBtn} variant="outlined" href='/checkout'>
+                  <Button
+                    className={classes.boxBtn}
+                    variant="outlined"
+                    href="/checkout"
+                  >
                     Checkout
                   </Button>
                 </div>
