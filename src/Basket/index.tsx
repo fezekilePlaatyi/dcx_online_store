@@ -323,7 +323,7 @@ const Basket = (props: any) => {
                   TOTAL ( # of items): total cost{" "}
                 </div>
                 <div>
-                  <Button className={classes.boxBtn} variant="outlined">
+                  <Button className={classes.boxBtn} variant="outlined" href='/checkout'>
                     Checkout
                   </Button>
                 </div>
