@@ -165,7 +165,7 @@ const OrderHistory = () => {
                                 {invoice[0].name}</a>
                         </h4>
                     </div>
-                    <div id="collapse1" className="panel-collapse collapse in">
+                    <div className="panel-collapse collapse in">
                         <div className="panel-body">
                             <p><b>Description:</b> {invoice[0].description}</p>
                             <p><b>Price:</b> {invoice[0].price}</p>
