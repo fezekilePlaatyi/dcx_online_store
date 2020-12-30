@@ -129,8 +129,10 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const CheckOut = () => {
+const CheckOut = (props: any) => {
   const classes = useStyles();
+  console.log("PRODUCTS LIST")
+  console.log(props.productsOnBasket)
 
   return (
     <div className={classes.mainContainer}>
@@ -173,7 +175,7 @@ const CheckOut = () => {
           />
         </div>
 
-        <div className={classes.passwordBlock}>
+        {/* <div className={classes.passwordBlock}>
           <div className={classes.formHeading}>Payment information</div>
           <div className={classes.textfieldBlockPassword}>
             <TextField
@@ -233,13 +235,13 @@ const CheckOut = () => {
               autoFocus
             />
           </div>
-        </div>
+        </div> */}
         <div className={classes.buttonsContainer}>
           <div className={classes.loginButtonContainer}>
             <Button
               className={classes.boxBtn}
               variant="outlined"
-              // onClick={updateCustomer}
+            // onClick={updateCustomer}
             >
               PAY NOW
             </Button>

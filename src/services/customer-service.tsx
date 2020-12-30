@@ -24,12 +24,6 @@ class UserService {
     sendPasswordResetEmail = async () => {
         try {
             var user = this.auth.currentUser;
-
-            user.sendEmailVerification().then(function () {
-                // Email sent.
-            }).catch(function (error: any) {
-                // An error happened.
-            });
             return this.auth.sendPasswordResetEmail(user.email)
         } catch (error) {
             return error

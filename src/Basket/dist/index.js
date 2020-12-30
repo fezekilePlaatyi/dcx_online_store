@@ -14,7 +14,6 @@ exports.__esModule = true;
 var react_1 = require("react");
 var styles_1 = require("@material-ui/core/styles");
 var icons_1 = require("@material-ui/icons/");
-var IconButton_1 = require("@material-ui/core/IconButton");
 var colors_1 = require("@material-ui/core/colors");
 var Delete_1 = require("@material-ui/icons/Delete");
 var core_1 = require("@material-ui/core");
@@ -26,6 +25,7 @@ var TableCell_1 = require("@material-ui/core/TableCell");
 var TableContainer_1 = require("@material-ui/core/TableContainer");
 var TableHead_1 = require("@material-ui/core/TableHead");
 var TableRow_1 = require("@material-ui/core/TableRow");
+var checkOutPage_1 = require("../pages/checkOutPage/checkOutPage");
 //import NumberFormat from "react-number-format";
 var useStyles = styles_1.makeStyles(function (theme) { return ({
     root: {
@@ -150,8 +150,23 @@ var useStyles = styles_1.makeStyles(function (theme) { return ({
         marginRight: 10,
         fontSize: 14
     },
+    boxBtnBack: {
+        float: "left",
+        color: theme_config_1.primaryColor,
+        backgroundColor: theme_config_1.backgroundContrast,
+        borderColor: theme_config_1.primaryColor,
+        // textTransform: "capitalize",
+        marginBottom: 15,
+        fontSize: 14
+    },
     tableCells: {
         fontSize: 14
+    },
+    backButton: {
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "self-end",
+        color: theme_config_1.primaryColor
     },
     productListCardsContainer: {}
 }); });
@@ -177,6 +192,7 @@ var Basket = function (props) {
     var addProductToBasket = props.addProductToBasket;
     var handleNavigationOnHome = props.handleNavigationOnHome;
     var handleNavigationClick = props.handleNavigationClick;
+    var _a = react_1.useState("basket"), navigationOnBasket = _a[0], setNavigationOnBasket = _a[1];
     var productsOnBasketList = [];
     console.log(productsOnBasket);
     var updateUIOnProductChange = function (productsOnBasket) {
@@ -206,34 +222,49 @@ var Basket = function (props) {
         handleNavigationOnHome("main");
     }
     updateUIOnProductChange(productsOnBasket);
-    return (react_1["default"].createElement("div", null,
-        react_1["default"].createElement(core_1.Paper, { className: classes.paper },
-            react_1["default"].createElement("h2", null,
-                react_1["default"].createElement(IconButton_1["default"], { onClick: function () { return handleNavigateBackToHomePage(); } },
-                    react_1["default"].createElement(icons_1.ChevronLeft, null),
-                    " back"),
-                "BASKET"),
-            react_1["default"].createElement("div", { className: classes.paperContetnt },
-                react_1["default"].createElement(TableContainer_1["default"], { component: core_1.Paper, className: classes.tableDiv },
-                    react_1["default"].createElement(Table_1["default"], { "aria-label": "simple table" },
-                        react_1["default"].createElement(TableHead_1["default"], null,
-                            react_1["default"].createElement(TableRow_1["default"], null,
-                                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "#"),
-                                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Name"),
-                                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Description"),
-                                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Price(R)"),
-                                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Quantity"),
-                                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Total price(R)"),
-                                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Delete"))),
-                        react_1["default"].createElement(TableBody_1["default"], null, productsOnBasketList))),
-                react_1["default"].createElement("div", null,
-                    react_1["default"].createElement(core_1.Paper, { className: classes.paperSummary },
-                        react_1["default"].createElement("div", null,
-                            react_1["default"].createElement("div", { className: classes.paperSummaryHeading }, "Basket summary"),
-                            react_1["default"].createElement("div", { className: classes.paperSummaryTotal },
-                                "TOTAL ( # of items): total cost",
-                                " "),
+    var Basket = function () {
+        return (react_1["default"].createElement("div", null,
+            react_1["default"].createElement(core_1.Paper, { className: classes.paper },
+                react_1["default"].createElement("h3", { className: classes.backButton },
+                    react_1["default"].createElement(core_1.Button, { className: classes.boxBtnBack, variant: "outlined", onClick: function () { return handleNavigateBackToHomePage(); } },
+                        react_1["default"].createElement(icons_1.ChevronLeft, null),
+                        " back"),
+                    "BASKET"),
+                react_1["default"].createElement("div", { className: classes.paperContetnt },
+                    react_1["default"].createElement(TableContainer_1["default"], { component: core_1.Paper, className: classes.tableDiv },
+                        react_1["default"].createElement(Table_1["default"], { "aria-label": "simple table" },
+                            react_1["default"].createElement(TableHead_1["default"], null,
+                                react_1["default"].createElement(TableRow_1["default"], null,
+                                    react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "#"),
+                                    react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Name"),
+                                    react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Description"),
+                                    react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Price(R)"),
+                                    react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Quantity"),
+                                    react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Total price(R)"),
+                                    react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Delete"))),
+                            react_1["default"].createElement(TableBody_1["default"], null, productsOnBasketList))),
+                    react_1["default"].createElement("div", null,
+                        react_1["default"].createElement(core_1.Paper, { className: classes.paperSummary },
                             react_1["default"].createElement("div", null,
-                                react_1["default"].createElement(core_1.Button, { className: classes.boxBtn, variant: "outlined" }, "Checkout")))))))));
+                                react_1["default"].createElement("div", { className: classes.paperSummaryHeading }, "Basket summary"),
+                                react_1["default"].createElement("div", { className: classes.paperSummaryTotal },
+                                    "TOTAL ( # of items): total cost",
+                                    " "),
+                                react_1["default"].createElement("div", null,
+                                    react_1["default"].createElement(core_1.Button, { className: classes.boxBtn, onClick: function () { return handleNavigationClickOnBasket("checkout"); }, variant: "outlined" }, "Checkout")))))))));
+    };
+    var handleNavigationClickOnBasket = function (nameOfComponent) {
+        console.log("navigating click handler..");
+        setNavigationOnBasket(nameOfComponent);
+    };
+    var handleNavigationOnBasket = function (nameOfComponent) {
+        switch (nameOfComponent) {
+            case "checkout":
+                return react_1["default"].createElement(checkOutPage_1["default"], { productsOnBasket: productsOnBasket });
+            case "basket":
+                return react_1["default"].createElement(Basket, null);
+        }
+    };
+    return react_1["default"].createElement("div", null, handleNavigationOnBasket(navigationOnBasket));
 };
 exports["default"] = Basket;

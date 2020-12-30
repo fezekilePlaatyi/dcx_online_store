@@ -60,11 +60,6 @@ var UserService = /** @class */ (function () {
             return __generator(this, function (_a) {
                 try {
                     user = this.auth.currentUser;
-                    user.sendEmailVerification().then(function () {
-                        // Email sent.
-                    })["catch"](function (error) {
-                        // An error happened.
-                    });
                     return [2 /*return*/, this.auth.sendPasswordResetEmail(user.email)];
                 }
                 catch (error) {
