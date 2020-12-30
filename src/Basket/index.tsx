@@ -174,77 +174,84 @@ const Basket = (props: any) => {
   };
 
   const handleUpdateQuantity = (productId: any, value: any) => {
+    console.log("updating quantity..");
+    let test: any = productsOnBasket
+
     var index: number = productsOnBasket.findIndex(
       (product: any) => product.id === productId
     );
-    if (index !== -1) productsOnBasket[index].quantity = value;
-    console.log(productsOnBasket);
+
+    if (index !== -1) {
+      productsOnBasket[index].quantity = parseInt(value);
+      var totalPriceId: any = "totalPrice_" + productId
+      var x: any = document.getElementById(totalPriceId);
+      x.innerHTML = parseInt(value) * productsOnBasket[index].price
+    }
+
   };
 
-  //   function ccyFormat(num: number) {
-  //     return `${num.toFixed(2)}`;
-  // }
-
-  let productsOnBasket = props.productsOnBasket;
+  let productsOnBasket = props.productsOnBasket.map((obj: any) => ({ ...obj, quantity: 1 }));
   let addProductToBasket = props.addProductToBasket;
   let handleNavigationOnHome = props.handleNavigationOnHome;
   let handleNavigationClick = props.handleNavigationClick
 
   let productsOnBasketList: any = [];
-
-  //let totalPrice = element.price * qty;
-  productsOnBasket.map((obj: any) => ({ ...obj, quantity: "1" }));
   console.log(productsOnBasket);
 
-  productsOnBasket.forEach(
-    (element: {
-      description: any;
-      name: any;
-      price: any;
-      quantity: any;
-      id: any;
-    }) => {
-      let totalPrice = parseInt(element.price) * parseInt(element.quantity);
-      console.log("TOTAL", totalPrice);
-      productsOnBasketList.push(
-        <TableRow hover className={classes.tableRow} key={element.id}>
-          <TableCell>{+1}</TableCell>
-          <TableCell>{element.name}</TableCell>
-          <TableCell>{element.description}</TableCell>
-          <TableCell>{element.price}</TableCell>
-          {/* <TableCell>
+  const updateUIOnProductChange = (productsOnBasket: any) => {
+    productsOnBasket.forEach(
+      (element: {
+        description: any;
+        name: any;
+        price: any;
+        quantity: any;
+        id: any;
+      }) => {
+        let totalPrice = element.price * parseInt(element.quantity);
+        console.log("TOTAL HEY", totalPrice);
+        var totalPriceId: any = "totalPrice_" + element.id
+        productsOnBasketList.push(
+          <TableRow hover className={classes.tableRow} key={element.id}>
+            <TableCell>{+1}</TableCell>
+            <TableCell>{element.name}</TableCell>
+            <TableCell>{element.description}</TableCell>
+            <TableCell>{totalPrice}</TableCell>
+            {/* <TableCell>
             <NumberFormat thousandSeparator={true} value={element.price} />
           </TableCell> */}
-          <TableCell>
-            <TextField
-              InputProps={{
-                inputProps: { min: 1 },
-                style: { width: "50%" },
-              }}
-              className={classes.textField}
-              type="number"
-              defaultValue={1}
-              onChange={(event) =>
-                handleUpdateQuantity(element.id, event.target.value)
-              }
-            />
-          </TableCell>
-          <TableCell>{totalPrice}</TableCell>
-          <TableCell>
-            <Delete
-              className={classes.deleteIcon}
-              onClick={() => handleDeleteProductFromBasket(element.id)}
-            />
-          </TableCell>
-        </TableRow>
-      );
-    }
-  );
+            <TableCell>
+              <TextField
+                InputProps={{
+                  inputProps: { min: 1 },
+                  style: { width: "50%" },
+                }}
+                className={classes.textField}
+                type="number"
+                defaultValue={1}
+                onChange={(event) =>
+                  handleUpdateQuantity(element.id, event.target.value)
+                }
+              />
+            </TableCell>
+            <TableCell id={totalPriceId}>{parseInt(element.price)}</TableCell>
+            <TableCell>
+              <Delete
+                className={classes.deleteIcon}
+                onClick={() => handleDeleteProductFromBasket(element.id)}
+              />
+            </TableCell>
+          </TableRow >
+        );
+      }
+    );
+  }
 
   function handleNavigateBackToHomePage() {
     handleNavigationClick("main")
     handleNavigationOnHome("main");
   }
+
+  updateUIOnProductChange(productsOnBasket)
 
   return (
     <div>

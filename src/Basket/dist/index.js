@@ -163,45 +163,49 @@ var Basket = function (props) {
         addProductToBasket(productsOnBasket.filter(function (item) { return item.id !== productId; }));
     };
     var handleUpdateQuantity = function (productId, value) {
+        console.log("updating quantity..");
+        var test = productsOnBasket;
         var index = productsOnBasket.findIndex(function (product) { return product.id === productId; });
-        if (index !== -1)
-            productsOnBasket[index].quantity = value;
-        console.log(productsOnBasket);
+        if (index !== -1) {
+            productsOnBasket[index].quantity = parseInt(value);
+            var totalPriceId = "totalPrice_" + productId;
+            var x = document.getElementById(totalPriceId);
+            x.innerHTML = parseInt(value) * productsOnBasket[index].price;
+        }
     };
-    //   function ccyFormat(num: number) {
-    //     return `${num.toFixed(2)}`;
-    // }
-    var productsOnBasket = props.productsOnBasket;
+    var productsOnBasket = props.productsOnBasket.map(function (obj) { return (__assign(__assign({}, obj), { quantity: 1 })); });
     var addProductToBasket = props.addProductToBasket;
     var handleNavigationOnHome = props.handleNavigationOnHome;
     var handleNavigationClick = props.handleNavigationClick;
     var productsOnBasketList = [];
-    //let totalPrice = element.price * qty;
-    productsOnBasket.map(function (obj) { return (__assign(__assign({}, obj), { quantity: "1" })); });
     console.log(productsOnBasket);
-    productsOnBasket.forEach(function (element) {
-        var totalPrice = parseInt(element.price) * parseInt(element.quantity);
-        console.log("TOTAL", totalPrice);
-        productsOnBasketList.push(react_1["default"].createElement(TableRow_1["default"], { hover: true, className: classes.tableRow, key: element.id },
-            react_1["default"].createElement(TableCell_1["default"], null, +1),
-            react_1["default"].createElement(TableCell_1["default"], null, element.name),
-            react_1["default"].createElement(TableCell_1["default"], null, element.description),
-            react_1["default"].createElement(TableCell_1["default"], null, element.price),
-            react_1["default"].createElement(TableCell_1["default"], null,
-                react_1["default"].createElement(core_1.TextField, { InputProps: {
-                        inputProps: { min: 1 },
-                        style: { width: "50%" }
-                    }, className: classes.textField, type: "number", defaultValue: 1, onChange: function (event) {
-                        return handleUpdateQuantity(element.id, event.target.value);
-                    } })),
-            react_1["default"].createElement(TableCell_1["default"], null, totalPrice),
-            react_1["default"].createElement(TableCell_1["default"], null,
-                react_1["default"].createElement(Delete_1["default"], { className: classes.deleteIcon, onClick: function () { return handleDeleteProductFromBasket(element.id); } }))));
-    });
+    var updateUIOnProductChange = function (productsOnBasket) {
+        productsOnBasket.forEach(function (element) {
+            var totalPrice = element.price * parseInt(element.quantity);
+            console.log("TOTAL HEY", totalPrice);
+            var totalPriceId = "totalPrice_" + element.id;
+            productsOnBasketList.push(react_1["default"].createElement(TableRow_1["default"], { hover: true, className: classes.tableRow, key: element.id },
+                react_1["default"].createElement(TableCell_1["default"], null, +1),
+                react_1["default"].createElement(TableCell_1["default"], null, element.name),
+                react_1["default"].createElement(TableCell_1["default"], null, element.description),
+                react_1["default"].createElement(TableCell_1["default"], null, totalPrice),
+                react_1["default"].createElement(TableCell_1["default"], null,
+                    react_1["default"].createElement(core_1.TextField, { InputProps: {
+                            inputProps: { min: 1 },
+                            style: { width: "50%" }
+                        }, className: classes.textField, type: "number", defaultValue: 1, onChange: function (event) {
+                            return handleUpdateQuantity(element.id, event.target.value);
+                        } })),
+                react_1["default"].createElement(TableCell_1["default"], { id: totalPriceId }, parseInt(element.price)),
+                react_1["default"].createElement(TableCell_1["default"], null,
+                    react_1["default"].createElement(Delete_1["default"], { className: classes.deleteIcon, onClick: function () { return handleDeleteProductFromBasket(element.id); } }))));
+        });
+    };
     function handleNavigateBackToHomePage() {
         handleNavigationClick("main");
         handleNavigationOnHome("main");
     }
+    updateUIOnProductChange(productsOnBasket);
     return (react_1["default"].createElement("div", null,
         react_1["default"].createElement(core_1.Paper, { className: classes.paper },
             react_1["default"].createElement("h2", null,
