@@ -9,7 +9,7 @@ import {
 } from "../../themes/theme-config";
 import Paper from "@material-ui/core/Paper";
 import PhoneInTalkIcon from "@material-ui/icons/PhoneInTalk";
-import EmailIcon from '@material-ui/icons/Email';
+import EmailIcon from "@material-ui/icons/Email";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -54,6 +54,8 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexDirection: "row",
       alignItems: "center",
+      marginTop: 20,
+      marginBottom: 5,
     },
   })
 );
@@ -73,46 +75,59 @@ const Contact = () => {
           <div className={classes.contactBlock}>
             <h3>GENERAL ENQUIRIES</h3>
             <div className={classes.contactDetails}>
-            <div className={classes.contactDetailsIcon}>
-              <PhoneInTalkIcon />
-            </div>
-            <div className={classes.contactDetailsPhone}>+27 (0) 62 716 9842</div>
+              <div className={classes.contactDetailsIcon}>
+                <PhoneInTalkIcon />
+              </div>
+              <div className={classes.contactDetailsPhone}>
+                +27 (0) 62 716 9842
+              </div>
             </div>
             <div className={classes.contactDetails}>
-            <div className={classes.contactDetailsIcon}>
-              <EmailIcon />
-            </div>
-            <div className={classes.contactDetailsPhone}>	info@dcxbullion.com</div>
+              <div className={classes.contactDetailsIcon}>
+                <EmailIcon />
+              </div>
+              <div className={classes.contactDetailsPhone}>
+                {" "}
+                info@dcxbullion.com
+              </div>
             </div>
           </div>
           <div className={classes.contactBlock}>
             <h3>DEON REBELLO</h3>
             <div className={classes.contactDetails}>
-            <div className={classes.contactDetailsIcon}>
-              <PhoneInTalkIcon />
-            </div>
-            <div className={classes.contactDetailsPhone}>+27 (0) 83 255 4341</div>
+              <div className={classes.contactDetailsIcon}>
+                <PhoneInTalkIcon />
+              </div>
+              <div className={classes.contactDetailsPhone}>
+                +27 (0) 83 255 4341
+              </div>
             </div>
             <div className={classes.contactDetails}>
-            <div className={classes.contactDetailsIcon}>
-              <EmailIcon />
-            </div>
-            <div className={classes.contactDetailsPhone}>deon@dcxbullion.com</div>
+              <div className={classes.contactDetailsIcon}>
+                <EmailIcon />
+              </div>
+              <div className={classes.contactDetailsPhone}>
+                deon@dcxbullion.com
+              </div>
             </div>
           </div>
           <div className={classes.contactBlock}>
             <h3>CHRIS HATTINGH</h3>
             <div className={classes.contactDetails}>
-            <div className={classes.contactDetailsIcon}>
-              <PhoneInTalkIcon />
-            </div>
-            <div className={classes.contactDetailsPhone}>+27 (0) 83 625 5916</div>
+              <div className={classes.contactDetailsIcon}>
+                <PhoneInTalkIcon />
+              </div>
+              <div className={classes.contactDetailsPhone}>
+                +27 (0) 83 625 5916
+              </div>
             </div>
             <div className={classes.contactDetails}>
-            <div className={classes.contactDetailsIcon}>
-              <EmailIcon />
-            </div>
-            <div className={classes.contactDetailsPhone}>chris@dcxbullion.com</div>
+              <div className={classes.contactDetailsIcon}>
+                <EmailIcon />
+              </div>
+              <div className={classes.contactDetailsPhone}>
+                chris@dcxbullion.com
+              </div>
             </div>
           </div>
         </div>
