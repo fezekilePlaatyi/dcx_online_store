@@ -16,7 +16,7 @@ import img from "../assets/gold.jpg";
 import moment from "moment";
 import Button from "@material-ui/core/Button";
 import { Paper } from "@material-ui/core";
-import { backgroundMain } from "../themes/theme-config";
+import { backgroundMain, primaryText } from "../themes/theme-config";
 import Basket from "../Basket";
 import {
   // backgroundMain,
@@ -121,13 +121,17 @@ const useStyles = makeStyles((theme) => ({
     marginTop: 20,
   },
   shopCategoryHeadingMain: {
+    color: primaryText,
+  },
+  heading: {
+    margin: "15px 0px",
     color: primaryColor,
   },
   productListCardsContainer: {},
   hidden: {
     display: 'none',
   }
-}));
+}));    
 
 function Home({ activityStatus }: any) {
   const classes = useStyles();
@@ -374,6 +378,7 @@ function Home({ activityStatus }: any) {
             style={{ display: productDetailsBox ? "none" : "block" }}
           >
             <div className={classes.shopCategory}>
+            <h3 className={classes.heading}>INVEST IN YOUR FUTURE NOW!</h3>
               <div className={classes.shopCategoryHeading}>
                 <h3 className={classes.shopCategoryHeadingMain}>
                   Shop by category

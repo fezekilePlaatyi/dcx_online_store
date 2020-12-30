@@ -20,8 +20,8 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-//import DashboardIcon from "@material-ui/icons/Dashboard";
-import StoreIcon from '@material-ui/icons/Store';
+import DashboardIcon from "@material-ui/icons/Dashboard";
+//import StoreIcon from '@material-ui/icons/Store';
 import {
   backgroundMain,
   logo,
@@ -33,6 +33,7 @@ import { Button } from "@material-ui/core";
 import { useHistory, useLocation } from "react-router";
 import app from "../../base";
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
+import InfoIcon from '@material-ui/icons/Info';
 
 const drawerWidth = 240;
 
@@ -173,9 +174,10 @@ const DrawerContainer = ({ children, activityStatus }: any) => {
   };
 
   var brokerMenuItems = [
-    { label: "HOME", icon: () => <StoreIcon />, route: "/" },
+    { label: "HOME", icon: () => <DashboardIcon />, route: "/" },
+    { label: "ABOUT US", icon: () => <InfoIcon />, route: "/about" },
     { label: "CONTACT US", icon: () => <AlternateEmailIcon />, route: "/contact" },
-    { label: "SILVER", icon: () => <CreditCardIcon />, route: "/" },
+
   ];
 
   let menuItems: MenuItem[] = brokerMenuItems;
@@ -271,11 +273,11 @@ const DrawerContainer = ({ children, activityStatus }: any) => {
 
             return (
               <ListItem button onClick={() => history.push(x.route)}>
-                <ListItemIcon style={{ color: match ? primaryColor : primaryText }}>
+                <ListItemIcon style={{ color: match ? primaryText  : primaryText }}>
                   {x.icon()}
                 </ListItemIcon>
                 <ListItemText
-                  style={{ color: match ? primaryColor : primaryText }}
+                  style={{ color: match ? primaryText : primaryText }}
                   className={classes.listItemText}
                   primary={x.label}
                 />
