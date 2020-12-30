@@ -213,7 +213,7 @@ const Profile = () => {
                 variant="outlined"
                 onClick={sendPasswordResetEmailHandler}
               >
-                CHANGE PASWWORD
+                CHANGE PASSWORD
               </Button>
             </div>
           </div>
