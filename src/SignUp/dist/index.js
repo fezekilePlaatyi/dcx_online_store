@@ -44,7 +44,6 @@ var theme_config_1 = require("../themes/theme-config");
 var Button_1 = require("@material-ui/core/Button");
 var TextField_1 = require("@material-ui/core/TextField");
 var Paper_1 = require("@material-ui/core/Paper");
-var core_1 = require("@material-ui/core");
 var customer_service_1 = require("../services/customer-service");
 var useStyles = styles_1.makeStyles(function (theme) {
     return styles_1.createStyles({
@@ -210,6 +209,9 @@ var SignUpContainer = function () {
             }
         });
     }); };
+    var navigate = function (nameOfComponent) {
+        history.push(nameOfComponent);
+    };
     return (react_1["default"].createElement("div", { className: classes.mainContainer },
         react_1["default"].createElement("div", { className: classes.boxWrapper },
             react_1["default"].createElement(Paper_1["default"], { className: classes.paper, elevation: 3, square: true },
@@ -246,8 +248,8 @@ var SignUpContainer = function () {
                             react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined", onClick: function (event) { return handleSignUp(event); } }, "Submit"))),
                     react_1["default"].createElement("div", { className: classes.sentEmailText }, registrationResponse)),
                 react_1["default"].createElement("div", { className: classes.buttonsDiv },
-                    react_1["default"].createElement(core_1.Link, { className: classes.forgot, href: "/login" }, "Login"),
+                    react_1["default"].createElement("span", { className: classes.forgot, onClick: function () { return navigate('/login'); } }, "Login"),
                     react_1["default"].createElement("div", { className: classes.forgotDivider }, "|"),
-                    react_1["default"].createElement(core_1.Link, { className: classes.forgot, href: "/" }, "Home"))))));
+                    react_1["default"].createElement("span", { className: classes.forgot, onClick: function () { return navigate('/'); } }, "Home"))))));
 };
 exports["default"] = react_router_1.withRouter(SignUpContainer);

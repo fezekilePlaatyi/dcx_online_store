@@ -33,7 +33,7 @@ const useStyles = makeStyles((theme: Theme) =>
     forgot: {
       color: primaryColor,
       marginBottom: 10,
-     // marginLeft: 15,
+      // marginLeft: 15,
     },
     boxBtn: {
       float: "left",
@@ -128,6 +128,17 @@ const LogInContainer = () => {
     }
   };
 
+  const navigate = (nameOfComponent: string) => {
+    history.push(nameOfComponent);
+  }
+
+  const [emailFocus, updateEmailFocus] = useState(true)
+
+  const handleOnFocus = (event: any) => {
+    updateEmailFocus(false)
+    setError("");
+  }
+
   return (
     <div className={classes.mainContainer}>
       <div className={classes.boxWrapper}>
@@ -146,32 +157,32 @@ const LogInContainer = () => {
                 className={classes.textfield}
                 name="email"
                 type="email"
-                autoComplete="off"
                 margin="normal"
                 label="Email"
                 fullWidth={true}
                 variant="outlined"
                 required
                 InputProps={{
-                  autoComplete: "off",
+                  readOnly: emailFocus,
                 }}
-                autoFocus
-                onFocus={() => setError("")}
+                onFocus={(event) => handleOnFocus(event)}
                 onChange={(event) => setusername(event.target.value)}
               />
 
               <TextField
                 className={classes.textfield}
-                autoComplete="off"
                 margin="normal"
                 label="Password"
                 fullWidth={true}
                 type="password"
+                autoComplete="none"
                 variant="outlined"
-                InputProps={{ autoComplete: "off" }}
                 name="password"
                 required
-                onFocus={() => setError("")}
+                InputProps={{
+                  readOnly: emailFocus,
+                }}
+                onFocus={(event) => handleOnFocus(event)}
                 onChange={(event) => setpassword(event.target.value)}
               />
 
@@ -194,17 +205,23 @@ const LogInContainer = () => {
               </div>
 
               <div className={classes.buttonsDiv}>
-                <Link className={classes.forgot} href="forgotPassword">
+                <span
+                  className={classes.forgot}
+                  onClick={() => navigate('/forgotPassword')}>
                   Forgot Password?
-                </Link>
+                </span>
                 <div className={classes.forgotDivider}>|</div>
-                <Link className={classes.forgot} href="register">
+                <span
+                  className={classes.forgot}
+                  onClick={() => navigate('/signup')}>
                   Register
-                </Link>
+                </span>
                 <div className={classes.forgotDivider}>|</div>
-                <Link className={classes.forgot} href="/">
+                <span
+                  className={classes.forgot}
+                  onClick={() => navigate('/')}>
                   Home
-                </Link>
+                </span>
               </div>
             </form>
           </div>

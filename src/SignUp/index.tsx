@@ -172,6 +172,10 @@ const SignUpContainer = () => {
     }
   };
 
+  const navigate = (nameOfComponent: string) => {
+    history.push(nameOfComponent);
+  }
+
   return (
     <div className={classes.mainContainer}>
       <div className={classes.boxWrapper}>
@@ -302,13 +306,17 @@ const SignUpContainer = () => {
             <div className={classes.sentEmailText}>{registrationResponse}</div>
           </form>
           <div className={classes.buttonsDiv}>
-            <Link className={classes.forgot} href="/login">
+            <span
+              className={classes.forgot}
+              onClick={() => navigate('/login')}>
               Login
-            </Link>
+            </span>
             <div className={classes.forgotDivider}>|</div>
-            <Link className={classes.forgot} href="/">
+            <span
+              className={classes.forgot}
+              onClick={() => navigate('/')}>
               Home
-            </Link>
+            </span>
           </div>
         </Paper>
       </div>

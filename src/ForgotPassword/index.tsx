@@ -12,6 +12,7 @@ import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
 import app from "../base";
 import { Link } from "@material-ui/core";
+import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -54,7 +55,7 @@ const useStyles = makeStyles((theme: Theme) =>
     paper: {
       padding: 25,
       overflow: "auto",
-      backgroundColor:  backgroundContrast,
+      backgroundColor: backgroundContrast,
       border: "none",
       display: "flex",
       flexDirection: "column",
@@ -68,7 +69,7 @@ const useStyles = makeStyles((theme: Theme) =>
       top: "10%",
     },
     loginButtonContainer: {
-     // margin: theme.spacing(1),
+      // margin: theme.spacing(1),
       position: "relative",
       width: "100%",
     },
@@ -84,7 +85,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     form: {
       marginTop: 20,
-    //  marginBottom: 20,
+      //  marginBottom: 20,
       width: '100%',
     },
     linkContainer: {
@@ -107,8 +108,14 @@ const useStyles = makeStyles((theme: Theme) =>
 
 const ForgotPassword = () => {
   const classes = useStyles();
+  const history = useHistory();
+
   const [email, setEmail] = useState("");
   const [resetPasswordResults, setResetPasswordResults] = useState("");
+
+  const navigate = (nameOfComponent: string) => {
+    history.push(nameOfComponent);
+  }
 
   const resetPasswordWithEmail = async () => {
     await app
@@ -171,13 +178,18 @@ const ForgotPassword = () => {
             <div className={classes.sentEmailText}>{resetPasswordResults}</div>
           </form>
           <div className={classes.linkContainer}>
-            <Link className={classes.forgot} href="/login">
+            <span
+              className={classes.forgot}
+              onClick={() => navigate('/login')}
+            >
               Login
-            </Link>
+            </span>
             <div className={classes.forgotDivider}>|</div>
-            <Link className={classes.forgot} href="/">
+            <span
+              className={classes.forgot}
+              onClick={() => navigate('/')}>
               Home
-            </Link>
+              </span>
           </div>
         </Paper>
       </div>
