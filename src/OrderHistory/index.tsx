@@ -117,8 +117,19 @@ const OrderHistory = () => {
       .then((data) => {
         invoicesData.splice(0, invoicesData.length);
         data.forEach((doc: any) => {
-          invoicesData.push(doc.data());
+          invoicesData.push(doc.data().invoiceData)
         });
+
+        invoices.push(
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Description</th>
+              <th>Price</th>
+              <th>Quantity</th>
+            </tr>
+          </thead>
+        )
         setOrderHistory(invoicesData);
       })
       .catch((error) => {
@@ -129,34 +140,65 @@ const OrderHistory = () => {
   invoicesData.forEach(addInvoiceToAccordingList);
 
   function addInvoiceToAccordingList(element: any, index: any, array: any) {
-    for (const [key, value] of Object.entries(element)) {
-      var invoice: any = value;
-      invoices.push(
-        <div className="panel panel-default">
-          <div className="panel-heading">
-            <h4 className="panel-title">
-              <a
-                data-toggle="collapse"
-                data-parent="#accordion"
-                href="#collapse1"
-              >
-                <b>{invoice[0].name}</b>
-              </a>
-            </h4>
-          </div>
-          <div id="collapse1" className="panel-collapse collapse in">
-            <div className="panel-body">
-              <p className={classes.orgerDetails}>
-                <b>Description:</b> {invoice[0].description}
-              </p>
-              <p className={classes.orgerDetails}>
-                <b>Price:</b> R {invoice[0].price}
-              </p>
-            </div>
-          </div>
-        </div>
-      );
-    }
+    let lineItems: any = [];
+    let itemLength = element.length;
+    let counter = 0;
+
+    element.forEach((item: any) => {
+      counter++
+      lineItems.push(
+        <tr style={{ color: "white", fontSize: "102%" }}>
+          <td>{item.name}</td>
+          <td>{item.description}</td>
+          <td>{item.price}</td>
+          <td>{item.quantity}<br></br></td>
+        </tr >
+      )
+      if (counter == itemLength) {
+        lineItems.push(
+          <tr>
+            <td>111111111111111111111111111111111111111111111111</td>
+            <td>111111111111111111111111111111111111111111111111</td>
+            <td>111111111111111111111111111111111111111111111111</td>
+            <td>111111111111111111111111111111111111111111111111</td>
+          </tr>
+        )
+      }
+    })
+
+    invoices.push(lineItems)
+
+
+
+
+    // for (const [key, value] of Object.entries(element)) {
+    //   var invoice: any = value;
+    //   invoices.push(
+    //     <div className="panel panel-default">
+    //       <div className="panel-heading">
+    //         <h4 className="panel-title">
+    //           <a
+    //             data-toggle="collapse"
+    //             data-parent="#accordion"
+    //             href="#collapse1"
+    //           >
+    //             <b>{invoice[0].name}</b>
+    //           </a>
+    //         </h4>
+    //       </div>
+    //       <div id="collapse1" className="panel-collapse collapse in">
+    //         <div className="panel-body">
+    //           <p className={classes.orgerDetails}>
+    //             <b>Description:</b> {invoice[0].description}
+    //           </p>
+    //           <p className={classes.orgerDetails}>
+    //             <b>Price:</b> R {invoice[0].price}
+    //           </p>
+    //         </div>
+    //       </div>
+    //     </div>
+    //   );
+    // }
   }
 
   displayOrderHistory();
