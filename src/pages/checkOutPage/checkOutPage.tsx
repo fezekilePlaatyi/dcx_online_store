@@ -164,7 +164,7 @@ const CheckOut = (props: any) => {
         <h3 className={classes.heading}>CHECK OUT</h3>
       </div>
       <div className={classes.whiteText}>
-        Please provide delivery and payment information
+      Please provide delivery address
       </div>
       <form className={classes.form}>
         <div className={classes.formHeading}> Delivery address</div>
