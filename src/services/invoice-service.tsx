@@ -13,7 +13,7 @@ class InvoiceService {
 
     createInvoice = async (invoiceData: any) => {
         var userId = this.auth.currentUser.uid;
-        return this.db.collection("customer_invoices").doc(userId).collection("invoices").doc().set({ invoiceData })
+        return this.db.collection("customer_invoices").doc(userId).collection("invoices").doc().set(invoiceData)
     }
 
     getInvoicesByUserId = async () => {

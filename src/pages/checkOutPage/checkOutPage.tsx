@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 //import firebase from "../../config/firebase";
 import { createStyles, makeStyles, Theme } from "@material-ui/core/styles";
 import {
@@ -17,12 +17,13 @@ import {
   Link,
   // Paper,
   // TextField,
-  // Typography,
+  Typography,
   //Typography,
 } from "@material-ui/core";
 import InvoiceService from '../../services/invoice-service';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
+import CustomerService from "../../services/customer-service";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -132,6 +133,17 @@ const useStyles = makeStyles((theme: Theme) =>
     passwordBlock: {
       marginTop: 30,
     },
+    hidden: {
+      display: 'none',
+    },
+    errorMessage: {
+      color: theme.palette.error.main,
+      marginTop: 20,
+      textAlign: "left",
+    },
+    answerYes: {
+      paddingLeft: 5,
+    }
   })
 );
 
@@ -141,34 +153,96 @@ const CheckOut = (props: any) => {
 
   const [postalCode, setPostalCode] = useState("")
   const [address, setAddress] = useState("")
-
   const [state, setState] = React.useState({
-
     checkedB: false,
-
   });
-
+  const [userDetails, setUserDetails] = useState<any>({})
+  const [hideProfileAddressStatus, setHideProfileAddress] = useState(false)
+  const [addressTypeQuestion, setAddressTypeQuestion] = useState("Want to use different")
+  const [inputErrorMessage, setInputErrorMessage] = useState("");
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
 
-  console.log("PRODUCTS LIST")
-  console.log(props.productsOnBasket)
+  let customerService = new CustomerService()
+  customerService.getUserDetails().then((data: any) => {
+    setUserDetails(data.data())
+  })
+    .catch((error: any) => {
+      alert("Error getting your profile details.")
+      console.log(error)
+    })
 
   const procceddToPay = () => {
-    if (address == "" || postalCode == "") {
-      alert("Please enter address correctly.")
-      return
+
+    if (!hideProfileAddressStatus) {
+      if (!userDetails.address) {
+        alert("No address found in you profile. Update your profile with your Address.")
+      }
+      else {
+        saveInvoice(userDetails.address)
+      }
     } else {
-      let invoiceService = new InvoiceService()
-      invoiceService.createInvoice(props.productsOnBasket).then(function () {
-        alert("Done Making Payment, You will be redirected to your Orders.")
-        history.push("/orderHistory")
-      })
-        .catch((error) => {
-          alert("An error occured while making creating an Invoice.")
-        })
+      if (!address) {
+        setInputErrorMessage("You chose to enter new Address for delivery, please enter it.")
+      }
+      else {
+        saveInvoice(address)
+      }
+
     }
+  }
+
+  const saveInvoice = (userAddress: any) => {
+    let invoiceService = new InvoiceService()
+    let userDetails = {
+      userAddress: userAddress
+    }
+
+    var invoice: any = {
+      invoiceData: props.productsOnBasket,
+      userDetails: userAddress
+    }
+
+    invoiceService.createInvoice(invoice).then(function () {
+
+      alert("Done Making Payment, You will be redirected to your Orders.")
+      if (state.checkedB == true && hideProfileAddressStatus == true) {
+        let customerService = new CustomerService()
+        customerService.updateSingleField({
+          address: userAddress
+        }).then(() => {
+          history.push("/orderHistory")
+        })
+          .catch(error => {
+            alert("Error in saving address...")
+            history.push("/orderHistory")
+          })
+      }
+      else {
+        history.push("/orderHistory")
+      }
+    })
+      .catch((error) => {
+        console.log(error)
+        alert("An error occured while making creating an Invoice.")
+      })
+  }
+
+
+  useEffect(() => {
+    setInputErrorMessage("")
+    !hideProfileAddressStatus ?
+      setAddressTypeQuestion("Want to use new different for this delivery")
+      :
+      setAddressTypeQuestion("Want to use address from profile")
+  }, [hideProfileAddressStatus])
+
+  const handlerToggleAddress = () => {
+    hideProfileAddressStatus ?
+      setHideProfileAddress(false)
+      :
+      setHideProfileAddress(true)
   }
 
 
@@ -178,39 +252,50 @@ const CheckOut = (props: any) => {
         <h3 className={classes.heading}>CHECK OUT</h3>
       </div>
       <div className={classes.whiteText}>
-     Delivery address
+        Delivery address
       </div>
       <form className={classes.form}>
-        {/* <div className={classes.formHeading}> Delivery address</div> */}
         <div className={classes.textfieldBlock}>
-          {/* <div className={classes.formHeading}>Use current delivery address?</div> */}
-          <div className={classes.formHeading}><b >Address:</b> Sibiti private Estate</div>
-          <div className={classes.formHeading}>Want to use different address? <Link>Yes</Link></div>
-          <TextField
-            className={classes.textfield}
-            autoComplete="off"
-            margin="normal"
-            label="New Address"
-            variant="outlined"
-            required
-            value={address}
-            onChange={(event) => setAddress(event.target.value)}
-            InputProps={{
-              autoComplete: "off",
-            }}
-            autoFocus
-          />
-<FormControlLabel 
-        control={
-          <Checkbox
-            checked={state.checkedB}
-            onChange={handleChange}
-            name="checkedB"
-            color="primary"
-          />
-        }
-        label="Want to save new address to your profile?"
-      />
+          <div className={hideProfileAddressStatus == false ? `${classes.formHeading} ` : `${classes.hidden}`}><b >Address:</b> {userDetails.address}</div>
+          <div className={classes.formHeading}>
+            {addressTypeQuestion} address?
+
+            <Link
+              className={classes.answerYes}
+              onClick={() => handlerToggleAddress()}>
+              Yes
+            </Link>
+          </div>
+          <div className={hideProfileAddressStatus == true ? `undefined` : `${classes.hidden}`}>
+            <TextField
+              className={classes.textfield}
+              autoComplete="off"
+              margin="normal"
+              label="Enter your full Address here..."
+              variant="outlined"
+              required
+              value={address}
+              onChange={(event) => setAddress(event.target.value)}
+              InputProps={{
+                autoComplete: "off",
+              }}
+              onFocus={() => setInputErrorMessage("")}
+              autoFocus
+            />
+            <br></br>
+            <FormControlLabel
+              control={
+                <Checkbox
+                  checked={state.checkedB}
+                  onChange={handleChange}
+                  name="checkedB"
+                  color="primary"
+                />
+              }
+              label="Save new address to profile?"
+            />
+
+          </div>
 
           {/* <TextField
             className={classes.textfieldPostal}
@@ -289,6 +374,11 @@ const CheckOut = (props: any) => {
             />
           </div>
         </div> */}
+
+        <Typography paragraph={true} className={classes.errorMessage}>
+          {inputErrorMessage}
+        </Typography>
+
 
         <div className={classes.buttonsContainer}>
           <div className={classes.loginButtonContainer}>

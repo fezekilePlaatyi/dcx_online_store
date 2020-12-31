@@ -167,7 +167,8 @@ var SignUpContainer = function () {
     var _e = react_1.useState(""), password = _e[0], setPassword = _e[1];
     var _f = react_1.useState(""), confirmPassword = _f[0], setConfirmPassword = _f[1];
     var _g = react_1.useState(""), idNumber = _g[0], setIdNumber = _g[1];
-    var _h = react_1.useState(""), registrationResponse = _h[0], setRegistrationResponse = _h[1];
+    var _h = react_1.useState(""), address = _h[0], setAddress = _h[1];
+    var _j = react_1.useState(""), registrationResponse = _j[0], setRegistrationResponse = _j[1];
     var handleSignUp = function (event) { return __awaiter(void 0, void 0, void 0, function () {
         var error_1;
         return __generator(this, function (_a) {
@@ -187,7 +188,8 @@ var SignUpContainer = function () {
                                 lastName: lastName,
                                 phoneNumber: phoneNumber,
                                 email: email,
-                                idNumber: idNumber
+                                idNumber: idNumber,
+                                address: address
                             });
                             if (user && user.emailVerified === false) {
                                 user.sendEmailVerification().then(function () {
@@ -240,9 +242,13 @@ var SignUpContainer = function () {
                         react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "Confirm password", variant: "outlined", value: confirmPassword, onChange: function (event) { return setConfirmPassword(event.target.value); }, required: true, InputProps: {
                                 autoComplete: "off"
                             }, autoFocus: true })),
-                    react_1["default"].createElement(TextField_1["default"], { className: classes.textfieldID, autoComplete: "off", margin: "normal", label: "ID Number", variant: "outlined", value: idNumber, onChange: function (event) { return setIdNumber(event.target.value); }, required: true, InputProps: {
-                            autoComplete: "off"
-                        }, autoFocus: true }),
+                    react_1["default"].createElement("div", { className: classes.textfieldBlock },
+                        react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "ID Number", variant: "outlined", value: idNumber, onChange: function (event) { return setIdNumber(event.target.value); }, required: true, InputProps: {
+                                autoComplete: "off"
+                            }, autoFocus: true }),
+                        react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "Address", variant: "outlined", value: address, onChange: function (event) { return setAddress(event.target.value); }, required: true, InputProps: {
+                                autoComplete: "off"
+                            }, autoFocus: true })),
                     react_1["default"].createElement("div", { className: classes.buttonsContainer },
                         react_1["default"].createElement("div", { className: classes.loginButtonContainer },
                             react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined", onClick: function (event) { return handleSignUp(event); } }, "Submit"))),

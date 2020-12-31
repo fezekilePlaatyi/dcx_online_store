@@ -46,7 +46,7 @@ var InvoiceService = /** @class */ (function () {
             var userId;
             return __generator(this, function (_a) {
                 userId = this.auth.currentUser.uid;
-                return [2 /*return*/, this.db.collection("customer_invoices").doc(userId).collection("invoices").doc().set({ invoiceData: invoiceData })];
+                return [2 /*return*/, this.db.collection("customer_invoices").doc(userId).collection("invoices").doc().set(invoiceData)];
             });
         }); };
         this.getInvoicesByUserId = function () { return __awaiter(_this, void 0, void 0, function () {

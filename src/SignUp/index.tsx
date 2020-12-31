@@ -139,6 +139,7 @@ const SignUpContainer = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [idNumber, setIdNumber] = useState("");
+  const [address, setAddress] = useState("");
   const [registrationResponse, setRegistrationResponse] = useState("");
 
   const handleSignUp = async (event: any) => {
@@ -156,6 +157,7 @@ const SignUpContainer = () => {
             phoneNumber: phoneNumber,
             email: email,
             idNumber: idNumber,
+            address: address
           });
 
           if (user && user.emailVerified === false) {
@@ -278,34 +280,34 @@ const SignUpContainer = () => {
               />
             </div>
             <div className={classes.textfieldBlock}>
-            <TextField
-              className={classes.textfield}
-              autoComplete="off"
-              margin="normal"
-              label="ID Number"
-              variant="outlined"
-              value={idNumber}
-              onChange={(event) => setIdNumber(event.target.value)}
-              required
-              InputProps={{
-                autoComplete: "off",
-              }}
-              autoFocus
-            />
-            <TextField
-              className={classes.textfield}
-              autoComplete="off"
-              margin="normal"
-              label="Address"
-              variant="outlined"
-              value={idNumber}
-              onChange={(event) => setIdNumber(event.target.value)}
-              required
-              InputProps={{
-                autoComplete: "off",
-              }}
-              autoFocus
-            />
+              <TextField
+                className={classes.textfield}
+                autoComplete="off"
+                margin="normal"
+                label="ID Number"
+                variant="outlined"
+                value={idNumber}
+                onChange={(event) => setIdNumber(event.target.value)}
+                required
+                InputProps={{
+                  autoComplete: "off",
+                }}
+                autoFocus
+              />
+              <TextField
+                className={classes.textfield}
+                autoComplete="off"
+                margin="normal"
+                label="Address"
+                variant="outlined"
+                value={address}
+                onChange={(event) => setAddress(event.target.value)}
+                required
+                InputProps={{
+                  autoComplete: "off",
+                }}
+                autoFocus
+              />
             </div>
 
             <div className={classes.buttonsContainer}>

@@ -68,6 +68,13 @@ var UserService = /** @class */ (function () {
                 return [2 /*return*/];
             });
         }); };
+        this.updateSingleField = function (userAddressObject) { return __awaiter(_this, void 0, void 0, function () {
+            var userId;
+            return __generator(this, function (_a) {
+                userId = this.auth.currentUser.uid;
+                return [2 /*return*/, this.db.collection("customers").doc(userId).update(userAddressObject)];
+            });
+        }); };
         this.sendPasswordResetEmail = function () { return __awaiter(_this, void 0, void 0, function () {
             var user;
             return __generator(this, function (_a) {

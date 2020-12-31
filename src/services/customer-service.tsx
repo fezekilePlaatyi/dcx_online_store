@@ -29,6 +29,10 @@ class UserService {
         }
     }
 
+    updateSingleField = async (userAddressObject: any) => {
+        var userId = this.auth.currentUser.uid
+        return this.db.collection("customers").doc(userId).update(userAddressObject)
+    }
 
     sendPasswordResetEmail = async () => {
         try {
