@@ -20,7 +20,9 @@ import {
   // Typography,
   //Typography,
 } from "@material-ui/core";
-import InvoiceService from '../../services/invoice-service'
+import InvoiceService from '../../services/invoice-service';
+import Checkbox from '@material-ui/core/Checkbox';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -102,7 +104,7 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     textfieldBlock: {
       display: "flex",
-      flexDirection: "row",
+      flexDirection: "column",
       // justifyContent: "space-between",
     },
     textfieldBlockPassword: {
@@ -119,8 +121,10 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "flex-end",
     },
     formHeading: {
-      fontSize: 16,
-      color: primaryColor,
+      fontSize: 14,
+      color: primaryText,
+      marginBottom: 15,
+      marginRight: 15,
     },
     textfieldPostal: {
       width: "19%",
@@ -137,6 +141,16 @@ const CheckOut = (props: any) => {
 
   const [postalCode, setPostalCode] = useState("")
   const [address, setAddress] = useState("")
+
+  const [state, setState] = React.useState({
+
+    checkedB: false,
+
+  });
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setState({ ...state, [event.target.name]: event.target.checked });
+  };
 
   console.log("PRODUCTS LIST")
   console.log(props.productsOnBasket)
@@ -164,16 +178,19 @@ const CheckOut = (props: any) => {
         <h3 className={classes.heading}>CHECK OUT</h3>
       </div>
       <div className={classes.whiteText}>
-        Please provide delivery and payment information
+     Delivery address
       </div>
       <form className={classes.form}>
-        <div className={classes.formHeading}> Delivery address</div>
+        {/* <div className={classes.formHeading}> Delivery address</div> */}
         <div className={classes.textfieldBlock}>
+          {/* <div className={classes.formHeading}>Use current delivery address?</div> */}
+          <div className={classes.formHeading}><b >Address:</b> Sibiti private Estate</div>
+          <div className={classes.formHeading}>Want to use different address? <Link>Yes</Link></div>
           <TextField
             className={classes.textfield}
             autoComplete="off"
             margin="normal"
-            label="Address"
+            label="New Address"
             variant="outlined"
             required
             value={address}
@@ -183,7 +200,19 @@ const CheckOut = (props: any) => {
             }}
             autoFocus
           />
-          <TextField
+<FormControlLabel 
+        control={
+          <Checkbox
+            checked={state.checkedB}
+            onChange={handleChange}
+            name="checkedB"
+            color="primary"
+          />
+        }
+        label="Want to save new address to your profile?"
+      />
+
+          {/* <TextField
             className={classes.textfieldPostal}
             autoComplete="off"
             margin="normal"
@@ -196,7 +225,7 @@ const CheckOut = (props: any) => {
               autoComplete: "off",
             }}
             autoFocus
-          />
+          /> */}
         </div>
 
         {/* <div className={classes.passwordBlock}>

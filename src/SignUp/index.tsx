@@ -277,8 +277,9 @@ const SignUpContainer = () => {
                 autoFocus
               />
             </div>
+            <div className={classes.textfieldBlock}>
             <TextField
-              className={classes.textfieldID}
+              className={classes.textfield}
               autoComplete="off"
               margin="normal"
               label="ID Number"
@@ -291,6 +292,21 @@ const SignUpContainer = () => {
               }}
               autoFocus
             />
+            <TextField
+              className={classes.textfield}
+              autoComplete="off"
+              margin="normal"
+              label="Address"
+              variant="outlined"
+              value={idNumber}
+              onChange={(event) => setIdNumber(event.target.value)}
+              required
+              InputProps={{
+                autoComplete: "off",
+              }}
+              autoFocus
+            />
+            </div>
 
             <div className={classes.buttonsContainer}>
               <div className={classes.loginButtonContainer}>
