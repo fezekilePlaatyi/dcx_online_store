@@ -18,6 +18,8 @@ import Button from "@material-ui/core/Button";
 import { Paper } from "@material-ui/core";
 import { backgroundMain, primaryText } from "../themes/theme-config";
 import Basket from "../Basket";
+import Util from "../Util"
+
 import {
   // backgroundMain,
   primaryColor,
@@ -25,6 +27,8 @@ import {
   //primaryText,
 } from "../themes/theme-config";
 import app from "../base";
+import DisplayMoreProductDetails from '../DisplayMoreProductDetails'
+import { useHistory } from "react-router";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -189,7 +193,9 @@ const useStyles = makeStyles((theme) => ({
 }));
 
 function Home({ activityStatus }: any) {
-  const classes = useStyles();
+  const classes = useStyles()
+  const history = useHistory();
+  const util = new Util()
 
   var defaultProduct: any = {
     id: "",
@@ -206,16 +212,19 @@ function Home({ activityStatus }: any) {
   const [productDetails, setProductDetails] = React.useState<any>(
     defaultProduct
   );
+  const [selectedProduct, setSelectedProduct] = React.useState<any>({});
   const [notificationMessage, setNotificationMessage] = useState("");
   const [productTypeToDisplay, setProductListCategory] = useState("all");
   const [productList, setProductList] = React.useState<any>([]);
 
   const handleExpandClick = (productId: any) => {
-    if (productId != "back") {
-      var product = products.find((item: any) => item.id == productId);
-      setProductDetails(product);
-    }
-    displayProductDetailsBox(!productDetailsBox);
+    var product = products.find((item: any) => item.id == productId)
+    history.push({
+      pathname: '/displayMoreProductDetails',
+      state: {
+        selectedProduct: product
+      }
+    });
   };
 
   const handleAddingProductToBasket = (productDetails: any) => {
@@ -233,6 +242,7 @@ function Home({ activityStatus }: any) {
       );
       toggleToast();
     }
+    setSelectedProduct(productDetails)
   };
 
   const toggleToast = () => {
@@ -258,7 +268,9 @@ function Home({ activityStatus }: any) {
   };
 
   const goToBasketIfNotEmpty = () => {
-    if (productsOnBasket.length > 0) handleNavigationClick("basket");
+
+    if (util.retrieveBasketProductDataFromLocalStorage().length > 0)
+      history.push("/basket")
   };
 
   let products = [
@@ -271,6 +283,7 @@ function Home({ activityStatus }: any) {
       dateAdded: "19 / December / 2020",
       dateModified: "19 / December / 2020",
       unitWeight: 100,
+      quantity: 1,
       price: 124084,
     },
     {
@@ -282,6 +295,7 @@ function Home({ activityStatus }: any) {
       dateAdded: "20 / December / 2020",
       dateModified: "21 / December / 2020",
       unitWeight: 31,
+      quantity: 1,
       price: 38751,
     },
     {
@@ -293,6 +307,7 @@ function Home({ activityStatus }: any) {
       dateAdded: "20 / December / 2020",
       dateModified: "21 / December / 2020",
       unitWeight: 31,
+      quantity: 1,
       price: 28751,
     },
     {
@@ -304,6 +319,7 @@ function Home({ activityStatus }: any) {
       dateAdded: "19 / November / 2020",
       dateModified: "12 / December / 2020",
       unitWeight: 3,
+      quantity: 1,
       price: 100,
     },
     {
@@ -315,6 +331,7 @@ function Home({ activityStatus }: any) {
       dateAdded: "20 / December / 2020",
       dateModified: "21 / December / 2020",
       unitWeight: 1,
+      quantity: 1,
       price: 1000,
     },
   ];
@@ -357,13 +374,6 @@ function Home({ activityStatus }: any) {
             </Typography>{" "}
           </CardContent>
           <CardActions disableSpacing>
-            {/* <IconButton aria-label="add to favorites">
-              <FavoriteIcon />
-            </IconButton>
-            <IconButton aria-label="share">
-              <ShareIcon />
-            </IconButton> */}
-            {/* <div>Details</div> */}
 
             <Button
               variant="outlined"
@@ -392,83 +402,6 @@ function Home({ activityStatus }: any) {
         <div id="snackbar">{notificationMessage}</div>
         <Paper className={classes.paper}>
           <div
-            className={classes.productDetails}
-            style={{ display: productDetailsBox ? "block" : "none" }}
-          >
-            <IconButton
-              onClick={() => handleExpandClick("back")}
-              aria-expanded={productDetailsBox}
-              aria-label="show more"
-            >
-              <ChevronLeft /> back
-            </IconButton>
-            <Card className={classes.productDisplayRoot}>
-              <CardMedia className={classes.cover} image={img} title="Image" />
-              <div className={classes.details}>
-                <CardContent className={classes.content}>
-                  <Typography
-                    className={classes.contentDetailsName}
-                    component="h5"
-                    variant="h5"
-                  >
-                    <b> Name: </b> {productDetails.name}
-                  </Typography>
-                  <Typography
-                    className={classes.contentDetails}
-                    variant="subtitle1"
-                    color="textSecondary"
-                  >
-                    <b>Price:</b> R {productDetails.price}
-                  </Typography>
-                  <div>
-                    <Typography
-                      className={classes.contentDetails}
-                      component="p"
-                    >
-                      <b>Details:</b> {productDetails.description}
-                    </Typography>
-
-                    <Button
-                      variant="outlined"
-                      className={classes.boxBtnAddMain}
-                      onClick={() =>
-                        handleAddingProductToBasket(productDetails)
-                      }
-                      style={{
-                        display: checkIfAlreadyAddedOnBasket(productDetails)
-                          ? "none"
-                          : "flex",
-                      }}
-                    >
-                      + Add <ShoppingCart />
-                    </Button>
-
-                    <Typography
-                      component="p"
-                      style={{
-                        display: checkIfAlreadyAddedOnBasket(productDetails)
-                          ? "flex"
-                          : "none",
-                        color: primaryText,
-                        alignItems: "center",
-                        fontSize: 14,
-                      }}
-                    >
-                      Added <ShoppingCart />{" "}
-                      <div className={classes.divider}>|</div>
-                      <Button
-                        className={classes.boxBtnAdd}
-                        onClick={() => handleNavigationClick("basket")}
-                      >
-                        View Basket
-                      </Button>
-                    </Typography>
-                  </div>
-                </CardContent>
-              </div>
-            </Card>
-          </div>
-          <div
             className={classes.productListCardsContainer}
             style={{ display: productDetailsBox ? "none" : "block" }}
           >
@@ -485,7 +418,7 @@ function Home({ activityStatus }: any) {
                 >
                   <div className={classes.cart}>
                     {" "}
-                    ({productsOnBasket.length}) <ShoppingCart />
+                    ({util.retrieveBasketProductDataFromLocalStorage().length}) <ShoppingCart />
                   </div>
                 </Button>
               </div>
@@ -524,9 +457,6 @@ function Home({ activityStatus }: any) {
 
   const handleNavigationClick = (nameOfComponent: any) => {
     console.log("navigating click handler..");
-    if (nameOfComponent == "main" && productDetailsBox == true) {
-      displayProductDetailsBox(false);
-    }
     setSavigationOnHome(nameOfComponent);
   };
 
@@ -534,15 +464,10 @@ function Home({ activityStatus }: any) {
     switch (nameOfComponent) {
       case "main":
         return <Main />;
-      case "basket":
-        return (
-          <Basket
-            productsOnBasket={productsOnBasket}
-            addProductToBasket={addProductToBasket}
-            handleNavigationOnHome={handleNavigationOnHome}
-            handleNavigationClick={handleNavigationClick}
-          />
-        );
+
+      case "displayMoreProductDetails": {
+        return <DisplayMoreProductDetails productDetails={selectedProduct} />;
+      }
     }
   };
 
@@ -565,7 +490,9 @@ function Home({ activityStatus }: any) {
       );
     }
   } else {
-    return <div>{handleNavigationOnHome(navigationOnHome)}</div>;
+    return <div>
+      <Main />
+    </div>;
   }
 }
 

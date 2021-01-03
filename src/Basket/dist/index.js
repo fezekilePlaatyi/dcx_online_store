@@ -12,8 +12,8 @@ var __assign = (this && this.__assign) || function () {
 };
 exports.__esModule = true;
 var react_1 = require("react");
+var Util_1 = require("../Util");
 var styles_1 = require("@material-ui/core/styles");
-var icons_1 = require("@material-ui/icons/");
 var colors_1 = require("@material-ui/core/colors");
 var Delete_1 = require("@material-ui/icons/Delete");
 var core_1 = require("@material-ui/core");
@@ -25,7 +25,6 @@ var TableCell_1 = require("@material-ui/core/TableCell");
 var TableContainer_1 = require("@material-ui/core/TableContainer");
 var TableHead_1 = require("@material-ui/core/TableHead");
 var TableRow_1 = require("@material-ui/core/TableRow");
-var checkOutPage_1 = require("../pages/checkOutPage/checkOutPage");
 //import NumberFormat from "react-number-format";
 var useStyles = styles_1.makeStyles(function (theme) { return ({
     root: {
@@ -182,114 +181,94 @@ var useStyles = styles_1.makeStyles(function (theme) { return ({
     },
     productListCardsContainer: {}
 }); });
-var Basket = function (props) {
+var Basket = function () {
     var classes = useStyles();
     var history = react_router_dom_1.useHistory();
+    var util = new Util_1["default"]();
+    var _a = react_1.useState(util.retrieveBasketProductDataFromLocalStorage()), basketProductData = _a[0], setBasketProductData = _a[1];
     var handleDeleteProductFromBasket = function (productId) {
-        console.log("deleting...");
-        addProductToBasket(productsOnBasket.filter(function (item) { return item.id !== productId; }));
+        console.log("deleting item...");
+        var updatedProductsOnBasket = basketProductData;
+        updatedProductsOnBasket = updatedProductsOnBasket.filter(function (item) { return item.id !== productId; });
+        setBasketProductData(updatedProductsOnBasket);
     };
     var handleUpdateQuantity = function (productId, value) {
-        console.log("updating quantity..");
-        var test = productsOnBasket;
-        var index = productsOnBasket.findIndex(function (product) { return product.id === productId; });
-        if (index !== -1) {
-            productsOnBasket[index].quantity = parseInt(value);
-            var totalPriceId = "totalPrice_" + productId;
-            var x = document.getElementById(totalPriceId);
-            x.innerHTML = parseInt(value) * productsOnBasket[index].price;
-        }
-        updateUIOnProductChange(productsOnBasket);
-    };
-    var productsOnBasket = props.productsOnBasket.map(function (obj) { return (__assign(__assign({}, obj), { quantity: 1 })); });
-    var addProductToBasket = props.addProductToBasket;
-    var handleNavigationOnHome = props.handleNavigationOnHome;
-    var handleNavigationClick = props.handleNavigationClick;
-    var _a = react_1.useState("basket"), navigationOnBasket = _a[0], setNavigationOnBasket = _a[1];
-    var _b = react_1.useState(0), subTotalPrice = _b[0], setSubTotalPrice = _b[1];
-    var productsOnBasketList = [];
-    var updateUIOnProductChange = function (productsOnBasket) {
-        console.log(productsOnBasket);
-        var subTotalPrice = 0;
-        var counter = 0;
-        productsOnBasket.forEach(function (element) {
-            var totalPrice = element.price * parseInt(element.quantity);
-            var totalPriceId = "totalPrice_" + element.id;
-            subTotalPrice = subTotalPrice + totalPrice;
-            counter++;
-            productsOnBasketList.push(react_1["default"].createElement(TableRow_1["default"], { hover: true, className: classes.tableRow, key: element.id },
-                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowValue }),
-                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowValue }, element.name),
-                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowDescription }, element.description),
-                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowValue }, totalPrice),
-                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowValue },
-                    react_1["default"].createElement(core_1.TextField, { InputProps: {
-                            inputProps: { min: 1 },
-                            style: { width: "50%" }
-                        }, className: classes.textField, type: "number", defaultValue: 1, onChange: function (event) {
-                            return handleUpdateQuantity(element.id, event.target.value);
-                        } })),
-                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowValue, id: totalPriceId }, parseInt(element.price)),
-                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowValue },
-                    react_1["default"].createElement(Delete_1["default"], { className: classes.deleteIcon, onClick: function () { return handleDeleteProductFromBasket(element.id); } }))));
-            if (counter == productsOnBasket.length) {
-                var subTotalPriceId = "subTotalPrice";
-                var x = document.getElementById(subTotalPriceId);
-                if (x !== null)
-                    x.innerHTML = subTotalPrice;
+        console.log("updating item quantity...");
+        setBasketProductData(function (prevData) { return prevData.map(function (item) {
+            if (item.id === productId) {
+                return __assign(__assign({}, item), { quantity: parseInt(value) });
             }
+            return item;
+        }); });
+    };
+    var handleNavigation = function (componentName) {
+        console.log("navigating to", componentName);
+        /*
+          To:Do Check if Logged in or force to login
+        */
+        if (util.retrieveBasketProductDataFromLocalStorage().length > 0)
+            history.push(componentName);
+    };
+    var getBasketSubTotal = function () {
+        console.log("updatng basket subtotal...");
+        var basketSubTotal = 0;
+        var totalNumberOfItems = 0;
+        var pricesArray = basketProductData.map(function (element) { return element.price; });
+        var quantityArray = basketProductData.map(function (element) { return element.quantity; });
+        pricesArray.forEach(function (price, index) {
+            basketSubTotal += quantityArray[index] * price;
+            totalNumberOfItems += quantityArray[index];
         });
+        return {
+            basketSubTotal: basketSubTotal,
+            totalNumberOfItems: totalNumberOfItems
+        };
     };
-    function handleNavigateBackToHomePage() {
-        handleNavigationClick("main");
-        handleNavigationOnHome("main");
-    }
-    updateUIOnProductChange(productsOnBasket);
-    var Basket = function () {
-        return (react_1["default"].createElement("div", null,
-            react_1["default"].createElement(core_1.Paper, { className: classes.paper },
-                react_1["default"].createElement("h3", { className: classes.backButton },
-                    react_1["default"].createElement(core_1.Button, { className: classes.boxBtnBack, variant: "outlined", onClick: function () { return handleNavigateBackToHomePage(); } },
-                        react_1["default"].createElement(icons_1.ChevronLeft, null),
-                        " back"),
-                    "BASKET"),
-                react_1["default"].createElement("div", { className: classes.paperContetnt },
-                    react_1["default"].createElement(TableContainer_1["default"], { component: core_1.Paper, className: classes.tableDiv },
-                        react_1["default"].createElement(Table_1["default"], { "aria-label": "simple table" },
-                            react_1["default"].createElement(TableHead_1["default"], null,
-                                react_1["default"].createElement(TableRow_1["default"], null,
-                                    react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "#"),
-                                    react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Name"),
-                                    react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Description"),
-                                    react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Price (R)"),
-                                    react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCellsQty, align: "left" }, "Quantity"),
-                                    react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Total price (R)"),
-                                    react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Delete"))),
-                            react_1["default"].createElement(TableBody_1["default"], null, productsOnBasketList))),
+    react_1.useEffect(function () {
+        console.log("Changes detected on basket data...");
+        util.storeBasketProductDataToLocalStorage(basketProductData);
+        console.log(util.retrieveBasketProductDataFromLocalStorage());
+    }, [basketProductData]);
+    return (react_1["default"].createElement("div", null,
+        react_1["default"].createElement("div", { className: classes.paperContetnt },
+            react_1["default"].createElement(TableContainer_1["default"], { component: core_1.Paper, className: classes.tableDiv },
+                react_1["default"].createElement(Table_1["default"], { "aria-label": "simple table" },
+                    react_1["default"].createElement(TableHead_1["default"], null,
+                        react_1["default"].createElement(TableRow_1["default"], null,
+                            react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "#"),
+                            react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Name"),
+                            react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Description"),
+                            react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Price (R)"),
+                            react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCellsQty, align: "left" }, "Quantity"),
+                            react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Total price (R)"),
+                            react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Delete"))),
+                    react_1["default"].createElement(TableBody_1["default"], null, basketProductData.map(function (item) {
+                        return react_1["default"].createElement(TableRow_1["default"], { hover: true, className: classes.tableRow, key: item.id },
+                            react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowValue }, "#"),
+                            react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowValue }, item.name),
+                            react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowValue }, item.description),
+                            react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowValue }, item.price),
+                            react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowValue },
+                                react_1["default"].createElement(core_1.TextField, { InputProps: {
+                                        inputProps: { min: 1 },
+                                        style: { width: "50%" }
+                                    }, className: classes.textField, type: "number", value: item.quantity, onChange: function (event) {
+                                        return handleUpdateQuantity(item.id, event.target.value);
+                                    } })),
+                            react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowValue }, parseInt(item.quantity) * item.price),
+                            react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowValue },
+                                react_1["default"].createElement(Delete_1["default"], { className: classes.deleteIcon, onClick: function () { return handleDeleteProductFromBasket(item.id); } })));
+                    }))))),
+        react_1["default"].createElement("div", null,
+            react_1["default"].createElement(core_1.Paper, { className: classes.paperSummary },
+                react_1["default"].createElement("div", null,
+                    react_1["default"].createElement("div", { className: classes.paperSummaryHeading }, "Basket summary"),
+                    react_1["default"].createElement("div", { className: classes.paperSummaryTotal },
+                        "TOTAL ( ",
+                        getBasketSubTotal().totalNumberOfItems,
+                        " of items): total cost R ",
+                        getBasketSubTotal().basketSubTotal),
                     react_1["default"].createElement("div", null,
-                        react_1["default"].createElement(core_1.Paper, { className: classes.paperSummary },
-                            react_1["default"].createElement("div", null,
-                                react_1["default"].createElement("div", { className: classes.paperSummaryHeading }, "Basket summary"),
-                                react_1["default"].createElement("div", { className: classes.paperSummaryTotal },
-                                    "TOTAL ( ",
-                                    productsOnBasketList.length,
-                                    " of items): total cost R ",
-                                    react_1["default"].createElement("span", { id: "subTotalPrice" }, ".")),
-                                react_1["default"].createElement("div", null,
-                                    react_1["default"].createElement(core_1.Button, { className: classes.boxBtn, onClick: function () { return handleNavigationClickOnBasket("checkout"); }, variant: "outlined" }, "Checkout")))))))));
-    };
-    var handleNavigationClickOnBasket = function (nameOfComponent) {
-        console.log("navigating click handler..");
-        setNavigationOnBasket(nameOfComponent);
-    };
-    var handleNavigationOnBasket = function (nameOfComponent) {
-        switch (nameOfComponent) {
-            case "checkout":
-                return react_1["default"].createElement(checkOutPage_1["default"], { productsOnBasket: productsOnBasket });
-            case "basket":
-                return react_1["default"].createElement(Basket, null);
-        }
-    };
-    return react_1["default"].createElement("div", null, handleNavigationOnBasket(navigationOnBasket));
+                        react_1["default"].createElement(core_1.Button, { className: classes.boxBtn, onClick: function () { return handleNavigation("/checkout"); }, variant: "outlined" }, "Checkout")))))));
 };
 exports["default"] = Basket;

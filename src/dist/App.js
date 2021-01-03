@@ -10,6 +10,7 @@ var home_1 = require("./Home/home");
 var LogIn_1 = require("./LogIn");
 var SignUp_1 = require("./SignUp");
 var Basket_1 = require("./Basket");
+var DisplayMoreProductDetails_1 = require("./DisplayMoreProductDetails");
 var OrderHistory_1 = require("./OrderHistory");
 var ForgotPassword_1 = require("./ForgotPassword");
 var profile_1 = require("./pages/profilePage/profile");
@@ -49,6 +50,7 @@ var App = function () {
         react_1["default"].createElement("div", null,
             react_1["default"].createElement(HomeRoute_1["default"], { exact: true, path: "/", component: home_1["default"], authenticated: authenticated }),
             react_1["default"].createElement(PrivateRoute_1["default"], { exact: true, path: "/basket", component: Basket_1["default"], authenticated: authenticated }),
+            react_1["default"].createElement(PrivateRoute_1["default"], { exact: true, path: "/displayMoreProductDetails", component: DisplayMoreProductDetails_1["default"], authenticated: authenticated }),
             react_1["default"].createElement(PrivateRoute_1["default"], { exact: true, path: "/profile", component: profile_1["default"], authenticated: authenticated }),
             react_1["default"].createElement(PrivateRoute_1["default"], { exact: true, path: "/orderHistory", component: OrderHistory_1["default"], authenticated: authenticated }),
             react_1["default"].createElement(NonPrivateRoutesWithDrawer_1["default"], { exact: true, path: "/contact", component: contactPage_1["default"], authenticated: authenticated }),

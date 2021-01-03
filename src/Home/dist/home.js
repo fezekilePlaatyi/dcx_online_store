@@ -51,23 +51,23 @@ var Card_1 = require("@material-ui/core/Card");
 var CardMedia_1 = require("@material-ui/core/CardMedia");
 var CardContent_1 = require("@material-ui/core/CardContent");
 var CardActions_1 = require("@material-ui/core/CardActions");
-var IconButton_1 = require("@material-ui/core/IconButton");
 var Typography_1 = require("@material-ui/core/Typography");
 var colors_1 = require("@material-ui/core/colors");
-var Favorite_1 = require("@material-ui/icons/Favorite");
-var Share_1 = require("@material-ui/icons/Share");
 var ExpandMore_1 = require("@material-ui/icons/ExpandMore");
 var gold_jpg_1 = require("../assets/gold.jpg");
 var moment_1 = require("moment");
 var Button_1 = require("@material-ui/core/Button");
 var core_1 = require("@material-ui/core");
 var theme_config_1 = require("../themes/theme-config");
-var Basket_1 = require("../Basket");
+var Util_1 = require("../Util");
 var theme_config_2 = require("../themes/theme-config");
 var base_1 = require("../base");
+var DisplayMoreProductDetails_1 = require("../DisplayMoreProductDetails");
+var react_router_1 = require("react-router");
 var useStyles = styles_1.makeStyles(function (theme) { return ({
     root: {
-        maxWidth: 345
+        maxWidth: 345,
+        width: "40%"
     },
     textField: {
         margin: theme.spacing(1),
@@ -89,7 +89,7 @@ var useStyles = styles_1.makeStyles(function (theme) { return ({
         flex: "1 0 auto"
     },
     cover: {
-        width: 151
+        width: "25%"
     },
     controls: {
         display: "flex",
@@ -108,6 +108,9 @@ var useStyles = styles_1.makeStyles(function (theme) { return ({
     expand: {
         transform: "rotate(0deg)",
         marginLeft: "auto",
+        backgroundColor: theme_config_2.backgroundContrast,
+        borderColor: theme_config_2.primaryColor,
+        color: theme_config_2.primaryColor,
         transition: theme.transitions.create("transform", {
             duration: theme.transitions.duration.shortest
         })
@@ -143,6 +146,28 @@ var useStyles = styles_1.makeStyles(function (theme) { return ({
         color: theme_config_2.primaryColor,
         width: "30%"
     },
+    boxBtnAddMain: {
+        //float: "left",
+        backgroundColor: theme_config_2.backgroundContrast,
+        borderColor: theme_config_2.primaryColor,
+        color: theme_config_2.primaryColor,
+        // width: "20%",
+        // marginTop: 20,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+    },
+    boxBtnAdd: {
+        //float: "left",
+        backgroundColor: theme_config_2.backgroundContrast,
+        borderColor: theme_config_2.primaryColor,
+        color: theme_config_1.primaryText,
+        // width: "20%",
+        // marginTop: 20,
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center"
+    },
     shopCategory: {
         display: "flex",
         flexDirection: "column",
@@ -177,6 +202,20 @@ var useStyles = styles_1.makeStyles(function (theme) { return ({
         alignItems: "center",
         fontSize: 18
     },
+    cardDetails: {
+        fontSize: 14
+    },
+    contentDetailsName: {
+        marginBottom: 15
+    },
+    contentDetails: {
+        marginBottom: 10,
+        fontSize: 14
+    },
+    divider: {
+        marginRight: 15,
+        marginLeft: 15
+    },
     productListCardsContainer: {},
     hidden: {
         display: "none"
@@ -190,6 +229,8 @@ function Home(_a) {
     var _this = this;
     var activityStatus = _a.activityStatus;
     var classes = useStyles();
+    var history = react_router_1.useHistory();
+    var util = new Util_1["default"]();
     var defaultProduct = {
         id: "",
         name: "",
@@ -202,15 +243,18 @@ function Home(_a) {
     var _b = react_1["default"].useState([]), productsOnBasket = _b[0], addProductToBasket = _b[1];
     var _c = react_1["default"].useState(false), productDetailsBox = _c[0], displayProductDetailsBox = _c[1];
     var _d = react_1["default"].useState(defaultProduct), productDetails = _d[0], setProductDetails = _d[1];
-    var _e = react_1.useState(""), notificationMessage = _e[0], setNotificationMessage = _e[1];
-    var _f = react_1.useState("all"), productTypeToDisplay = _f[0], setProductListCategory = _f[1];
-    var _g = react_1["default"].useState([]), productList = _g[0], setProductList = _g[1];
+    var _e = react_1["default"].useState({}), selectedProduct = _e[0], setSelectedProduct = _e[1];
+    var _f = react_1.useState(""), notificationMessage = _f[0], setNotificationMessage = _f[1];
+    var _g = react_1.useState("all"), productTypeToDisplay = _g[0], setProductListCategory = _g[1];
+    var _h = react_1["default"].useState([]), productList = _h[0], setProductList = _h[1];
     var handleExpandClick = function (productId) {
-        if (productId != "back") {
-            var product = products.find(function (item) { return item.id == productId; });
-            setProductDetails(product);
-        }
-        displayProductDetailsBox(!productDetailsBox);
+        var product = products.find(function (item) { return item.id == productId; });
+        history.push({
+            pathname: '/displayMoreProductDetails',
+            state: {
+                selectedProduct: product
+            }
+        });
     };
     var handleAddingProductToBasket = function (productDetails) {
         if (activityStatus == true) {
@@ -225,6 +269,7 @@ function Home(_a) {
             setNotificationMessage("You need to be logged in to add product to busket.");
             toggleToast();
         }
+        setSelectedProduct(productDetails);
     };
     var toggleToast = function () {
         var x = document.getElementById("snackbar");
@@ -243,8 +288,8 @@ function Home(_a) {
         setProductListCategory(productType);
     };
     var goToBasketIfNotEmpty = function () {
-        if (productsOnBasket.length > 0)
-            handleNavigationClick("basket");
+        if (util.retrieveBasketProductDataFromLocalStorage().length > 0)
+            history.push("/basket");
     };
     var products = [
         {
@@ -255,6 +300,7 @@ function Home(_a) {
             dateAdded: "19 / December / 2020",
             dateModified: "19 / December / 2020",
             unitWeight: 100,
+            quantity: 1,
             price: 124084
         },
         {
@@ -265,6 +311,7 @@ function Home(_a) {
             dateAdded: "20 / December / 2020",
             dateModified: "21 / December / 2020",
             unitWeight: 31,
+            quantity: 1,
             price: 38751
         },
         {
@@ -275,6 +322,7 @@ function Home(_a) {
             dateAdded: "20 / December / 2020",
             dateModified: "21 / December / 2020",
             unitWeight: 31,
+            quantity: 1,
             price: 28751
         },
         {
@@ -285,6 +333,7 @@ function Home(_a) {
             dateAdded: "19 / November / 2020",
             dateModified: "12 / December / 2020",
             unitWeight: 3,
+            quantity: 1,
             price: 100
         },
         {
@@ -295,6 +344,7 @@ function Home(_a) {
             dateAdded: "20 / December / 2020",
             dateModified: "21 / December / 2020",
             unitWeight: 1,
+            quantity: 1,
             price: 1000
         },
     ];
@@ -315,26 +365,20 @@ function Home(_a) {
         updateProductByCategory.forEach(function (element) {
             var _a;
             productList.push(react_1["default"].createElement(Card_1["default"], { className: classes.root, style: { marginRight: 30 } },
-                react_1["default"].createElement(CardMedia_1["default"], { className: classes.media, image: gold_jpg_1["default"], title: "plcae holder" }),
+                react_1["default"].createElement(CardMedia_1["default"], { className: classes.media, image: gold_jpg_1["default"], title: "Image" }),
                 react_1["default"].createElement(CardContent_1["default"], null,
-                    react_1["default"].createElement(Typography_1["default"], { variant: "body2", color: "textSecondary", component: "h3" },
-                        react_1["default"].createElement("b", null,
-                            "Name: ",
-                            element.name)),
+                    react_1["default"].createElement(Typography_1["default"], { className: classes.cardDetails, variant: "body2", color: "textSecondary", component: "h3" }, element.name),
                     react_1["default"].createElement("br", null),
-                    react_1["default"].createElement(Typography_1["default"], { variant: "body2", color: "textSecondary", component: "h3" },
-                        react_1["default"].createElement("b", null,
-                            "Price: R ",
-                            element.price)),
+                    react_1["default"].createElement(Typography_1["default"], { className: classes.cardDetails, variant: "body2", color: "textSecondary", component: "h3" },
+                        "Price: R ",
+                        element.price),
                     " "),
                 react_1["default"].createElement(CardActions_1["default"], { disableSpacing: true },
-                    react_1["default"].createElement(IconButton_1["default"], { "aria-label": "add to favorites" },
-                        react_1["default"].createElement(Favorite_1["default"], null)),
-                    react_1["default"].createElement(IconButton_1["default"], { "aria-label": "share" },
-                        react_1["default"].createElement(Share_1["default"], null)),
-                    react_1["default"].createElement(IconButton_1["default"], { className: clsx_1["default"](classes.expand, (_a = {},
+                    react_1["default"].createElement(Button_1["default"], { variant: "outlined", className: clsx_1["default"](classes.expand, (_a = {},
                             _a[classes.expandOpen] = productDetailsBox,
-                            _a)), onClick: function () { return handleExpandClick(element.id); }, "aria-expanded": productDetailsBox, "aria-label": "show more" },
+                            _a)), onClick: function () { return handleExpandClick(element.id); }, "aria-expanded": productDetailsBox, "aria-label": "Show more" },
+                        " ",
+                        "Details",
                         react_1["default"].createElement(ExpandMore_1["default"], null)))));
         });
     };
@@ -343,46 +387,6 @@ function Home(_a) {
         return (react_1["default"].createElement("div", null,
             react_1["default"].createElement("div", { id: "snackbar" }, notificationMessage),
             react_1["default"].createElement(core_1.Paper, { className: classes.paper },
-                react_1["default"].createElement("div", { className: classes.productDetails, style: { display: productDetailsBox ? "block" : "none" } },
-                    react_1["default"].createElement(IconButton_1["default"], { onClick: function () { return handleExpandClick("back"); }, "aria-expanded": productDetailsBox, "aria-label": "show more" },
-                        react_1["default"].createElement(icons_1.ChevronLeft, null),
-                        " back"),
-                    react_1["default"].createElement(Card_1["default"], { className: classes.productDisplayRoot },
-                        react_1["default"].createElement(CardMedia_1["default"], { className: classes.cover, image: gold_jpg_1["default"], title: "plcae holder" }),
-                        react_1["default"].createElement("div", { className: classes.details },
-                            react_1["default"].createElement(CardContent_1["default"], { className: classes.content },
-                                react_1["default"].createElement(Typography_1["default"], { component: "h5", variant: "h5" },
-                                    react_1["default"].createElement("b", null, " Name: "),
-                                    " ",
-                                    productDetails.name),
-                                react_1["default"].createElement(Typography_1["default"], { variant: "subtitle1", color: "textSecondary" },
-                                    react_1["default"].createElement("b", null, "Price:"),
-                                    " R ",
-                                    productDetails.price),
-                                react_1["default"].createElement("div", null,
-                                    react_1["default"].createElement(Typography_1["default"], { component: "p" },
-                                        react_1["default"].createElement("b", null, "Details:"),
-                                        " ",
-                                        productDetails.description),
-                                    react_1["default"].createElement(Button_1["default"], { onClick: function () {
-                                            return handleAddingProductToBasket(productDetails);
-                                        }, style: {
-                                            display: checkIfAlreadyAddedOnBasket(productDetails)
-                                                ? "none"
-                                                : "block"
-                                        } },
-                                        "+ Add ",
-                                        react_1["default"].createElement(icons_1.ShoppingCart, null)),
-                                    react_1["default"].createElement(Typography_1["default"], { component: "p", style: {
-                                            display: checkIfAlreadyAddedOnBasket(productDetails)
-                                                ? "block"
-                                                : "none"
-                                        } },
-                                        "Added ",
-                                        react_1["default"].createElement(icons_1.ShoppingCart, null),
-                                        " |",
-                                        " ",
-                                        react_1["default"].createElement(Button_1["default"], { onClick: function () { return handleNavigationClick("basket"); } }, "View Basket"))))))),
                 react_1["default"].createElement("div", { className: classes.productListCardsContainer, style: { display: productDetailsBox ? "none" : "block" } },
                     react_1["default"].createElement("div", { className: classes.shopCategory },
                         react_1["default"].createElement("h3", { className: classes.heading }, "INVEST IN YOUR FUTURE NOW!"),
@@ -392,7 +396,7 @@ function Home(_a) {
                                 react_1["default"].createElement("div", { className: classes.cart },
                                     " ",
                                     "(",
-                                    productsOnBasket.length,
+                                    util.retrieveBasketProductDataFromLocalStorage().length,
                                     ") ",
                                     react_1["default"].createElement(icons_1.ShoppingCart, null)))),
                         react_1["default"].createElement("div", { className: classes.shopCategoryButtons },
@@ -401,20 +405,18 @@ function Home(_a) {
                             react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined", onClick: function (event) { return updateProductListCategory("all"); } }, "ALL"))),
                     react_1["default"].createElement("div", { className: classes.productList }, productList)))));
     };
-    var _h = react_1.useState("main"), navigationOnHome = _h[0], setSavigationOnHome = _h[1];
+    var _j = react_1.useState("main"), navigationOnHome = _j[0], setSavigationOnHome = _j[1];
     var handleNavigationClick = function (nameOfComponent) {
         console.log("navigating click handler..");
-        if (nameOfComponent == "main" && productDetailsBox == true) {
-            displayProductDetailsBox(false);
-        }
         setSavigationOnHome(nameOfComponent);
     };
     var handleNavigationOnHome = function (nameOfComponent) {
         switch (nameOfComponent) {
             case "main":
                 return react_1["default"].createElement(Main, null);
-            case "basket":
-                return (react_1["default"].createElement(Basket_1["default"], { productsOnBasket: productsOnBasket, addProductToBasket: addProductToBasket, handleNavigationOnHome: handleNavigationOnHome, handleNavigationClick: handleNavigationClick }));
+            case "displayMoreProductDetails": {
+                return react_1["default"].createElement(DisplayMoreProductDetails_1["default"], { productDetails: selectedProduct });
+            }
         }
     };
     var logout = function () { return __awaiter(_this, void 0, void 0, function () {
@@ -442,7 +444,8 @@ function Home(_a) {
         }
     }
     else {
-        return react_1["default"].createElement("div", null, handleNavigationOnHome(navigationOnHome));
+        return react_1["default"].createElement("div", null,
+            react_1["default"].createElement(Main, null));
     }
 }
 exports["default"] = Home;

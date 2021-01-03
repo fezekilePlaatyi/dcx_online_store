@@ -23,6 +23,7 @@ var invoice_service_1 = require("../../services/invoice-service");
 var Checkbox_1 = require("@material-ui/core/Checkbox");
 var FormControlLabel_1 = require("@material-ui/core/FormControlLabel");
 var customer_service_1 = require("../../services/customer-service");
+var Util_1 = require("../../Util");
 var useStyles = styles_1.makeStyles(function (theme) {
     return styles_1.createStyles({
         logoContainer: {
@@ -142,9 +143,10 @@ var useStyles = styles_1.makeStyles(function (theme) {
         }
     });
 });
-var CheckOut = function (props) {
+var CheckOut = function () {
     var classes = useStyles();
     var history = react_router_1.useHistory();
+    var util = new Util_1["default"]();
     var _a = react_1.useState(""), postalCode = _a[0], setPostalCode = _a[1];
     var _b = react_1.useState(""), address = _b[0], setAddress = _b[1];
     var _c = react_1["default"].useState({
@@ -189,11 +191,12 @@ var CheckOut = function (props) {
             userAddress: userAddress
         };
         var invoice = {
-            invoiceData: props.productsOnBasket,
+            invoiceData: util.retrieveBasketProductDataFromLocalStorage(),
             userDetails: userAddress
         };
         invoiceService.createInvoice(invoice).then(function () {
             alert("Done Making Payment, You will be redirected to your Orders.");
+            util.resetBasketProductDataFromLocalStorage();
             if (state.checkedB == true && hideProfileAddressStatus == true) {
                 var customerService_1 = new customer_service_1["default"]();
                 customerService_1.updateSingleField({

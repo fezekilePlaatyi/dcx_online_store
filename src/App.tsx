@@ -9,6 +9,7 @@ import Home from "./Home/home";
 import LogIn from "./LogIn";
 import SignUp from "./SignUp";
 import Basket from "./Basket";
+import DisplayMoreProductDetails from "./DisplayMoreProductDetails";
 import OrderHistory from "./OrderHistory";
 import ForgotPassword from "./ForgotPassword";
 import Profile from "./pages/profilePage/profile";
@@ -66,6 +67,7 @@ const App = () => {
           component={Home}
           authenticated={authenticated}
         /> */}
+
         <HomeRoute
           exact
           path="/"
@@ -76,6 +78,12 @@ const App = () => {
           exact
           path="/basket"
           component={Basket}
+          authenticated={authenticated}
+        />
+        <PrivateRoute
+          exact
+          path="/displayMoreProductDetails"
+          component={DisplayMoreProductDetails}
           authenticated={authenticated}
         />
         <PrivateRoute

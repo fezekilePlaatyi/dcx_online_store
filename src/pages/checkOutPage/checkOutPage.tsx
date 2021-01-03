@@ -24,6 +24,7 @@ import InvoiceService from '../../services/invoice-service';
 import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import CustomerService from "../../services/customer-service";
+import Util from "../../Util"
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -147,9 +148,10 @@ const useStyles = makeStyles((theme: Theme) =>
   })
 );
 
-const CheckOut = (props: any) => {
+const CheckOut = () => {
   const classes = useStyles();
   const history = useHistory();
+  const util = new Util()
 
   const [postalCode, setPostalCode] = useState("")
   const [address, setAddress] = useState("")
@@ -200,13 +202,14 @@ const CheckOut = (props: any) => {
     }
 
     var invoice: any = {
-      invoiceData: props.productsOnBasket,
+      invoiceData: util.retrieveBasketProductDataFromLocalStorage(),
       userDetails: userAddress
     }
 
     invoiceService.createInvoice(invoice).then(function () {
 
       alert("Done Making Payment, You will be redirected to your Orders.")
+      util.resetBasketProductDataFromLocalStorage()
       if (state.checkedB == true && hideProfileAddressStatus == true) {
         let customerService = new CustomerService()
         customerService.updateSingleField({

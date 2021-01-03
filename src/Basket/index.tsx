@@ -1,5 +1,6 @@
 import app from "../base";
 import React, { useEffect, useState } from "react";
+import Util from "../Util"
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { ChevronLeft, ShoppingCart } from "@material-ui/icons/";
@@ -31,6 +32,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import CheckOut from '../pages/checkOutPage/checkOutPage'
+
 //import NumberFormat from "react-number-format";
 
 const useStyles = makeStyles((theme) => ({
@@ -190,206 +192,148 @@ const useStyles = makeStyles((theme) => ({
   productListCardsContainer: {},
 }));
 
-const Basket = (props: any) => {
-  const classes = useStyles();
-  const history = useHistory();
+const Basket = () => {
+  const classes = useStyles()
+  const history = useHistory()
+  const util = new Util()
+
+  const [basketProductData, setBasketProductData] = useState<any>(util.retrieveBasketProductDataFromLocalStorage())
 
   const handleDeleteProductFromBasket = (productId: any) => {
-    console.log("deleting...");
-    addProductToBasket(
-      productsOnBasket.filter((item: any) => item.id !== productId)
-    );
-  };
-
-  const handleUpdateQuantity = (productId: any, value: any) => {
-    console.log("updating quantity..");
-    let test: any = productsOnBasket;
-
-    var index: number = productsOnBasket.findIndex(
-      (product: any) => product.id === productId
-    );
-
-    if (index !== -1) {
-      productsOnBasket[index].quantity = parseInt(value);
-      var totalPriceId: any = "totalPrice_" + productId;
-      var x: any = document.getElementById(totalPriceId);
-      x.innerHTML = parseInt(value) * productsOnBasket[index].price;
-    }
-    updateUIOnProductChange(productsOnBasket)
-  };
-
-  let productsOnBasket = props.productsOnBasket.map((obj: any) => ({
-    ...obj,
-    quantity: 1,
-  }));
-  let addProductToBasket = props.addProductToBasket;
-  let handleNavigationOnHome = props.handleNavigationOnHome;
-  let handleNavigationClick = props.handleNavigationClick;
-  const [navigationOnBasket, setNavigationOnBasket] = useState("basket");
-  const [subTotalPrice, setSubTotalPrice] = useState(0);
-
-  let productsOnBasketList: any = [];
-
-
-  const updateUIOnProductChange = (productsOnBasket: any) => {
-    console.log(productsOnBasket);
-
-    let subTotalPrice: any = 0;
-    let counter: any = 0;
-
-    productsOnBasket.forEach(
-      (element: {
-        description: any;
-        name: any;
-        price: any;
-        quantity: any;
-        id: any;
-      }) => {
-
-        let totalPrice = element.price * parseInt(element.quantity);
-        var totalPriceId: any = "totalPrice_" + element.id;
-        subTotalPrice = subTotalPrice + totalPrice;
-        counter++
-
-        productsOnBasketList.push(
-          <TableRow hover className={classes.tableRow} key={element.id}>
-            <TableCell className={classes.tableRowValue}></TableCell>
-            <TableCell className={classes.tableRowValue}>{element.name}</TableCell>
-            <TableCell className={classes.tableRowDescription}>
-              {element.description}
-            </TableCell>
-            <TableCell className={classes.tableRowValue}>{totalPrice}</TableCell>
-            {/* <TableCell>
-            <NumberFormat thousandSeparator={true} value={element.price} />
-          </TableCell> */}
-            <TableCell className={classes.tableRowValue}>
-              <TextField
-                InputProps={{
-                  inputProps: { min: 1 },
-                  style: { width: "50%" },
-                }}
-                className={classes.textField}
-                type="number"
-                defaultValue={1}
-                onChange={(event) =>
-                  handleUpdateQuantity(element.id, event.target.value)
-                }
-              />
-            </TableCell>
-            <TableCell className={classes.tableRowValue} id={totalPriceId}>{parseInt(element.price)}</TableCell>
-            <TableCell className={classes.tableRowValue}>
-              <Delete
-                className={classes.deleteIcon}
-                onClick={() => handleDeleteProductFromBasket(element.id)}
-              />
-            </TableCell>
-          </TableRow>
-        );
-
-        if (counter == productsOnBasket.length) {
-          var subTotalPriceId: any = "subTotalPrice";
-          var x: any = document.getElementById(subTotalPriceId);
-          if (x !== null)
-            x.innerHTML = subTotalPrice;
-        }
-      }
-    );
-  };
-
-  function handleNavigateBackToHomePage() {
-    handleNavigationClick("main");
-    handleNavigationOnHome("main");
+    console.log("deleting item...")
+    let updatedProductsOnBasket = basketProductData
+    updatedProductsOnBasket = updatedProductsOnBasket.filter((item: any) => item.id !== productId)
+    setBasketProductData(updatedProductsOnBasket)
   }
 
-  updateUIOnProductChange(productsOnBasket);
+  const handleUpdateQuantity = (productId: any, value: any) => {
+    console.log("updating item quantity...")
+    setBasketProductData((prevData: any) => prevData.map((item: any) => {
+      if (item.id === productId) {
+        return { ...item, quantity: parseInt(value) };
+      }
+      return item;
+    }))
+  }
 
-  const Basket = () => {
-    return (
+  const handleNavigation = (componentName: string) => {
+    console.log("navigating to", componentName)
+    /*
+      To:Do Check if Logged in or force to login
+    */
+    if (util.retrieveBasketProductDataFromLocalStorage().length > 0)
+      history.push(componentName)
+  }
+
+  const getBasketSubTotal = () => {
+    console.log("updatng basket subtotal...")
+    let basketSubTotal = 0
+    let totalNumberOfItems = 0
+    const pricesArray = basketProductData.map((element: any) => element.price);
+    const quantityArray = basketProductData.map((element: any) => element.quantity);
+    pricesArray.forEach((price: number, index: number) => {
+      basketSubTotal += quantityArray[index] * price
+      totalNumberOfItems += quantityArray[index]
+    })
+    return {
+      basketSubTotal: basketSubTotal,
+      totalNumberOfItems: totalNumberOfItems
+    }
+  }
+
+  useEffect(() => {
+    console.log("Changes detected on basket data...")
+    util.storeBasketProductDataToLocalStorage(basketProductData)
+    console.log(util.retrieveBasketProductDataFromLocalStorage())
+  }, [basketProductData])
+
+  return (
+    <div>
+      <div className={classes.paperContetnt}>
+        <TableContainer component={Paper} className={classes.tableDiv}>
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell className={classes.tableCells} align="left">
+                  #
+                </TableCell>
+                <TableCell className={classes.tableCells} align="left">
+                  Name
+                </TableCell>
+                <TableCell className={classes.tableCells} align="left">
+                  Description
+                </TableCell>
+                <TableCell className={classes.tableCells} align="left">
+                  Price (R)
+                </TableCell>
+                <TableCell className={classes.tableCellsQty} align="left">
+                  Quantity
+                </TableCell>
+                <TableCell className={classes.tableCells} align="left">
+                  Total price (R)
+                </TableCell>
+                <TableCell className={classes.tableCells} align="left">
+                  Delete
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            <TableBody>
+              {basketProductData.map((item: any) =>
+                <TableRow hover className={classes.tableRow} key={item.id}>
+                  <TableCell className={classes.tableRowValue}>#</TableCell>
+                  <TableCell className={classes.tableRowValue}>{item.name}</TableCell>
+                  <TableCell className={classes.tableRowValue}>{item.description}</TableCell>
+                  <TableCell className={classes.tableRowValue}>{item.price}</TableCell>
+                  <TableCell className={classes.tableRowValue}>
+                    <TextField
+                      InputProps={{
+                        inputProps: { min: 1 },
+                        style: { width: "50%" },
+                      }}
+                      className={classes.textField}
+                      type="number"
+                      value={item.quantity}
+                      onChange={(event) =>
+                        handleUpdateQuantity(item.id, event.target.value)
+                      }
+                    />
+                  </TableCell>
+                  <TableCell className={classes.tableRowValue}>{parseInt(item.quantity) * item.price}</TableCell>
+                  <TableCell className={classes.tableRowValue}>
+                    <Delete
+                      className={classes.deleteIcon}
+                      onClick={() => handleDeleteProductFromBasket(item.id)}
+                    />
+                  </TableCell>
+                </TableRow>
+              )}
+            </TableBody>
+          </Table>
+        </TableContainer>
+      </div >
       <div>
-        <Paper className={classes.paper}>
-          <h3 className={classes.backButton}>
-            <Button
-              className={classes.boxBtnBack}
-              variant="outlined"
-              onClick={() => handleNavigateBackToHomePage()}
-            >
-              <ChevronLeft /> back
-          </Button>
-          BASKET
-        </h3>
-          <div className={classes.paperContetnt}>
-            <TableContainer component={Paper} className={classes.tableDiv}>
-              <Table aria-label="simple table">
-                <TableHead>
-                  <TableRow>
-                    <TableCell className={classes.tableCells} align="left">
-                      #
-                  </TableCell>
-                    <TableCell className={classes.tableCells} align="left">
-                      Name
-                  </TableCell>
-                    <TableCell className={classes.tableCells} align="left">
-                      Description
-                  </TableCell>
-                    <TableCell className={classes.tableCells} align="left">
-                      Price (R)
-                  </TableCell>
-                    <TableCell className={classes.tableCellsQty} align="left">
-                      Quantity
-                  </TableCell>
-                    <TableCell className={classes.tableCells} align="left">
-                      Total price (R)
-                  </TableCell>
-                    <TableCell className={classes.tableCells} align="left">
-                      Delete
-                  </TableCell>
-                  </TableRow>
-                </TableHead>
-                <TableBody>{productsOnBasketList}</TableBody>
-              </Table>
-            </TableContainer>
-
+        <Paper className={classes.paperSummary}>
+          <div>
+            <div className={classes.paperSummaryHeading}>
+              Basket summary
+            </div>
+            <div className={classes.paperSummaryTotal}>
+              TOTAL ( {getBasketSubTotal().totalNumberOfItems} of items): total cost R {getBasketSubTotal().basketSubTotal}
+            </div>
             <div>
-              <Paper className={classes.paperSummary}>
-                <div>
-                  <div className={classes.paperSummaryHeading}>
-                    Basket summary
-                </div>
-                  <div className={classes.paperSummaryTotal}>
-                    TOTAL ( {productsOnBasketList.length} of items): total cost R <span id="subTotalPrice">.</span>
-                  </div>
-                  <div>
-                    <Button
-                      className={classes.boxBtn}
-                      onClick={() => handleNavigationClickOnBasket("checkout")}
-                      variant="outlined"
-                    >
-                      Checkout
-                      </Button>
-                  </div>
-                </div>
-              </Paper>
+              <Button
+                className={classes.boxBtn}
+                onClick={() => handleNavigation("/checkout")}
+                variant="outlined"
+              >
+                Checkout
+                    </Button>
             </div>
           </div>
         </Paper>
       </div>
-    );
-  }
+    </div>
+  )
 
-  const handleNavigationClickOnBasket = (nameOfComponent: any) => {
-    console.log("navigating click handler..");
-    setNavigationOnBasket(nameOfComponent);
-  };
-
-  const handleNavigationOnBasket = (nameOfComponent: any) => {
-    switch (nameOfComponent) {
-      case "checkout":
-        return <CheckOut productsOnBasket={productsOnBasket} />;
-      case "basket":
-        return <Basket />;
-    }
-  };
-
-  return <div>{handleNavigationOnBasket(navigationOnBasket)}</div>;
 };
 export default Basket;
