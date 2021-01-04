@@ -109,7 +109,7 @@ const useStyles = makeStyles((theme) => ({
   },
   tableRowDescription: {
     width: "35%",
-    textAlign: 'justify',
+    textAlign: "justify",
     fontSize: 12,
   },
   tableCellsQty: {
@@ -121,12 +121,20 @@ const useStyles = makeStyles((theme) => ({
   },
   tableRowValueName: {
     fontSize: 12,
-    width: '30%',
+    width: "30%",
+  },
+  tableRowValuePrice: {
+    fontSize: 12,
+    width: "20%",
+  },
+  tableRowValueQty: {
+    fontSize: 12,
+    width: "20%",
   },
   tableRowValueDesc: {
     fontSize: 12,
-    width: '100%',
-    textAlign: 'justify',
+    width: "60%",
+    textAlign: "justify",
   },
   tableCells: {
     fontSize: 14,
@@ -149,7 +157,7 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 20,
     marginTop: 20,
   },
-  rootCard:{
+  rootCard: {
     padding: 20,
     overflow: "auto",
     backgroundColor: backgroundMain,
@@ -175,26 +183,25 @@ const OrderHistory = () => {
       .then((data) => {
         invoicesData.splice(0, invoicesData.length);
         data.forEach((doc: any) => {
-          invoicesData.push(doc.data().invoiceData)
+          invoicesData.push(doc.data().invoiceData);
         });
 
         invoices.push(
           <TableContainer component={Paper} className={classes.tableDiv}>
-<Table aria-label="simple table">
-<TableBody></TableBody>
-  </Table>
-</TableContainer>
+            <Table aria-label="simple table">
+              <TableBody></TableBody>
+            </Table>
+          </TableContainer>
 
-       // <thead>
+          // <thead>
           //   <tr>
           //     <th>Name</th>
           //     <th>Description</th>
           //     <th>Price</th>
           //     <th>Quantity</th>
           //   </tr>
-          // </thead> 
-          
-        )
+          // </thead>
+        );
         setOrderHistory(invoicesData);
       })
       .catch((error) => {
@@ -208,48 +215,93 @@ const OrderHistory = () => {
     let lineItems: any = [];
     let itemLength = element.length;
     let counter = 0;
+    const now = Date.now();
 
     element.forEach((item: any) => {
-      counter++
+      counter++;
       lineItems.push(
         <TableBody component={Paper} className={classes.tableDiv}>
-              {/* <Table aria-label="simple table"> */}
-              <TableRow hover className={classes.tableRow} key={element.id}>
-              <TableCell className={classes.tableRowValueName}>{item.name}</TableCell>
-              <TableCell className={classes.tableRowValueDesc}>{item.description}</TableCell>
-              <TableCell className={classes.tableRowValue}>{item.price}</TableCell>
-              <TableCell className={classes.tableRowValue}>{item.quantity}</TableCell>
+          {/* <Table aria-label="simple table"> */}
 
-                </TableRow>
-        {/* <tr style={{ color: "white", fontSize: "102%" }}>
+          <TableRow hover className={classes.tableRow} key={element.id}>
+            <TableCell className={classes.tableRowValueName}>
+              {item.name}
+            </TableCell>
+            <TableCell className={classes.tableRowValueDesc}>
+              {item.description}
+            </TableCell>
+            <TableCell className={classes.tableRowValuePrice}>
+              {item.price}
+            </TableCell>
+            <TableCell className={classes.tableRowValueQty}>
+              {item.quantity}
+            </TableCell>
+            <TableCell className={classes.tableRowValue}>{now}</TableCell>
+          </TableRow>
+          {/* <tr style={{ color: "white", fontSize: "102%" }}>
           <td>{item.name}</td>
           <td>{item.description}</td>
           <td>{item.price}</td>
           <td>{item.quantity}<br></br></td>
         </tr > */}
-        {/* </Table> */}
-       </TableBody> 
-      )
+          {/* </Table> */}
+        </TableBody>
+      );
       if (counter == itemLength) {
         lineItems.push(
+          
           // <tr>
-          <div>   
-                   <br />
-          <br /></div>
-            /* <td>111111111111111111111111111111111111111111111111</td>
+          // <div>
+          //   <TableContainer component={Paper} className={classes.tableDiv}>
+          //     <Table aria-label="simple table">
+
+          //     </Table>
+          //   </TableContainer>
+          //   {/* <div>
+          //     <br />
+          //     <br />
+          //   </div> */}
+          // </div>   
+
+          /* <td>111111111111111111111111111111111111111111111111</td>
             <td>111111111111111111111111111111111111111111111111</td>
             <td>111111111111111111111111111111111111111111111111</td>
             <td>111111111111111111111111111111111111111111111111</td> *
            </tr> */
         )
       }
-    })
+    });  
 
-    invoices.push(lineItems) ;
-    
-
-
-
+    invoices.push(lineItems);
+    lineItems.unshift(
+      <div>
+      <TableContainer component={Paper} className={classes.tableDiv}>
+        <Table aria-label="simple table">
+        <TableHead>
+                  <TableRow>
+                    <TableCell className={classes.tableCells} align="left">
+                      Name
+                  </TableCell>
+                    <TableCell className={classes.tableCells} align="left">
+                      Description
+                  </TableCell>
+                    <TableCell className={classes.tableCells} align="left">
+                      Price (R)
+                  </TableCell>
+                    <TableCell className={classes.tableCellsQty} align="left">
+                      Quantity
+                  </TableCell>
+                     </TableRow>
+                </TableHead>
+                {/* <TableBody>{invoices}</TableBody> */}
+        </Table>
+      </TableContainer>
+      {/* <div>
+        <br />
+        <br />
+      </div> */}
+    </div>
+      );
 
     // for (const [key, value] of Object.entries(element)) {
     //   var invoice: any = value;
