@@ -119,6 +119,15 @@ const useStyles = makeStyles((theme) => ({
   tableRowValue: {
     fontSize: 12,
   },
+  tableRowValueName: {
+    fontSize: 12,
+    width: '30%',
+  },
+  tableRowValueDesc: {
+    fontSize: 12,
+    width: '100%',
+    textAlign: 'justify',
+  },
   tableCells: {
     fontSize: 14,
   },
@@ -170,11 +179,12 @@ const OrderHistory = () => {
         });
 
         invoices.push(
-          <Card className={classes.rootCard} variant="outlined">
-      <CardContent>
+          <TableContainer component={Paper} className={classes.tableDiv}>
+<Table aria-label="simple table">
+<TableBody></TableBody>
+  </Table>
+</TableContainer>
 
-      </CardContent>
-</Card>
        // <thead>
           //   <tr>
           //     <th>Name</th>
@@ -205,8 +215,8 @@ const OrderHistory = () => {
         <TableBody component={Paper} className={classes.tableDiv}>
               {/* <Table aria-label="simple table"> */}
               <TableRow hover className={classes.tableRow} key={element.id}>
-              <TableCell className={classes.tableRowValue}>{item.name}</TableCell>
-              <TableCell className={classes.tableRowValue}>{item.description}</TableCell>
+              <TableCell className={classes.tableRowValueName}>{item.name}</TableCell>
+              <TableCell className={classes.tableRowValueDesc}>{item.description}</TableCell>
               <TableCell className={classes.tableRowValue}>{item.price}</TableCell>
               <TableCell className={classes.tableRowValue}>{item.quantity}</TableCell>
 
