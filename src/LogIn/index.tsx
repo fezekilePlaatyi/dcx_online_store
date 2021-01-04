@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
       color: primaryColor,
       marginBottom: 10,
       // marginLeft: 15,
+      cursor: 'pointer',
     },
     boxBtn: {
       float: "left",
