@@ -25,7 +25,7 @@ function onAuthStateChange(
   setAuthenticated: any,
   setUser: any
 ) {
-  return app.auth().onAuthStateChanged((user) => {
+  return app.auth().onAuthStateChanged((user: any) => {
     if (user) {
       setAuthenticated(true);
       setUser(user);

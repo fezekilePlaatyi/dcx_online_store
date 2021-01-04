@@ -117,14 +117,25 @@ const LogInContainer = () => {
   const [password, setpassword] = useState("");
   const [errorMessage, setError] = useState("");
 
+  function isEmpty(str: any) {
+    if (typeof str == 'undefined' || !str || str.length === 0 || str === "" || !/[^\s]/.test(str) || /^\s*$/.test(str) || str.replace(/\s/g, "") === "")
+      return true;
+    else
+      return false;
+  }
+
   const handleSignUp = async () => {
-    try {
-      const user = await app
-        .auth()
-        .signInWithEmailAndPassword(username, password);
-      history.push("/");
-    } catch (error) {
-      setError(error.message.split(". ", 1)[0]);
+    if (isEmpty(password) || isEmpty(username)) {
+      setError("All field are required.")
+    } else {
+      try {
+        const user = await app
+          .auth()
+          .signInWithEmailAndPassword(username, password);
+        history.push("/");
+      } catch (error) {
+        setError(error.message.split(". ", 1)[0]);
+      }
     }
   };
 

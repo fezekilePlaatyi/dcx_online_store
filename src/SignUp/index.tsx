@@ -14,6 +14,7 @@ import Paper from "@material-ui/core/Paper";
 import { Link } from "@material-ui/core";
 import { Customer } from "../models/customer-model";
 import CustomerService from "../services/customer-service";
+var saIdParser = require('south-african-id-parser');
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -142,35 +143,97 @@ const SignUpContainer = () => {
   const [address, setAddress] = useState("");
   const [registrationResponse, setRegistrationResponse] = useState("");
 
+  function isEmpty(str: any) {
+    if (typeof str == 'undefined' || !str || str.length === 0 || str === "" || !/[^\s]/.test(str) || /^\s*$/.test(str) || str.replace(/\s/g, "") === "")
+      return true;
+    else
+      return false;
+  }
+
+  function isValidEmail(inputText: string) {
+    var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (inputText.match(mailformat)) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   const handleSignUp = async (event: any) => {
     event.preventDefault();
-    try {
-      await app
-        .auth()
-        .createUserWithEmailAndPassword(email, password)
-        .then((user) => {
-          let customerInstance = new CustomerService();
 
-          customerInstance.signUpUser({
-            firstName: firstName,
-            lastName: lastName,
-            phoneNumber: phoneNumber,
-            email: email,
-            idNumber: idNumber,
-            address: address
-          });
+    if (isEmpty(firstName)) {
+      setRegistrationResponse("Firstname is required.");
+      return;
+    } else if (isEmpty(lastName)) {
+      setRegistrationResponse("Lastname is required.");
+      return;
+    } else if (isEmpty(idNumber) || !saIdParser.validate(idNumber)) {
+      setRegistrationResponse("Invalid South African ID Number.");
+      return;
+    } else if (isEmpty(phoneNumber) ||
+      phoneNumber.length != 10 ||
+      isNaN(parseInt(phoneNumber))
+    ) {
+      setRegistrationResponse("Please provide valid phone number of 10 digits.");
+      return;
+    } else if (parseInt(phoneNumber.charAt(0)) != 0) {
+      setRegistrationResponse(
+        "Phone Number must be 10 digits starting with Zero."
+      );
+      return;
+    } else if (isEmpty(email) || !isValidEmail(email)) {
+      setRegistrationResponse("Invalid Email Address.");
+      return;
+    } else if (isEmpty(password)) {
+      setRegistrationResponse(
+        "Password is required."
+      );
+      return;
+    } else if (isEmpty(confirmPassword)) {
+      setRegistrationResponse(
+        "Please confirm password."
+      );
+      return;
+    } else if (password != confirmPassword) {
+      setRegistrationResponse(
+        "Password and confirm password are not the same."
+      );
+      return;
+    } else if (isEmpty(address)) {
+      setRegistrationResponse(
+        "Address is required."
+      );
+      return;
+    } else {
+      try {
+        await app
+          .auth()
+          .createUserWithEmailAndPassword(email, password)
+          .then((user) => {
+            let customerInstance = new CustomerService();
 
-          if (user && user.emailVerified === false) {
-            user.sendEmailVerification().then(function () {
-              setRegistrationResponse(`Successfully registered. Please open link sent to ${email} to verify email and continue to login.`)
+            customerInstance.signUpUser({
+              firstName: firstName,
+              lastName: lastName,
+              phoneNumber: phoneNumber,
+              email: email,
+              idNumber: idNumber,
+              address: address
             });
-          } else {
-            setRegistrationResponse(`An error occured while trying to register user with email ${email}.`)
 
-          }
-        });
-    } catch (error) {
-      setRegistrationResponse(error.message);
+            if (user && user.emailVerified === false) {
+              user.sendEmailVerification().then(function () {
+                setRegistrationResponse(`Successfully registered. Please open link sent to ${email} to verify email and continue to login.`)
+              });
+            } else {
+              setRegistrationResponse(`An error occured while trying to register user with email ${email}.`)
+
+            }
+          });
+      } catch (error) {
+        setRegistrationResponse(error.message);
+      }
     }
   };
 
@@ -202,7 +265,9 @@ const SignUpContainer = () => {
                 InputProps={{
                   autoComplete: "off",
                 }}
-                autoFocus
+                inputProps={{
+                  maxLength: 32
+                }}
               />
               <TextField
                 className={classes.textfield}
@@ -216,7 +281,9 @@ const SignUpContainer = () => {
                 InputProps={{
                   autoComplete: "off",
                 }}
-                autoFocus
+                inputProps={{
+                  maxLength: 32
+                }}
               />
             </div>
             <div className={classes.textfieldBlock}>
@@ -225,6 +292,7 @@ const SignUpContainer = () => {
                 autoComplete="off"
                 margin="normal"
                 label="Phone number"
+                type="number"
                 variant="outlined"
                 value={phoneNumber}
                 onChange={(event) => setPhoneNumber(event.target.value)}
@@ -232,7 +300,9 @@ const SignUpContainer = () => {
                 InputProps={{
                   autoComplete: "off",
                 }}
-                autoFocus
+                inputProps={{
+                  maxLength: 10
+                }}
               />
               <TextField
                 className={classes.textfield}
@@ -246,7 +316,9 @@ const SignUpContainer = () => {
                 InputProps={{
                   autoComplete: "off",
                 }}
-                autoFocus
+                inputProps={{
+                  maxLength: 42
+                }}
               />
             </div>
             <div className={classes.textfieldBlock}>
@@ -262,7 +334,6 @@ const SignUpContainer = () => {
                 InputProps={{
                   autoComplete: "off",
                 }}
-                autoFocus
               />
               <TextField
                 className={classes.textfield}
@@ -276,7 +347,6 @@ const SignUpContainer = () => {
                 InputProps={{
                   autoComplete: "off",
                 }}
-                autoFocus
               />
             </div>
             <div className={classes.textfieldBlock}>
@@ -292,13 +362,12 @@ const SignUpContainer = () => {
                 InputProps={{
                   autoComplete: "off",
                 }}
-                autoFocus
               />
               <TextField
                 className={classes.textfield}
                 autoComplete="off"
                 margin="normal"
-                label="Address"
+                label="Full Address"
                 variant="outlined"
                 value={address}
                 onChange={(event) => setAddress(event.target.value)}
@@ -306,7 +375,6 @@ const SignUpContainer = () => {
                 InputProps={{
                   autoComplete: "off",
                 }}
-                autoFocus
               />
             </div>
 

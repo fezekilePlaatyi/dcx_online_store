@@ -24,6 +24,8 @@ var Checkbox_1 = require("@material-ui/core/Checkbox");
 var FormControlLabel_1 = require("@material-ui/core/FormControlLabel");
 var customer_service_1 = require("../../services/customer-service");
 var Util_1 = require("../../Util");
+var react_toastify_1 = require("react-toastify");
+require("react-toastify/dist/ReactToastify.css");
 var useStyles = styles_1.makeStyles(function (theme) {
     return styles_1.createStyles({
         logoContainer: {
@@ -195,25 +197,23 @@ var CheckOut = function () {
             userDetails: userAddress
         };
         invoiceService.createInvoice(invoice).then(function () {
-            alert("Done Making Payment, You will be redirected to your Orders.");
             util.resetBasketProductDataFromLocalStorage();
             if (state.checkedB == true && hideProfileAddressStatus == true) {
                 var customerService_1 = new customer_service_1["default"]();
                 customerService_1.updateSingleField({
                     address: userAddress
                 }).then(function () {
-                    history.push("/orderHistory");
+                    notify("Done Making Payment, You will be redirected to your Orders.", "/orderHistory");
                 })["catch"](function (error) {
-                    alert("Error in saving address...");
-                    history.push("/orderHistory");
+                    notify("Error : Done Making Payment, but error saving address please contact us to resolve this issue.", "/orderHistory");
                 });
             }
             else {
-                history.push("/orderHistory");
+                notify("Done Making Payment, You will be redirected to your Orders.", "/orderHistory");
             }
         })["catch"](function (error) {
             console.log(error);
-            alert("An error occured while making creating an Invoice.");
+            notify("An error occured while making creating an Invoice.", "none");
         });
     };
     react_1.useEffect(function () {
@@ -229,7 +229,20 @@ var CheckOut = function () {
             :
                 setHideProfileAddress(true);
     };
+    var notify = function (message, redirectTo) {
+        react_toastify_1.toast(message, {
+            position: react_toastify_1.toast.POSITION.TOP_CENTER,
+            autoClose: false,
+            onClose: function () {
+                if (redirectTo != "none")
+                    history.push(redirectTo);
+                else
+                    return;
+            }
+        });
+    };
     return (react_1["default"].createElement("div", { className: classes.mainContainer },
+        react_1["default"].createElement(react_toastify_1.ToastContainer, null),
         react_1["default"].createElement("div", { className: classes.boxWrapper },
             react_1["default"].createElement("h3", { className: classes.heading }, "CHECK OUT")),
         react_1["default"].createElement("div", { className: classes.whiteText }, "Delivery address"),

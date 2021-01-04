@@ -19,6 +19,8 @@ import { Paper } from "@material-ui/core";
 import { backgroundMain, primaryText } from "../themes/theme-config";
 import Basket from "../Basket";
 import Util from "../Util"
+import { ToastContainer, toast, cssTransition } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 import {
   // backgroundMain,
@@ -29,6 +31,12 @@ import {
 import app from "../base";
 import DisplayMoreProductDetails from '../DisplayMoreProductDetails'
 import { useHistory } from "react-router";
+import { css } from "glamor";
+
+const Zoom = cssTransition({
+  enter: 'zoomIn',
+  exit: 'zoomOut',
+});
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -189,6 +197,9 @@ const useStyles = makeStyles((theme) => ({
   cursorPointer: {
     cursor: 'pointer',
     color: '#CC9933',
+  },
+  toastSuccess: {
+    backgroundColor: 'yellow !important'
   }
 }));
 
@@ -240,17 +251,9 @@ function Home({ activityStatus }: any) {
       setNotificationMessage(
         "You need to be logged in to add product to busket."
       );
-      toggleToast();
+      notify(notificationMessage)
     }
     setSelectedProduct(productDetails)
-  };
-
-  const toggleToast = () => {
-    var x: any = document.getElementById("snackbar");
-    x.className = "show";
-    setTimeout(function () {
-      x.className = x.className.replace("show", "");
-    }, 3000);
   };
 
   const checkIfAlreadyAddedOnBasket = (productDetails: any) => {
@@ -272,6 +275,16 @@ function Home({ activityStatus }: any) {
     if (util.retrieveBasketProductDataFromLocalStorage().length > 0)
       history.push("/basket")
   };
+
+  const notify = (message: string) => {
+    toast("Success Notification !", {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: false,
+      onClose: () => window.alert('Called when I close')
+    });
+  }
+
+  const dismissAll = () => toast.dismiss();
 
   let products = [
     {
@@ -399,7 +412,7 @@ function Home({ activityStatus }: any) {
   const Main = () => {
     return (
       <div>
-        <div id="snackbar">{notificationMessage}</div>
+
         <Paper className={classes.paper}>
           <div
             className={classes.productListCardsContainer}

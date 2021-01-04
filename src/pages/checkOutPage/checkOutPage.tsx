@@ -25,6 +25,8 @@ import Checkbox from '@material-ui/core/Checkbox';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import CustomerService from "../../services/customer-service";
 import Util from "../../Util"
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -208,30 +210,27 @@ const CheckOut = () => {
 
     invoiceService.createInvoice(invoice).then(function () {
 
-      alert("Done Making Payment, You will be redirected to your Orders.")
       util.resetBasketProductDataFromLocalStorage()
       if (state.checkedB == true && hideProfileAddressStatus == true) {
         let customerService = new CustomerService()
         customerService.updateSingleField({
           address: userAddress
         }).then(() => {
-          history.push("/orderHistory")
+          notify("Done Making Payment, You will be redirected to your Orders.", "/orderHistory")
         })
           .catch(error => {
-            alert("Error in saving address...")
-            history.push("/orderHistory")
+            notify("Error : Done Making Payment, but error saving address please contact us to resolve this issue.", "/orderHistory")
           })
       }
       else {
-        history.push("/orderHistory")
+        notify("Done Making Payment, You will be redirected to your Orders.", "/orderHistory")
       }
     })
       .catch((error) => {
         console.log(error)
-        alert("An error occured while making creating an Invoice.")
+        notify("An error occured while making creating an Invoice.", "none")
       })
   }
-
 
   useEffect(() => {
     setInputErrorMessage("")
@@ -248,9 +247,23 @@ const CheckOut = () => {
       setHideProfileAddress(true)
   }
 
+  const notify = (message: string, redirectTo: string) => {
+    toast(message, {
+      position: toast.POSITION.TOP_CENTER,
+      autoClose: false,
+      onClose: () => {
+        if (redirectTo != "none")
+          history.push(redirectTo)
+        else
+          return;
+      }
+    });
+  }
+
 
   return (
     <div className={classes.mainContainer}>
+      <ToastContainer />
       <div className={classes.boxWrapper}>
         <h3 className={classes.heading}>CHECK OUT</h3>
       </div>

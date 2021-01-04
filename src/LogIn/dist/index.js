@@ -145,24 +145,34 @@ var LogInContainer = function () {
     var _a = react_1.useState(""), username = _a[0], setusername = _a[1];
     var _b = react_1.useState(""), password = _b[0], setpassword = _b[1];
     var _c = react_1.useState(""), errorMessage = _c[0], setError = _c[1];
+    function isEmpty(str) {
+        if (typeof str == 'undefined' || !str || str.length === 0 || str === "" || !/[^\s]/.test(str) || /^\s*$/.test(str) || str.replace(/\s/g, "") === "")
+            return true;
+        else
+            return false;
+    }
     var handleSignUp = function () { return __awaiter(void 0, void 0, void 0, function () {
         var user, error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
-                    _a.trys.push([0, 2, , 3]);
+                    if (!(isEmpty(password) || isEmpty(username))) return [3 /*break*/, 1];
+                    setError("All field are required.");
+                    return [3 /*break*/, 4];
+                case 1:
+                    _a.trys.push([1, 3, , 4]);
                     return [4 /*yield*/, base_1["default"]
                             .auth()
                             .signInWithEmailAndPassword(username, password)];
-                case 1:
+                case 2:
                     user = _a.sent();
                     history.push("/");
-                    return [3 /*break*/, 3];
-                case 2:
+                    return [3 /*break*/, 4];
+                case 3:
                     error_1 = _a.sent();
                     setError(error_1.message.split(". ", 1)[0]);
-                    return [3 /*break*/, 3];
-                case 3: return [2 /*return*/];
+                    return [3 /*break*/, 4];
+                case 4: return [2 /*return*/];
             }
         });
     }); };

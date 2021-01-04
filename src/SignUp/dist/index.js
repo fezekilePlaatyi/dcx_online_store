@@ -45,6 +45,7 @@ var Button_1 = require("@material-ui/core/Button");
 var TextField_1 = require("@material-ui/core/TextField");
 var Paper_1 = require("@material-ui/core/Paper");
 var customer_service_1 = require("../services/customer-service");
+var saIdParser = require('south-african-id-parser');
 var useStyles = styles_1.makeStyles(function (theme) {
     return styles_1.createStyles({
         logoContainer: {
@@ -169,15 +170,70 @@ var SignUpContainer = function () {
     var _g = react_1.useState(""), idNumber = _g[0], setIdNumber = _g[1];
     var _h = react_1.useState(""), address = _h[0], setAddress = _h[1];
     var _j = react_1.useState(""), registrationResponse = _j[0], setRegistrationResponse = _j[1];
+    function isEmpty(str) {
+        if (typeof str == 'undefined' || !str || str.length === 0 || str === "" || !/[^\s]/.test(str) || /^\s*$/.test(str) || str.replace(/\s/g, "") === "")
+            return true;
+        else
+            return false;
+    }
+    function isValidEmail(inputText) {
+        var mailformat = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+        if (inputText.match(mailformat)) {
+            return true;
+        }
+        else {
+            return false;
+        }
+    }
     var handleSignUp = function (event) { return __awaiter(void 0, void 0, void 0, function () {
         var error_1;
         return __generator(this, function (_a) {
             switch (_a.label) {
                 case 0:
                     event.preventDefault();
-                    _a.label = 1;
+                    if (!isEmpty(firstName)) return [3 /*break*/, 1];
+                    setRegistrationResponse("Firstname is required.");
+                    return [2 /*return*/];
                 case 1:
-                    _a.trys.push([1, 3, , 4]);
+                    if (!isEmpty(lastName)) return [3 /*break*/, 2];
+                    setRegistrationResponse("Lastname is required.");
+                    return [2 /*return*/];
+                case 2:
+                    if (!(isEmpty(idNumber) || !saIdParser.validate(idNumber))) return [3 /*break*/, 3];
+                    setRegistrationResponse("Invalid South African ID Number.");
+                    return [2 /*return*/];
+                case 3:
+                    if (!(isEmpty(phoneNumber) ||
+                        phoneNumber.length != 10 ||
+                        isNaN(parseInt(phoneNumber)))) return [3 /*break*/, 4];
+                    setRegistrationResponse("Please provide valid phone number of 10 digits.");
+                    return [2 /*return*/];
+                case 4:
+                    if (!(parseInt(phoneNumber.charAt(0)) != 0)) return [3 /*break*/, 5];
+                    setRegistrationResponse("Phone Number must be 10 digits starting with Zero.");
+                    return [2 /*return*/];
+                case 5:
+                    if (!(isEmpty(email) || !isValidEmail(email))) return [3 /*break*/, 6];
+                    setRegistrationResponse("Invalid Email Address.");
+                    return [2 /*return*/];
+                case 6:
+                    if (!isEmpty(password)) return [3 /*break*/, 7];
+                    setRegistrationResponse("Password is required.");
+                    return [2 /*return*/];
+                case 7:
+                    if (!isEmpty(confirmPassword)) return [3 /*break*/, 8];
+                    setRegistrationResponse("Please confirm password.");
+                    return [2 /*return*/];
+                case 8:
+                    if (!(password != confirmPassword)) return [3 /*break*/, 9];
+                    setRegistrationResponse("Password and confirm password are not the same.");
+                    return [2 /*return*/];
+                case 9:
+                    if (!isEmpty(address)) return [3 /*break*/, 10];
+                    setRegistrationResponse("Address is required.");
+                    return [2 /*return*/];
+                case 10:
+                    _a.trys.push([10, 12, , 13]);
                     return [4 /*yield*/, base_1["default"]
                             .auth()
                             .createUserWithEmailAndPassword(email, password)
@@ -200,14 +256,14 @@ var SignUpContainer = function () {
                                 setRegistrationResponse("An error occured while trying to register user with email " + email + ".");
                             }
                         })];
-                case 2:
+                case 11:
                     _a.sent();
-                    return [3 /*break*/, 4];
-                case 3:
+                    return [3 /*break*/, 13];
+                case 12:
                     error_1 = _a.sent();
                     setRegistrationResponse(error_1.message);
-                    return [3 /*break*/, 4];
-                case 4: return [2 /*return*/];
+                    return [3 /*break*/, 13];
+                case 13: return [2 /*return*/];
             }
         });
     }); };
@@ -224,31 +280,39 @@ var SignUpContainer = function () {
                     react_1["default"].createElement("div", { className: classes.textfieldBlock },
                         react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "First name", variant: "outlined", required: true, value: firstName, onChange: function (event) { return setFirstName(event.target.value); }, InputProps: {
                                 autoComplete: "off"
-                            }, autoFocus: true }),
+                            }, inputProps: {
+                                maxLength: 32
+                            } }),
                         react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "Last name", variant: "outlined", value: lastName, onChange: function (event) { return setLastName(event.target.value); }, required: true, InputProps: {
                                 autoComplete: "off"
-                            }, autoFocus: true })),
+                            }, inputProps: {
+                                maxLength: 32
+                            } })),
                     react_1["default"].createElement("div", { className: classes.textfieldBlock },
-                        react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "Phone number", variant: "outlined", value: phoneNumber, onChange: function (event) { return setPhoneNumber(event.target.value); }, required: true, InputProps: {
+                        react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "Phone number", type: "number", variant: "outlined", value: phoneNumber, onChange: function (event) { return setPhoneNumber(event.target.value); }, required: true, InputProps: {
                                 autoComplete: "off"
-                            }, autoFocus: true }),
+                            }, inputProps: {
+                                maxLength: 10
+                            } }),
                         react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "Email", variant: "outlined", value: email, onChange: function (event) { return setEmail(event.target.value); }, required: true, InputProps: {
                                 autoComplete: "off"
-                            }, autoFocus: true })),
+                            }, inputProps: {
+                                maxLength: 42
+                            } })),
                     react_1["default"].createElement("div", { className: classes.textfieldBlock },
                         react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "Password", variant: "outlined", value: password, onChange: function (event) { return setPassword(event.target.value); }, required: true, InputProps: {
                                 autoComplete: "off"
-                            }, autoFocus: true }),
+                            } }),
                         react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "Confirm password", variant: "outlined", value: confirmPassword, onChange: function (event) { return setConfirmPassword(event.target.value); }, required: true, InputProps: {
                                 autoComplete: "off"
-                            }, autoFocus: true })),
+                            } })),
                     react_1["default"].createElement("div", { className: classes.textfieldBlock },
                         react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "ID Number", variant: "outlined", value: idNumber, onChange: function (event) { return setIdNumber(event.target.value); }, required: true, InputProps: {
                                 autoComplete: "off"
-                            }, autoFocus: true }),
-                        react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "Address", variant: "outlined", value: address, onChange: function (event) { return setAddress(event.target.value); }, required: true, InputProps: {
+                            } }),
+                        react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "Full Address", variant: "outlined", value: address, onChange: function (event) { return setAddress(event.target.value); }, required: true, InputProps: {
                                 autoComplete: "off"
-                            }, autoFocus: true })),
+                            } })),
                     react_1["default"].createElement("div", { className: classes.buttonsContainer },
                         react_1["default"].createElement("div", { className: classes.loginButtonContainer },
                             react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined", onClick: function (event) { return handleSignUp(event); } }, "Submit"))),

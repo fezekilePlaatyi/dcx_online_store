@@ -60,10 +60,16 @@ var Button_1 = require("@material-ui/core/Button");
 var core_1 = require("@material-ui/core");
 var theme_config_1 = require("../themes/theme-config");
 var Util_1 = require("../Util");
+var react_toastify_1 = require("react-toastify");
+require("react-toastify/dist/ReactToastify.css");
 var theme_config_2 = require("../themes/theme-config");
 var base_1 = require("../base");
 var DisplayMoreProductDetails_1 = require("../DisplayMoreProductDetails");
 var react_router_1 = require("react-router");
+var Zoom = react_toastify_1.cssTransition({
+    enter: 'zoomIn',
+    exit: 'zoomOut'
+});
 var useStyles = styles_1.makeStyles(function (theme) { return ({
     root: {
         maxWidth: 345,
@@ -223,6 +229,9 @@ var useStyles = styles_1.makeStyles(function (theme) { return ({
     cursorPointer: {
         cursor: 'pointer',
         color: '#CC9933'
+    },
+    toastSuccess: {
+        backgroundColor: 'yellow !important'
     }
 }); });
 function Home(_a) {
@@ -267,16 +276,9 @@ function Home(_a) {
         }
         else {
             setNotificationMessage("You need to be logged in to add product to busket.");
-            toggleToast();
+            notify(notificationMessage);
         }
         setSelectedProduct(productDetails);
-    };
-    var toggleToast = function () {
-        var x = document.getElementById("snackbar");
-        x.className = "show";
-        setTimeout(function () {
-            x.className = x.className.replace("show", "");
-        }, 3000);
     };
     var checkIfAlreadyAddedOnBasket = function (productDetails) {
         var found = !productsOnBasket.find(function (item) { return item.id == productDetails.id; })
@@ -291,6 +293,14 @@ function Home(_a) {
         if (util.retrieveBasketProductDataFromLocalStorage().length > 0)
             history.push("/basket");
     };
+    var notify = function (message) {
+        react_toastify_1.toast("Success Notification !", {
+            position: react_toastify_1.toast.POSITION.TOP_CENTER,
+            autoClose: false,
+            onClose: function () { return window.alert('Called when I close'); }
+        });
+    };
+    var dismissAll = function () { return react_toastify_1.toast.dismiss(); };
     var products = [
         {
             id: "wdHKuhdwuapdxss",
@@ -385,7 +395,6 @@ function Home(_a) {
     displayProductList(productTypeToDisplay);
     var Main = function () {
         return (react_1["default"].createElement("div", null,
-            react_1["default"].createElement("div", { id: "snackbar" }, notificationMessage),
             react_1["default"].createElement(core_1.Paper, { className: classes.paper },
                 react_1["default"].createElement("div", { className: classes.productListCardsContainer, style: { display: productDetailsBox ? "none" : "block" } },
                     react_1["default"].createElement("div", { className: classes.shopCategory },
