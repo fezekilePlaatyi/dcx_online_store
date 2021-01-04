@@ -10,6 +10,7 @@
     "@types/react": "^17.0.0",
     "@types/react-dom": "^17.0.0",
     "@types/react-router-dom": "^5.1.6",
+    "axios": "^0.21.1",
     "firebase": "^4.10.1",
     "glamor": "^2.20.40",
     "moment": "^2.29.1",

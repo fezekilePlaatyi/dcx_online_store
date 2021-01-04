@@ -1,6 +1,8 @@
 import app from "../base";
 import 'firebase/firestore';
 import 'firebase/auth';
+import axios from 'axios'
+let sendInvoiceEmailURL = 'https://us-central1-hydradet-online-store.cloudfunctions.net/sendInvoiceEmail'
 
 class InvoiceService {
     auth: any;
@@ -19,6 +21,23 @@ class InvoiceService {
     getInvoicesByUserId = async () => {
         var userId = this.auth.currentUser.uid;
         return this.db.collection("customer_invoices").doc(userId).collection("invoices").get()
+    }
+
+    emailInvoice = async (data: any) => {
+        axios({
+            method: 'post',
+            url: sendInvoiceEmailURL,
+            data: data,
+            headers: { 'Content-Type': 'application/json' }
+        })
+            .then(function (response) {
+                //handle success
+                console.log(response);
+            })
+            .catch(function (response) {
+                //handle error
+                console.log(response);
+            });
     }
 }
 

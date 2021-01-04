@@ -39,6 +39,8 @@ exports.__esModule = true;
 var base_1 = require("../base");
 require("firebase/firestore");
 require("firebase/auth");
+var axios_1 = require("axios");
+var sendInvoiceEmailURL = 'https://us-central1-hydradet-online-store.cloudfunctions.net/sendInvoiceEmail';
 var InvoiceService = /** @class */ (function () {
     function InvoiceService() {
         var _this = this;
@@ -54,6 +56,24 @@ var InvoiceService = /** @class */ (function () {
             return __generator(this, function (_a) {
                 userId = this.auth.currentUser.uid;
                 return [2 /*return*/, this.db.collection("customer_invoices").doc(userId).collection("invoices").get()];
+            });
+        }); };
+        this.emailInvoice = function (data) { return __awaiter(_this, void 0, void 0, function () {
+            return __generator(this, function (_a) {
+                axios_1["default"]({
+                    method: 'post',
+                    url: sendInvoiceEmailURL,
+                    data: data,
+                    headers: { 'Content-Type': 'application/json' }
+                })
+                    .then(function (response) {
+                    //handle success
+                    console.log(response);
+                })["catch"](function (response) {
+                    //handle error
+                    console.log(response);
+                });
+                return [2 /*return*/];
             });
         }); };
         this.auth = base_1["default"].auth();
