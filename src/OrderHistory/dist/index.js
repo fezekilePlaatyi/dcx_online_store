@@ -202,7 +202,6 @@ var useStyles = styles_1.makeStyles(function (theme) { return ({
     },
     tableHeading: {
         // marginBottom: 20,
-        overflow: "hidden !important",
         marginTop: 40
     },
     productListCardsContainer: {}
