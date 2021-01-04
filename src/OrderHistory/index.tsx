@@ -176,7 +176,7 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     width: "100%",
   },
-  tableHeading:{
+  tableHeading: {
     // marginBottom: 20,
     marginTop: 40,
   },
@@ -262,63 +262,51 @@ const OrderHistory = () => {
         </TableBody>
       );
       if (counter == itemLength) {
-        lineItems.push(
-          
-          // <tr>
-          // <div>
-          //   <TableContainer component={Paper} className={classes.tableDiv}>
-          //     <Table aria-label="simple table">
-
-          //     </Table>
-          //   </TableContainer>
-          //   {/* <div>
-          //     <br />
-          //     <br />
-          //   </div> */}
-          // </div>   
+        lineItems
+          .push
 
           /* <td>111111111111111111111111111111111111111111111111</td>
             <td>111111111111111111111111111111111111111111111111</td>
             <td>111111111111111111111111111111111111111111111111</td>
             <td>111111111111111111111111111111111111111111111111</td> *
            </tr> */
-        )
+          ();
       }
-    });  
+    });
 
     invoices.push(lineItems);
     lineItems.unshift(
-      <div className={classes.tableHeading} >
-      {/* <TableContainer component={Paper} className={classes.tableDivHeading}>
+      <div className={classes.tableHeading}>
+        {/* <TableContainer component={Paper} className={classes.tableDivHeading}>
         <Table aria-label="simple table"> */}
         <TableHead>
-                  <TableRow>
-                    <TableCell className={classes.tableCellsName} align="left">
-                      Name
-                  </TableCell>
-                    <TableCell className={classes.tableCells} align="left">
-                      Description
-                  </TableCell>
-                    <TableCell className={classes.tableCells} align="left">
-                      Price (R)
-                  </TableCell>
-                    <TableCell className={classes.tableCellsQty} align="left">
-                      Quantity
-                  </TableCell>
-                    <TableCell className={classes.tableCellsQty} align="left">
-                      Date
-                  </TableCell>
-                     </TableRow>
-                </TableHead>
-                {/* <TableBody>{invoices}</TableBody> */}
+          <TableRow>
+            <TableCell className={classes.tableCellsName} align="left">
+              Name
+            </TableCell>
+            <TableCell className={classes.tableCells} align="left">
+              Description
+            </TableCell>
+            <TableCell className={classes.tableCells} align="left">
+              Price (R)
+            </TableCell>
+            <TableCell className={classes.tableCellsQty} align="left">
+              Quantity
+            </TableCell>
+            <TableCell className={classes.tableCellsQty} align="left">
+              Date
+            </TableCell>
+          </TableRow>
+        </TableHead>
+        {/* <TableBody>{invoices}</TableBody> */}
         {/* </Table>
       </TableContainer> */}
-      {/* <div>
+        {/* <div>
         <br />
         <br />
       </div> */}
-    </div>
-      );
+      </div>
+    );
 
     // for (const [key, value] of Object.entries(element)) {
     //   var invoice: any = value;
