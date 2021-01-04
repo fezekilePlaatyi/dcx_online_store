@@ -18,9 +18,9 @@ import Button from "@material-ui/core/Button";
 import { Paper } from "@material-ui/core";
 import { backgroundMain, primaryText } from "../themes/theme-config";
 import Basket from "../Basket";
-import Util from "../Util"
-import { ToastContainer, toast, cssTransition } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import Util from "../Util";
+import { ToastContainer, toast, cssTransition } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 import {
   // backgroundMain,
@@ -29,13 +29,14 @@ import {
   //primaryText,
 } from "../themes/theme-config";
 import app from "../base";
-import DisplayMoreProductDetails from '../DisplayMoreProductDetails'
+import DisplayMoreProductDetails from "../DisplayMoreProductDetails";
 import { useHistory } from "react-router";
 import { css } from "glamor";
+import NumberFormat from "react-number-format";
 
 const Zoom = cssTransition({
-  enter: 'zoomIn',
-  exit: 'zoomOut',
+  enter: "zoomIn",
+  exit: "zoomOut",
 });
 
 const useStyles = makeStyles((theme) => ({
@@ -195,18 +196,22 @@ const useStyles = makeStyles((theme) => ({
     display: "none",
   },
   cursorPointer: {
-    cursor: 'pointer',
-    color: '#CC9933',
+    cursor: "pointer",
+    color: "#CC9933",
   },
   toastSuccess: {
-    backgroundColor: 'yellow !important'
-  }
+    backgroundColor: "yellow !important",
+  },
+  costValue: {
+    // marginLeft: "10px",
+    color: primaryText,
+  },
 }));
 
 function Home({ activityStatus }: any) {
-  const classes = useStyles()
+  const classes = useStyles();
   const history = useHistory();
-  const util = new Util()
+  const util = new Util();
 
   var defaultProduct: any = {
     id: "",
@@ -229,12 +234,12 @@ function Home({ activityStatus }: any) {
   const [productList, setProductList] = React.useState<any>([]);
 
   const handleExpandClick = (productId: any) => {
-    var product = products.find((item: any) => item.id == productId)
+    var product = products.find((item: any) => item.id == productId);
     history.push({
-      pathname: '/displayMoreProductDetails',
+      pathname: "/displayMoreProductDetails",
       state: {
-        selectedProduct: product
-      }
+        selectedProduct: product,
+      },
     });
   };
 
@@ -244,16 +249,16 @@ function Home({ activityStatus }: any) {
       checkIfAlreadyAddedOnBasket(productDetails)
         ? console.log("already added...")
         : addProductToBasket((prevArray: any) => [
-          ...prevArray,
-          productDetails,
-        ]);
+            ...prevArray,
+            productDetails,
+          ]);
     } else {
       setNotificationMessage(
         "You need to be logged in to add product to busket."
       );
-      notify(notificationMessage)
+      notify(notificationMessage);
     }
-    setSelectedProduct(productDetails)
+    setSelectedProduct(productDetails);
   };
 
   const checkIfAlreadyAddedOnBasket = (productDetails: any) => {
@@ -271,18 +276,17 @@ function Home({ activityStatus }: any) {
   };
 
   const goToBasketIfNotEmpty = () => {
-
     if (util.retrieveBasketProductDataFromLocalStorage().length > 0)
-      history.push("/basket")
+      history.push("/basket");
   };
 
   const notify = (message: string) => {
     toast("Success Notification !", {
       position: toast.POSITION.TOP_CENTER,
       autoClose: false,
-      onClose: () => window.alert('Called when I close')
+      onClose: () => window.alert("Called when I close"),
     });
-  }
+  };
 
   const dismissAll = () => toast.dismiss();
 
@@ -383,11 +387,16 @@ function Home({ activityStatus }: any) {
               color="textSecondary"
               component="h3"
             >
-              Price: R {element.price}
+              Price: R  {/* {element.price} */}
+              <NumberFormat
+                className={classes.costValue}
+                thousandSeparator={true}
+                displayType={"text"}
+                value={element.price}
+              />
             </Typography>{" "}
           </CardContent>
           <CardActions disableSpacing>
-
             <Button
               variant="outlined"
               className={clsx(classes.expand, {
@@ -412,7 +421,6 @@ function Home({ activityStatus }: any) {
   const Main = () => {
     return (
       <div>
-
         <Paper className={classes.paper}>
           <div
             className={classes.productListCardsContainer}
@@ -431,7 +439,9 @@ function Home({ activityStatus }: any) {
                 >
                   <div className={classes.cart}>
                     {" "}
-                    ({util.retrieveBasketProductDataFromLocalStorage().length}) <ShoppingCart />
+                    ({
+                      util.retrieveBasketProductDataFromLocalStorage().length
+                    }) <ShoppingCart />
                   </div>
                 </Button>
               </div>
@@ -486,7 +496,7 @@ function Home({ activityStatus }: any) {
 
   const logout = async () => {
     await app.auth().signOut();
-  }
+  };
   var user = app.auth().currentUser;
 
   if (user) {
@@ -497,15 +507,22 @@ function Home({ activityStatus }: any) {
         <Paper className={classes.paper}>
           <div>
             <h2>Please verify email and login again!</h2>
-            <h4>You can <span onClick={logout} className={classes.cursorPointer}>Logout</span></h4>
+            <h4>
+              You can{" "}
+              <span onClick={logout} className={classes.cursorPointer}>
+                Logout
+              </span>
+            </h4>
           </div>
         </Paper>
       );
     }
   } else {
-    return <div>
-      <Main />
-    </div>;
+    return (
+      <div>
+        <Main />
+      </div>
+    );
   }
 }
 
