@@ -34,6 +34,7 @@ const useStyles = makeStyles((theme: Theme) =>
       color: primaryColor,
       marginBottom: 10,
       // marginLeft: 15,
+      cursor: 'pointer',
     },
     boxBtn: {
       float: "left",
@@ -42,6 +43,7 @@ const useStyles = makeStyles((theme: Theme) =>
       color: primaryColor,
       width: "100%",
       fontSize: 12,
+      cursor: 'pointer',
     },
     boxWrapper: {
       margin: 10,
