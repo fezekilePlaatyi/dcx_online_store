@@ -141,6 +141,12 @@ const useStyles = makeStyles((theme) => ({
     width: "%",
     textAlign: "justify",
   },
+  tableCellsDate: {
+    fontSize: 12,
+    width: "%",
+    textAlign: "justify",
+    borderBottom: "none !important"
+  },
   tableCells: {
     fontSize: 14,
   },
@@ -227,86 +233,73 @@ const OrderHistory = () => {
 
   function addInvoiceToAccordingList(element: any, index: any, array: any) {
     let lineItems: any = [];
+    let lineItemsHTMLBody: any = [];
+    let lineItemHTMLTable: any = [];
+
     let itemLength = element.length;
     let counter = 0;
     const now = Date.now();
+    let date = new Date(now).toDateString()
 
     element.forEach((item: any) => {
       counter++;
       lineItems.push(
-        <TableBody component={Paper} className={classes.tableDiv}>
-          {/* <Table aria-label="simple table"> */}
-
-          <TableRow hover className={classes.tableRow} key={element.id}>
-            <TableCell className={classes.tableRowValueName}>
-              {item.name}
-            </TableCell>
-            <TableCell className={classes.tableRowValueDesc}>
-              {item.description}
-            </TableCell>
-            <TableCell className={classes.tableRowValuePrice}>
-              {item.price}
-            </TableCell>
-            <TableCell className={classes.tableRowValueQty}>
-              {item.quantity}
-            </TableCell>
-            <TableCell className={classes.tableRowValue}>{now}</TableCell>
-          </TableRow>
-          {/* <tr style={{ color: "white", fontSize: "102%" }}>
-          <td>{item.name}</td>
-          <td>{item.description}</td>
-          <td>{item.price}</td>
-          <td>{item.quantity}<br></br></td>
-        </tr > */}
-          {/* </Table> */}
-        </TableBody>
+        <TableRow hover className={classes.tableRow} key={element.id}>
+          <TableCell className={classes.tableRowValueName}>
+            {item.name}
+          </TableCell>
+          <TableCell className={classes.tableRowValueDesc}>
+            {item.description}
+          </TableCell>
+          <TableCell className={classes.tableRowValuePrice}>
+            {item.price}
+          </TableCell>
+          <TableCell className={classes.tableRowValueQty}>
+            {item.quantity}
+          </TableCell>
+        </TableRow>
       );
-      if (counter == itemLength) {
-        lineItems
-          .push
-
-          /* <td>111111111111111111111111111111111111111111111111</td>
-            <td>111111111111111111111111111111111111111111111111</td>
-            <td>111111111111111111111111111111111111111111111111</td>
-            <td>111111111111111111111111111111111111111111111111</td> *
-           </tr> */
-          ();
-      }
     });
 
-    invoices.push(lineItems);
-    lineItems.unshift(
+    lineItemsHTMLBody.push(
+      <TableBody component={Paper} className={classes.tableDiv}>
+        {lineItems}
+      </TableBody>
+    )
+
+    lineItemHTMLTable.push(
       <div className={classes.tableHeading}>
-        {/* <TableContainer component={Paper} className={classes.tableDivHeading}>
-        <Table aria-label="simple table"> */}
-        <TableHead>
-          <TableRow>
-            <TableCell className={classes.tableCellsName} align="left">
-              Name
-            </TableCell>
-            <TableCell className={classes.tableCells} align="left">
-              Description
-            </TableCell>
-            <TableCell className={classes.tableCells} align="left">
-              Price (R)
-            </TableCell>
-            <TableCell className={classes.tableCellsQty} align="left">
-              Quantity
-            </TableCell>
-            <TableCell className={classes.tableCellsQty} align="left">
-              Date
-            </TableCell>
-          </TableRow>
-        </TableHead>
-        {/* <TableBody>{invoices}</TableBody> */}
-        {/* </Table>
-      </TableContainer> */}
-        {/* <div>
-        <br />
-        <br />
-      </div> */}
+        <TableContainer component={Paper} className={classes.tableDivHeading}>
+          <Table aria-label="simple table">
+            <TableHead>
+              <TableRow>
+                <TableCell className={classes.tableCellsDate} align="left">
+                  <h4>Date: {date}</h4>
+                </TableCell>
+              </TableRow>
+              <TableRow>
+                <TableCell className={classes.tableCellsName} align="left">
+                  Name
+                </TableCell>
+                <TableCell className={classes.tableCells} align="left">
+                  Description
+                </TableCell>
+                <TableCell className={classes.tableCells} align="left">
+                  Price (R)
+                </TableCell>
+                <TableCell className={classes.tableCellsQty} align="left">
+                  Quantity
+                </TableCell>
+              </TableRow>
+            </TableHead>
+            {lineItemsHTMLBody}
+          </Table>
+        </TableContainer>
       </div>
-    );
+    )
+
+    invoices.push(lineItemHTMLTable);
+
 
     // for (const [key, value] of Object.entries(element)) {
     //   var invoice: any = value;
