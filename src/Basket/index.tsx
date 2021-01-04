@@ -1,6 +1,6 @@
 import app from "../base";
 import React, { useEffect, useState } from "react";
-import Util from "../Util"
+import Util from "../Util";
 import { makeStyles } from "@material-ui/core/styles";
 import clsx from "clsx";
 import { ChevronLeft, ShoppingCart } from "@material-ui/icons/";
@@ -31,9 +31,9 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import CheckOut from '../pages/checkOutPage/checkOutPage'
+import CheckOut from "../pages/checkOutPage/checkOutPage";
 
-//import NumberFormat from "react-number-format";
+import NumberFormat from "react-number-format";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -179,7 +179,7 @@ const useStyles = makeStyles((theme) => ({
   },
   tableRowDescription: {
     width: "45%",
-    textAlign: 'justify',
+    textAlign: "justify",
     fontSize: 12,
   },
   tableCellsQty: {
@@ -193,153 +193,194 @@ const useStyles = makeStyles((theme) => ({
     margin: "15px 0px",
     color: primaryColor,
   },
+  costValue: {
+    marginLeft: "10px",
+    color: primaryText,
+  },
   productListCardsContainer: {},
 }));
 
 const Basket = () => {
-  const classes = useStyles()
-  const history = useHistory()
-  const util = new Util()
+  const classes = useStyles();
+  const history = useHistory();
+  const util = new Util();
 
-  const [basketProductData, setBasketProductData] = useState<any>(util.retrieveBasketProductDataFromLocalStorage())
+  const [basketProductData, setBasketProductData] = useState<any>(
+    util.retrieveBasketProductDataFromLocalStorage()
+  );
 
   const handleDeleteProductFromBasket = (productId: any) => {
-    console.log("deleting item...")
-    let updatedProductsOnBasket = basketProductData
-    updatedProductsOnBasket = updatedProductsOnBasket.filter((item: any) => item.id !== productId)
-    setBasketProductData(updatedProductsOnBasket)
-  }
+    console.log("deleting item...");
+    let updatedProductsOnBasket = basketProductData;
+    updatedProductsOnBasket = updatedProductsOnBasket.filter(
+      (item: any) => item.id !== productId
+    );
+    setBasketProductData(updatedProductsOnBasket);
+  };
 
   const handleUpdateQuantity = (productId: any, value: any) => {
-    console.log("updating item quantity...")
-    setBasketProductData((prevData: any) => prevData.map((item: any) => {
-      if (item.id === productId) {
-        return { ...item, quantity: parseInt(value) };
-      }
-      return item;
-    }))
-  }
+    console.log("updating item quantity...");
+    setBasketProductData((prevData: any) =>
+      prevData.map((item: any) => {
+        if (item.id === productId) {
+          return { ...item, quantity: parseInt(value) };
+        }
+        return item;
+      })
+    );
+  };
 
   const handleNavigation = (componentName: string) => {
-    console.log("navigating to", componentName)
+    console.log("navigating to", componentName);
     /*
       To:Do Check if Logged in or force to login
     */
     if (util.retrieveBasketProductDataFromLocalStorage().length > 0)
-      history.push(componentName)
-  }
+      history.push(componentName);
+  };
 
   const getBasketSubTotal = () => {
-    console.log("updatng basket subtotal...")
-    let basketSubTotal = 0
-    let totalNumberOfItems = 0
+    console.log("updatng basket subtotal...");
+    let basketSubTotal = 0;
+    let totalNumberOfItems = 0;
     const pricesArray = basketProductData.map((element: any) => element.price);
-    const quantityArray = basketProductData.map((element: any) => element.quantity);
+    const quantityArray = basketProductData.map(
+      (element: any) => element.quantity
+    );
     pricesArray.forEach((price: number, index: number) => {
-      basketSubTotal += quantityArray[index] * price
-      totalNumberOfItems += quantityArray[index]
-    })
+      basketSubTotal += quantityArray[index] * price;
+      totalNumberOfItems += quantityArray[index];
+    });
     return {
       basketSubTotal: basketSubTotal,
-      totalNumberOfItems: totalNumberOfItems
-    }
-  }
+      totalNumberOfItems: totalNumberOfItems,
+    };
+  };
 
   useEffect(() => {
-    console.log("Changes detected on basket data...")
-    util.storeBasketProductDataToLocalStorage(basketProductData)
-    console.log(util.retrieveBasketProductDataFromLocalStorage())
-  }, [basketProductData])
+    console.log("Changes detected on basket data...");
+    util.storeBasketProductDataToLocalStorage(basketProductData);
+    console.log(util.retrieveBasketProductDataFromLocalStorage());
+  }, [basketProductData]);
 
   return (
     <div>
-       <Paper className={classes.paper}>
-       <h2 className={classes.heading}>BASKET</h2>
-      <div className={classes.paperContetnt}>
-        <TableContainer component={Paper} className={classes.tableDiv}>
-          <Table aria-label="simple table">
-            <TableHead>
-              <TableRow>
-                <TableCell className={classes.tableCells} align="left">
-                  #
-                </TableCell>
-                <TableCell className={classes.tableCells} align="left">
-                  Name
-                </TableCell>
-                <TableCell className={classes.tableRowDescription} align="left">
-                  Description
-                </TableCell>
-                <TableCell className={classes.tableCells} align="left">
-                  Price (R)
-                </TableCell>
-                <TableCell className={classes.tableCellsQty} align="left">
-                  Quantity
-                </TableCell>
-                <TableCell className={classes.tableCells} align="left">
-                  Total price (R)
-                </TableCell>
-                <TableCell className={classes.tableCells} align="left">
-                  Delete
-                </TableCell>
-              </TableRow>
-            </TableHead>
-            <TableBody>
-              {basketProductData.map((item: any) =>
-                <TableRow hover className={classes.tableRow} key={item.id}>
-                  <TableCell className={classes.tableRowValue}>#</TableCell>
-                  <TableCell className={classes.tableRowValue}>{item.name}</TableCell>
-                  <TableCell className={classes.tableRowValue}>{item.description}</TableCell>
-                  <TableCell className={classes.tableRowValue}>{item.price}</TableCell>
-                  <TableCell className={classes.tableRowValue}>
-                    <TextField
-                      InputProps={{
-                        inputProps: { min: 1 },
-                        style: { width: "50%" },
-                      }}
-                      className={classes.textField}
-                      type="number"
-                      value={item.quantity}
-                      onChange={(event) =>
-                        handleUpdateQuantity(item.id, event.target.value)
-                      }
-                    />
+      <Paper className={classes.paper}>
+        <h2 className={classes.heading}>BASKET</h2>
+        <div className={classes.paperContetnt}>
+          <TableContainer component={Paper} className={classes.tableDiv}>
+            <Table aria-label="simple table">
+              <TableHead>
+                <TableRow>
+                  <TableCell className={classes.tableCells} align="left">
+                    #
                   </TableCell>
-                  <TableCell className={classes.tableRowValue}>{parseInt(item.quantity) * item.price}</TableCell>
-                  <TableCell className={classes.tableRowValue}>
-                    <Delete
-                      className={classes.deleteIcon}
-                      onClick={() => handleDeleteProductFromBasket(item.id)}
-                    />
+                  <TableCell className={classes.tableCells} align="left">
+                    Name
+                  </TableCell>
+                  <TableCell
+                    className={classes.tableRowDescription}
+                    align="left"
+                  >
+                    Description
+                  </TableCell>
+                  <TableCell className={classes.tableCells} align="left">
+                    Price (R)
+                  </TableCell>
+                  <TableCell className={classes.tableCellsQty} align="left">
+                    Quantity
+                  </TableCell>
+                  <TableCell className={classes.tableCells} align="left">
+                    Total price (R)
+                  </TableCell>
+                  <TableCell className={classes.tableCells} align="left">
+                    Delete
                   </TableCell>
                 </TableRow>
-              )}
-            </TableBody>
-          </Table>
-        </TableContainer>
-      </div >
-      <div>
-        <Paper className={classes.paperSummary}>
-          <div>
-            <div className={classes.paperSummaryHeading}>
-              Basket summary
-            </div>
-            <div className={classes.paperSummaryTotal}>
-              TOTAL ( {getBasketSubTotal().totalNumberOfItems} of items): R {getBasketSubTotal().basketSubTotal}
-            </div>
+              </TableHead>
+              <TableBody>
+                {basketProductData.map((item: any) => (
+                  <TableRow hover className={classes.tableRow} key={item.id}>
+                    <TableCell className={classes.tableRowValue}>#</TableCell>
+                    <TableCell className={classes.tableRowValue}>
+                      {item.name}
+                    </TableCell>
+                    <TableCell className={classes.tableRowValue}>
+                      {item.description}
+                    </TableCell>
+                    <TableCell className={classes.tableRowValue}>
+                      <NumberFormat
+                        className={classes.costValue}
+                        thousandSeparator={true}
+                        displayType={"text"}
+                        value={item.price}
+                      />
+
+                      {/* {item.price} */}
+                    </TableCell>
+                    <TableCell className={classes.tableRowValue}>
+                      <TextField
+                        InputProps={{
+                          inputProps: { min: 1 },
+                          style: { width: "50%" },
+                        }}
+                        className={classes.textField}
+                        type="number"
+                        value={item.quantity}
+                        onChange={(event) =>
+                          handleUpdateQuantity(item.id, event.target.value)
+                        }
+                      />
+                    </TableCell>
+                    <TableCell className={classes.tableRowValue}>
+                      <NumberFormat
+                        className={classes.costValue}
+                        thousandSeparator={true}
+                        displayType={"text"}
+                        value={parseInt(item.quantity) * item.price}
+                      />
+                      {/* {parseInt(item.quantity) * item.price} */}
+                    </TableCell>
+                    <TableCell className={classes.tableRowValue}>
+                      <Delete
+                        className={classes.deleteIcon}
+                        onClick={() => handleDeleteProductFromBasket(item.id)}
+                      />
+                    </TableCell>
+                  </TableRow>
+                ))}
+              </TableBody>
+            </Table>
+          </TableContainer>
+        </div>
+        <div>
+          <Paper className={classes.paperSummary}>
             <div>
-              <Button
-                className={classes.boxBtn}
-                onClick={() => handleNavigation("/checkout")}
-                variant="outlined"
-              >
-                Checkout
-                    </Button>
+              <div className={classes.paperSummaryHeading}>Basket summary</div>
+              <div className={classes.paperSummaryTotal}>
+                TOTAL ( {getBasketSubTotal().totalNumberOfItems} of items): R{" "}
+                <NumberFormat
+                        className={classes.costValue}
+                        thousandSeparator={true}
+                        displayType={"text"}
+                        value= {getBasketSubTotal().basketSubTotal}
+                      />
+                {/* {getBasketSubTotal().basketSubTotal} */}
+              </div>
+              <div>
+                <Button
+                  className={classes.boxBtn}
+                  onClick={() => handleNavigation("/checkout")}
+                  variant="outlined"
+                >
+                  Checkout
+                </Button>
+              </div>
             </div>
-          </div>
-        </Paper>
-      </div>
+          </Paper>
+        </div>
       </Paper>
     </div>
-  )
+  );
 };
 export default Basket;
