@@ -136,6 +136,11 @@ const useStyles = makeStyles((theme) => ({
     width: "60%",
     textAlign: "justify",
   },
+  tableCellsName: {
+    fontSize: 12,
+    width: "%",
+    textAlign: "justify",
+  },
   tableCells: {
     fontSize: 14,
   },
@@ -157,6 +162,11 @@ const useStyles = makeStyles((theme) => ({
     marginBottom: 20,
     marginTop: 20,
   },
+  tableDivHeading: {
+    width: "100%",
+    marginBottom: 20,
+    marginTop: 20,
+  },
   rootCard: {
     padding: 20,
     overflow: "auto",
@@ -165,6 +175,10 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     width: "100%",
+  },
+  tableHeading:{
+    // marginBottom: 20,
+    marginTop: 40,
   },
   productListCardsContainer: {},
 }));
@@ -274,12 +288,12 @@ const OrderHistory = () => {
 
     invoices.push(lineItems);
     lineItems.unshift(
-      <div>
-      <TableContainer component={Paper} className={classes.tableDiv}>
-        <Table aria-label="simple table">
+      <div className={classes.tableHeading} >
+      {/* <TableContainer component={Paper} className={classes.tableDivHeading}>
+        <Table aria-label="simple table"> */}
         <TableHead>
                   <TableRow>
-                    <TableCell className={classes.tableCells} align="left">
+                    <TableCell className={classes.tableCellsName} align="left">
                       Name
                   </TableCell>
                     <TableCell className={classes.tableCells} align="left">
@@ -291,11 +305,14 @@ const OrderHistory = () => {
                     <TableCell className={classes.tableCellsQty} align="left">
                       Quantity
                   </TableCell>
+                    <TableCell className={classes.tableCellsQty} align="left">
+                      Date
+                  </TableCell>
                      </TableRow>
                 </TableHead>
                 {/* <TableBody>{invoices}</TableBody> */}
-        </Table>
-      </TableContainer>
+        {/* </Table>
+      </TableContainer> */}
       {/* <div>
         <br />
         <br />
