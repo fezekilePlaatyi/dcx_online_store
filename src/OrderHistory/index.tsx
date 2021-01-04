@@ -22,6 +22,13 @@ import {
 } from "../themes/theme-config";
 import { useHistory, withRouter } from "react-router-dom";
 import InvoiceService from "../services/invoice-service";
+import Table from "@material-ui/core/Table";
+import TableBody from "@material-ui/core/TableBody";
+import TableCell from "@material-ui/core/TableCell";
+import TableContainer from "@material-ui/core/TableContainer";
+import TableHead from "@material-ui/core/TableHead";
+import TableRow from "@material-ui/core/TableRow";
+import Card from "@material-ui/core/Card";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -100,6 +107,48 @@ const useStyles = makeStyles((theme) => ({
   h3: {
     marginBottom: 30,
   },
+  tableRowDescription: {
+    width: "35%",
+    textAlign: 'justify',
+    fontSize: 12,
+  },
+  tableCellsQty: {
+    width: "10%",
+    fontSize: 14,
+  },
+  tableRowValue: {
+    fontSize: 12,
+  },
+  tableCells: {
+    fontSize: 14,
+  },
+  paperContetnt: {
+    display: "flex",
+    flexDirection: "column",
+    //justifyContent: "space-between",
+  },
+  tableRow: {
+    "&:hover": {
+      backgroundColor: "#808080 !important",
+    },
+  },
+  tableCell: {
+    color: backgroundMain,
+  },
+  tableDiv: {
+    width: "100%",
+    marginBottom: 20,
+    marginTop: 20,
+  },
+  rootCard:{
+    padding: 20,
+    overflow: "auto",
+    backgroundColor: backgroundMain,
+    border: "none",
+    display: "flex",
+    flexDirection: "column",
+    width: "100%",
+  },
   productListCardsContainer: {},
 }));
 
@@ -121,14 +170,20 @@ const OrderHistory = () => {
         });
 
         invoices.push(
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Description</th>
-              <th>Price</th>
-              <th>Quantity</th>
-            </tr>
-          </thead>
+          <Card className={classes.rootCard} variant="outlined">
+      <CardContent>
+
+      </CardContent>
+</Card>
+       // <thead>
+          //   <tr>
+          //     <th>Name</th>
+          //     <th>Description</th>
+          //     <th>Price</th>
+          //     <th>Quantity</th>
+          //   </tr>
+          // </thead> 
+          
         )
         setOrderHistory(invoicesData);
       })
@@ -147,26 +202,41 @@ const OrderHistory = () => {
     element.forEach((item: any) => {
       counter++
       lineItems.push(
-        <tr style={{ color: "white", fontSize: "102%" }}>
+        <TableBody component={Paper} className={classes.tableDiv}>
+              {/* <Table aria-label="simple table"> */}
+              <TableRow hover className={classes.tableRow} key={element.id}>
+              <TableCell className={classes.tableRowValue}>{item.name}</TableCell>
+              <TableCell className={classes.tableRowValue}>{item.description}</TableCell>
+              <TableCell className={classes.tableRowValue}>{item.price}</TableCell>
+              <TableCell className={classes.tableRowValue}>{item.quantity}</TableCell>
+
+                </TableRow>
+        {/* <tr style={{ color: "white", fontSize: "102%" }}>
           <td>{item.name}</td>
           <td>{item.description}</td>
           <td>{item.price}</td>
           <td>{item.quantity}<br></br></td>
-        </tr >
+        </tr > */}
+        {/* </Table> */}
+       </TableBody> 
       )
       if (counter == itemLength) {
         lineItems.push(
-          <tr>
+          // <tr>
+          <div>   
+                   <br />
+          <br /></div>
+            /* <td>111111111111111111111111111111111111111111111111</td>
             <td>111111111111111111111111111111111111111111111111</td>
             <td>111111111111111111111111111111111111111111111111</td>
-            <td>111111111111111111111111111111111111111111111111</td>
-            <td>111111111111111111111111111111111111111111111111</td>
-          </tr>
+            <td>111111111111111111111111111111111111111111111111</td> *
+           </tr> */
         )
       }
     })
 
-    invoices.push(lineItems)
+    invoices.push(lineItems) ;
+    
 
 
 
