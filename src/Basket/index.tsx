@@ -178,7 +178,7 @@ const useStyles = makeStyles((theme) => ({
     color: primaryColor,
   },
   tableRowDescription: {
-    width: "35%",
+    width: "45%",
     textAlign: 'justify',
     fontSize: 12,
   },
@@ -266,7 +266,7 @@ const Basket = () => {
                 <TableCell className={classes.tableCells} align="left">
                   Name
                 </TableCell>
-                <TableCell className={classes.tableCells} align="left">
+                <TableCell className={classes.tableRowDescription} align="left">
                   Description
                 </TableCell>
                 <TableCell className={classes.tableCells} align="left">
