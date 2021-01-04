@@ -194,7 +194,7 @@ const useStyles = makeStyles((theme) => ({
     color: primaryColor,
   },
   costValue: {
-    marginLeft: "10px",
+   // marginLeft: "10px",
     color: primaryText,
   },
   productListCardsContainer: {},

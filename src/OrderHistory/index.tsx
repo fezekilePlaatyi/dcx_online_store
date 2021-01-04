@@ -19,6 +19,7 @@ import {
   backgroundContrast,
   backgroundMain,
   primaryColor,
+  primaryText,
 } from "../themes/theme-config";
 import { useHistory, withRouter } from "react-router-dom";
 import InvoiceService from "../services/invoice-service";
@@ -29,6 +30,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import Card from "@material-ui/core/Card";
+import NumberFormat from "react-number-format";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -186,6 +188,10 @@ const useStyles = makeStyles((theme) => ({
     // marginBottom: 20,
     marginTop: 40,
   },
+  costValue: {
+    // marginLeft: "10px",
+     color: primaryText,
+   },
   productListCardsContainer: {},
 }));
 
@@ -252,7 +258,13 @@ const OrderHistory = () => {
             {item.description}
           </TableCell>
           <TableCell className={classes.tableRowValuePrice}>
-            {item.price}
+            <NumberFormat
+              className={classes.costValue}
+              thousandSeparator={true}
+              displayType={"text"}
+              value={item.price}
+            />
+            {/* {item.price} */}
           </TableCell>
           <TableCell className={classes.tableRowValueQty}>
             {item.quantity}
