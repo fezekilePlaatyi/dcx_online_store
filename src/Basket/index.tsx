@@ -30,8 +30,8 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
-import CheckOut from '../pages/checkOutPage/checkOutPage'
-//import NumberFormat from "react-number-format";
+import CheckOut from "../pages/checkOutPage/checkOutPage";
+import NumberFormat from "react-number-format";
 
 const useStyles = makeStyles((theme) => ({
   root: {
@@ -177,7 +177,7 @@ const useStyles = makeStyles((theme) => ({
   },
   tableRowDescription: {
     width: "35%",
-    textAlign: 'justify',
+    textAlign: "justify",
     fontSize: 12,
   },
   tableCellsQty: {
@@ -185,6 +185,12 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 14,
   },
   tableRowValue: {
+    fontSize: 12,
+    
+  },
+  costValue: {
+    //marginLeft: "10px",
+    color: primaryText,
     fontSize: 12,
   },
   productListCardsContainer: {},
@@ -215,7 +221,7 @@ const Basket = (props: any) => {
       var x: any = document.getElementById(totalPriceId);
       x.innerHTML = parseInt(value) * productsOnBasket[index].price;
     }
-    updateUIOnProductChange(productsOnBasket)
+    updateUIOnProductChange(productsOnBasket);
   };
 
   let productsOnBasket = props.productsOnBasket.map((obj: any) => ({
@@ -229,7 +235,6 @@ const Basket = (props: any) => {
   const [subTotalPrice, setSubTotalPrice] = useState(0);
 
   let productsOnBasketList: any = [];
-
 
   const updateUIOnProductChange = (productsOnBasket: any) => {
     console.log(productsOnBasket);
@@ -245,23 +250,29 @@ const Basket = (props: any) => {
         quantity: any;
         id: any;
       }) => {
-
         let totalPrice = element.price * parseInt(element.quantity);
         var totalPriceId: any = "totalPrice_" + element.id;
         subTotalPrice = subTotalPrice + totalPrice;
-        counter++
+        counter++;
 
         productsOnBasketList.push(
           <TableRow hover className={classes.tableRow} key={element.id}>
             <TableCell className={classes.tableRowValue}></TableCell>
-            <TableCell className={classes.tableRowValue}>{element.name}</TableCell>
+            <TableCell className={classes.tableRowValue}>
+              {element.name}
+            </TableCell>
             <TableCell className={classes.tableRowDescription}>
               {element.description}
             </TableCell>
-            <TableCell className={classes.tableRowValue}>{totalPrice}</TableCell>
-            {/* <TableCell>
-            <NumberFormat thousandSeparator={true} value={element.price} />
-          </TableCell> */}
+            {/* <TableCell className={classes.tableRowValue}>{totalPrice}</TableCell> */}
+            <TableCell>
+              <NumberFormat
+              className={classes.costValue}
+                thousandSeparator={true}
+                displayType={"text"}
+                value={element.price}
+              />
+            </TableCell>
             <TableCell className={classes.tableRowValue}>
               <TextField
                 InputProps={{
@@ -276,7 +287,15 @@ const Basket = (props: any) => {
                 }
               />
             </TableCell>
-            <TableCell className={classes.tableRowValue} id={totalPriceId}>{parseInt(element.price)}</TableCell>
+            <TableCell className={classes.tableRowValue} id={totalPriceId}>
+            <NumberFormat
+              className={classes.costValue}
+                thousandSeparator={true}
+                displayType={"text"}
+                value=  {parseInt(element.price)}
+              />
+              {/* {parseInt(element.price)} */}
+            </TableCell>
             <TableCell className={classes.tableRowValue}>
               <Delete
                 className={classes.deleteIcon}
@@ -289,8 +308,7 @@ const Basket = (props: any) => {
         if (counter == productsOnBasket.length) {
           var subTotalPriceId: any = "subTotalPrice";
           var x: any = document.getElementById(subTotalPriceId);
-          if (x !== null)
-            x.innerHTML = subTotalPrice;
+          if (x !== null) x.innerHTML = subTotalPrice;
         }
       }
     );
@@ -314,9 +332,9 @@ const Basket = (props: any) => {
               onClick={() => handleNavigateBackToHomePage()}
             >
               <ChevronLeft /> back
-          </Button>
-          BASKET
-        </h3>
+            </Button>
+            BASKET
+          </h3>
           <div className={classes.paperContetnt}>
             <TableContainer component={Paper} className={classes.tableDiv}>
               <Table aria-label="simple table">
@@ -324,25 +342,25 @@ const Basket = (props: any) => {
                   <TableRow>
                     <TableCell className={classes.tableCells} align="left">
                       #
-                  </TableCell>
+                    </TableCell>
                     <TableCell className={classes.tableCells} align="left">
                       Name
-                  </TableCell>
+                    </TableCell>
                     <TableCell className={classes.tableCells} align="left">
                       Description
-                  </TableCell>
+                    </TableCell>
                     <TableCell className={classes.tableCells} align="left">
                       Price (R)
-                  </TableCell>
+                    </TableCell>
                     <TableCell className={classes.tableCellsQty} align="left">
                       Quantity
-                  </TableCell>
+                    </TableCell>
                     <TableCell className={classes.tableCells} align="left">
                       Total price (R)
-                  </TableCell>
+                    </TableCell>
                     <TableCell className={classes.tableCells} align="left">
                       Delete
-                  </TableCell>
+                    </TableCell>
                   </TableRow>
                 </TableHead>
                 <TableBody>{productsOnBasketList}</TableBody>
@@ -354,9 +372,11 @@ const Basket = (props: any) => {
                 <div>
                   <div className={classes.paperSummaryHeading}>
                     Basket summary
-                </div>
+                  </div>
                   <div className={classes.paperSummaryTotal}>
-                    TOTAL ( {productsOnBasketList.length} of items): total cost R <span id="subTotalPrice">.</span>
+                    TOTAL ( {productsOnBasketList.length} of items): total cost
+                    
+                    R <span id="subTotalPrice">.</span>
                   </div>
                   <div>
                     <Button
@@ -365,7 +385,7 @@ const Basket = (props: any) => {
                       variant="outlined"
                     >
                       Checkout
-                      </Button>
+                    </Button>
                   </div>
                 </div>
               </Paper>
@@ -374,7 +394,7 @@ const Basket = (props: any) => {
         </Paper>
       </div>
     );
-  }
+  };
 
   const handleNavigationClickOnBasket = (nameOfComponent: any) => {
     console.log("navigating click handler..");
