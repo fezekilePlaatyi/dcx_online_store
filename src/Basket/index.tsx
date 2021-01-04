@@ -324,7 +324,7 @@ const Basket = () => {
               Basket summary
             </div>
             <div className={classes.paperSummaryTotal}>
-              TOTAL ( {getBasketSubTotal().totalNumberOfItems} of items): total cost R {getBasketSubTotal().basketSubTotal}
+              TOTAL ( {getBasketSubTotal().totalNumberOfItems} of items): R {getBasketSubTotal().basketSubTotal}
             </div>
             <div>
               <Button
