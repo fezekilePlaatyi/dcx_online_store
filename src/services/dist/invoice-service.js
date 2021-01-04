@@ -60,20 +60,12 @@ var InvoiceService = /** @class */ (function () {
         }); };
         this.emailInvoice = function (data) { return __awaiter(_this, void 0, void 0, function () {
             return __generator(this, function (_a) {
-                axios_1["default"]({
-                    method: 'post',
-                    url: sendInvoiceEmailURL,
-                    data: data,
-                    headers: { 'Content-Type': 'application/json' }
-                })
-                    .then(function (response) {
-                    //handle success
-                    console.log(response);
-                })["catch"](function (response) {
-                    //handle error
-                    console.log(response);
-                });
-                return [2 /*return*/];
+                return [2 /*return*/, axios_1["default"]({
+                        method: 'post',
+                        url: sendInvoiceEmailURL,
+                        data: data,
+                        headers: { 'Content-Type': 'application/json' }
+                    })];
             });
         }); };
         this.auth = base_1["default"].auth();

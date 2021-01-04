@@ -208,23 +208,37 @@ const CheckOut = () => {
       userDetails: userAddress
     }
 
-    invoiceService.createInvoice(invoice).then(function () {
+    console.log(invoice)
 
-      util.resetBasketProductDataFromLocalStorage()
-      if (state.checkedB == true && hideProfileAddressStatus == true) {
-        let customerService = new CustomerService()
-        customerService.updateSingleField({
-          address: userAddress
-        }).then(() => {
-          notify("Done Making Payment, You will be redirected to your Orders.", "/orderHistory")
-        })
-          .catch(error => {
-            notify("Error : Done Making Payment, but error saving address please contact us to resolve this issue.", "/orderHistory")
+    invoiceService.createInvoice(invoice).then(function () {
+      invoiceService.emailInvoice(invoice).then(function (response) {
+        alert("handle success")
+        console.log(response);
+
+
+        util.resetBasketProductDataFromLocalStorage()
+        if (state.checkedB == true && hideProfileAddressStatus == true) {
+          let customerService = new CustomerService()
+          customerService.updateSingleField({
+            address: userAddress
+          }).then(() => {
+            notify("Done Making Payment, You will be redirected to your Orders.", "/orderHistory")
           })
-      }
-      else {
-        notify("Done Making Payment, You will be redirected to your Orders.", "/orderHistory")
-      }
+            .catch(error => {
+              notify("Error : Done Making Payment, but error saving address please contact us to resolve this issue.", "/orderHistory")
+            })
+        }
+        else {
+          notify("Done Making Payment, You will be redirected to your Orders.", "/orderHistory")
+        }
+
+      })
+        .catch(function (response) {
+          alert(response.toString())
+          console.log(response);
+        });
+
+
     })
       .catch((error) => {
         console.log(error)

@@ -196,21 +196,29 @@ var CheckOut = function () {
             invoiceData: util.retrieveBasketProductDataFromLocalStorage(),
             userDetails: userAddress
         };
+        console.log(invoice);
         invoiceService.createInvoice(invoice).then(function () {
-            util.resetBasketProductDataFromLocalStorage();
-            if (state.checkedB == true && hideProfileAddressStatus == true) {
-                var customerService_1 = new customer_service_1["default"]();
-                customerService_1.updateSingleField({
-                    address: userAddress
-                }).then(function () {
+            invoiceService.emailInvoice(invoice).then(function (response) {
+                alert("handle success");
+                console.log(response);
+                util.resetBasketProductDataFromLocalStorage();
+                if (state.checkedB == true && hideProfileAddressStatus == true) {
+                    var customerService_1 = new customer_service_1["default"]();
+                    customerService_1.updateSingleField({
+                        address: userAddress
+                    }).then(function () {
+                        notify("Done Making Payment, You will be redirected to your Orders.", "/orderHistory");
+                    })["catch"](function (error) {
+                        notify("Error : Done Making Payment, but error saving address please contact us to resolve this issue.", "/orderHistory");
+                    });
+                }
+                else {
                     notify("Done Making Payment, You will be redirected to your Orders.", "/orderHistory");
-                })["catch"](function (error) {
-                    notify("Error : Done Making Payment, but error saving address please contact us to resolve this issue.", "/orderHistory");
-                });
-            }
-            else {
-                notify("Done Making Payment, You will be redirected to your Orders.", "/orderHistory");
-            }
+                }
+            })["catch"](function (response) {
+                alert(response.toString());
+                console.log(response);
+            });
         })["catch"](function (error) {
             console.log(error);
             notify("An error occured while making creating an Invoice.", "none");

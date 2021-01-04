@@ -24,20 +24,12 @@ class InvoiceService {
     }
 
     emailInvoice = async (data: any) => {
-        axios({
+        return axios({
             method: 'post',
             url: sendInvoiceEmailURL,
             data: data,
             headers: { 'Content-Type': 'application/json' }
         })
-            .then(function (response) {
-                //handle success
-                console.log(response);
-            })
-            .catch(function (response) {
-                //handle error
-                console.log(response);
-            });
     }
 }
 
