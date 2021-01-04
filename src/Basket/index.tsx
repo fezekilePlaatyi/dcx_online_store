@@ -189,6 +189,10 @@ const useStyles = makeStyles((theme) => ({
   tableRowValue: {
     fontSize: 12,
   },
+  heading: {
+    margin: "15px 0px",
+    color: primaryColor,
+  },
   productListCardsContainer: {},
 }));
 
@@ -249,6 +253,8 @@ const Basket = () => {
 
   return (
     <div>
+       <Paper className={classes.paper}>
+       <h2 className={classes.heading}>BASKET</h2>
       <div className={classes.paperContetnt}>
         <TableContainer component={Paper} className={classes.tableDiv}>
           <Table aria-label="simple table">
@@ -332,8 +338,8 @@ const Basket = () => {
           </div>
         </Paper>
       </div>
+      </Paper>
     </div>
   )
-
 };
 export default Basket;
