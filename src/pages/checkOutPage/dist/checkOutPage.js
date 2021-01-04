@@ -26,6 +26,7 @@ var customer_service_1 = require("../../services/customer-service");
 var Util_1 = require("../../Util");
 var react_toastify_1 = require("react-toastify");
 require("react-toastify/dist/ReactToastify.css");
+var base_1 = require("../../base");
 var useStyles = styles_1.makeStyles(function (theme) {
     return styles_1.createStyles({
         logoContainer: {
@@ -166,13 +167,13 @@ var CheckOut = function () {
     customerService.getUserDetails().then(function (data) {
         setUserDetails(data.data());
     })["catch"](function (error) {
-        alert("Error getting your profile details.");
+        notify("No address found for this user. Please update your profile.", "/profile");
         console.log(error);
     });
     var procceddToPay = function () {
         if (!hideProfileAddressStatus) {
             if (!userDetails.address) {
-                alert("No address found in you profile. Update your profile with your Address.");
+                notify("No address found for this user. Please update your profile.", "/profile");
             }
             else {
                 saveInvoice(userDetails.address);
@@ -187,6 +188,18 @@ var CheckOut = function () {
             }
         }
     };
+    var getCurrentUserEmailAddress = function () {
+        var user = base_1["default"].auth().currentUser;
+        var email, uid;
+        if (user != null) {
+            email = user.email;
+            uid = user.uid;
+            return email;
+        }
+        else {
+            return '';
+        }
+    };
     var saveInvoice = function (userAddress) {
         var invoiceService = new invoice_service_1["default"]();
         var userDetails = {
@@ -194,13 +207,14 @@ var CheckOut = function () {
         };
         var invoice = {
             invoiceData: util.retrieveBasketProductDataFromLocalStorage(),
-            userDetails: userAddress
+            userDetails: {
+                userAddress: userAddress,
+                clientEmailAddress: getCurrentUserEmailAddress()
+            }
         };
         console.log(invoice);
         invoiceService.createInvoice(invoice).then(function () {
             invoiceService.emailInvoice(invoice).then(function (response) {
-                alert("handle success");
-                console.log(response);
                 util.resetBasketProductDataFromLocalStorage();
                 if (state.checkedB == true && hideProfileAddressStatus == true) {
                     var customerService_1 = new customer_service_1["default"]();
@@ -216,7 +230,7 @@ var CheckOut = function () {
                     notify("Done Making Payment, You will be redirected to your Orders.", "/orderHistory");
                 }
             })["catch"](function (response) {
-                alert(response.toString());
+                notify("Done Making Payment, An error occured while emailing invoice.", "/orderHistory");
                 console.log(response);
             });
         })["catch"](function (error) {

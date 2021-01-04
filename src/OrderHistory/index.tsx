@@ -190,8 +190,8 @@ const useStyles = makeStyles((theme) => ({
   },
   costValue: {
     // marginLeft: "10px",
-     color: primaryText,
-   },
+    color: primaryText,
+  },
   productListCardsContainer: {},
 }));
 

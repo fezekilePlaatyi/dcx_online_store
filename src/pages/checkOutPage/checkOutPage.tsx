@@ -27,6 +27,7 @@ import CustomerService from "../../services/customer-service";
 import Util from "../../Util"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import app from "../../base";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -173,7 +174,7 @@ const CheckOut = () => {
     setUserDetails(data.data())
   })
     .catch((error: any) => {
-      alert("Error getting your profile details.")
+      notify("No address found for this user. Please update your profile.", "/profile")
       console.log(error)
     })
 
@@ -181,7 +182,7 @@ const CheckOut = () => {
 
     if (!hideProfileAddressStatus) {
       if (!userDetails.address) {
-        alert("No address found in you profile. Update your profile with your Address.")
+        notify("No address found for this user. Please update your profile.", "/profile")
       }
       else {
         saveInvoice(userDetails.address)
@@ -197,6 +198,21 @@ const CheckOut = () => {
     }
   }
 
+
+  const getCurrentUserEmailAddress = () => {
+    var user = app.auth().currentUser;
+    var email, uid;
+
+    if (user != null) {
+      email = user.email
+      uid = user.uid
+
+      return email
+    } else {
+      return ''
+    }
+  }
+
   const saveInvoice = (userAddress: any) => {
     let invoiceService = new InvoiceService()
     let userDetails = {
@@ -205,17 +221,16 @@ const CheckOut = () => {
 
     var invoice: any = {
       invoiceData: util.retrieveBasketProductDataFromLocalStorage(),
-      userDetails: userAddress
+      userDetails: {
+        userAddress: userAddress,
+        clientEmailAddress: getCurrentUserEmailAddress()
+      }
     }
 
     console.log(invoice)
 
     invoiceService.createInvoice(invoice).then(function () {
       invoiceService.emailInvoice(invoice).then(function (response) {
-        alert("handle success")
-        console.log(response);
-
-
         util.resetBasketProductDataFromLocalStorage()
         if (state.checkedB == true && hideProfileAddressStatus == true) {
           let customerService = new CustomerService()
@@ -234,7 +249,7 @@ const CheckOut = () => {
 
       })
         .catch(function (response) {
-          alert(response.toString())
+          notify("Done Making Payment, An error occured while emailing invoice.", "/orderHistory")
           console.log(response);
         });
 
