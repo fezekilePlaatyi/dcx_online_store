@@ -26,6 +26,14 @@ const useStyles = makeStyles((theme: Theme) =>
     heading: {
       margin: "15px 0px",
       color: primaryColor,
+      [theme.breakpoints.down('xs')]: {
+        fontSize: 22,
+      },
+    },
+    subHeading: {
+      [theme.breakpoints.down('xs')]: {
+        fontSize: 14,
+      },
     },
     whiteText: {
       color: primaryText,
@@ -49,10 +57,14 @@ const useStyles = makeStyles((theme: Theme) =>
       },
       [theme.breakpoints.down('sm')]: {
         flexDirection: "column",
+        marginBottom: 25,
       },
-      [theme.breakpoints.down('md')]: {
-        flexDirection: "column",
-      },
+      // [theme.breakpoints.down('md')]: {
+      //   flexDirection: "column",
+      // },
+      // [theme.breakpoints.down('md')]: {
+      //   flexDirection: "row",
+      // },
       // [theme.breakpoints.down('lg')]: {
       //   width: "50%",
       // },
@@ -61,6 +73,12 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexDirection: "column",
       justifyContent: "space-between",
+      [theme.breakpoints.down('xs')]: {
+        marginBottom: 25,
+      },
+      [theme.breakpoints.down('sm')]: {
+        marginBottom: 25,
+      },
     },
     contactDetails: {
       display: "flex",
@@ -68,6 +86,12 @@ const useStyles = makeStyles((theme: Theme) =>
       alignItems: "center",
       marginTop: 20,
       marginBottom: 5,
+      [theme.breakpoints.down('xs')]: {
+        marginTop: 10,
+      },
+      [theme.breakpoints.down('sm')]: {
+        marginTop: 10,
+      },
     },
   })
 );
@@ -85,7 +109,7 @@ const Contact = () => {
         </div>
         <div className={classes.contactBlocks}>
           <div className={classes.contactBlock}>
-            <h3>GENERAL ENQUIRIES</h3>
+            <h3 className={classes.subHeading}>GENERAL ENQUIRIES</h3>
             <div className={classes.contactDetails}>
               <div className={classes.contactDetailsIcon}>
                 <PhoneInTalkIcon />
@@ -105,7 +129,7 @@ const Contact = () => {
             </div>
           </div>
           <div className={classes.contactBlock}>
-            <h3>DEON REBELLO</h3>
+            <h3 className={classes.subHeading}>DEON REBELLO</h3>
             <div className={classes.contactDetails}>
               <div className={classes.contactDetailsIcon}>
                 <PhoneInTalkIcon />
@@ -124,7 +148,7 @@ const Contact = () => {
             </div>
           </div>
           <div className={classes.contactBlock}>
-            <h3>CHRIS HATTINGH</h3>
+            <h3 className={classes.subHeading}>CHRIS HATTINGH</h3>
             <div className={classes.contactDetails}>
               <div className={classes.contactDetailsIcon}>
                 <PhoneInTalkIcon />
