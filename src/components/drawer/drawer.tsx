@@ -20,8 +20,8 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-//import StoreIcon from '@material-ui/icons/Store';
+//import DashboardIcon from "@material-ui/icons/Dashboard";
+import StoreIcon from '@material-ui/icons/Store';
 import {
   backgroundMain,
   logo,
@@ -146,6 +146,13 @@ const useStyles = makeStyles((theme: Theme) =>
     logoContainerHeading: {
       fontSize: 18,
     },
+    menuHeading:{
+      textAlign: 'center',
+      fontSize: 14,
+      marginBottom: 10, 
+      marginTop: 10, 
+    },
+
   })
 );
 
@@ -180,11 +187,11 @@ const DrawerContainer = ({ children, activityStatus }: any) => {
   };
 
   var brokerMenuItems = [
-    { label: "HOME", icon: () => <DashboardIcon />, route: "/" },
-    { label: "ABOUT US", icon: () => <InfoIcon />, route: "/about" },
-    { label: "CONTACT US", icon: () => <AlternateEmailIcon />, route: "/contact" },
+    { label: "HOME", icon: () => <StoreIcon titleAccess="Home" />, route: "/" },
+    { label: "ABOUT US", icon: () => <InfoIcon titleAccess="About us" />, route: "/about" },
+    { label: "CONTACT US", icon: () => <AlternateEmailIcon titleAccess="Contact us" />, route: "/contact" },
 
-  ];
+  ]; 
 
   let menuItems: MenuItem[] = brokerMenuItems;
 
@@ -286,6 +293,7 @@ const DrawerContainer = ({ children, activityStatus }: any) => {
         </div>
         <Divider />
         <List>
+          {/* <div className={classes.menuHeading}>MENU</div> */}
           {menuItems.map((x) => {
             let match = location.pathname.includes(x.route);
 
