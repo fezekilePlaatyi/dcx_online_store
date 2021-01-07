@@ -43,6 +43,17 @@ const useStyles = makeStyles((theme) => ({
   root: {
     maxWidth: 345,
     width: "40%",
+    marginRight: 30,
+    [theme.breakpoints.down('xs')]: {
+      width: "100%",
+      marginBottom: 20,
+      marginRight: 0,
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: "100%",
+      marginBottom: 20,
+      marginRight: 0,
+    },
   },
   textField: {
     margin: theme.spacing(1),
@@ -104,6 +115,16 @@ const useStyles = makeStyles((theme) => ({
   },
   productList: {
     display: "inline-flex",
+    [theme.breakpoints.down('xs')]: {
+      display: "flex",
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
+    [theme.breakpoints.down('sm')]: {
+      display: "flex",
+      flexDirection: 'column',
+      alignItems: 'center',
+    },
   },
   paper: {
     padding: 20,
@@ -152,6 +173,9 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     //flexDirection: 'column',
     justifyContent: "space-between",
+    [theme.breakpoints.down('xs')]: {
+      flexDirection: 'column',
+    },
   },
   shopCategoryButtons: {
     display: "flex",
@@ -159,9 +183,18 @@ const useStyles = makeStyles((theme) => ({
     justifyContent: "space-between",
     width: "37%",
     marginTop: 20,
+    [theme.breakpoints.down('xs')]: {
+      width: "100%",
+    },
+    [theme.breakpoints.down('sm')]: {
+      width: "100%",
+    },
   },
   shopCategoryHeadingMain: {
     color: primaryText,
+    [theme.breakpoints.down('xs')]: {
+      textAlign: 'center',
+    },
   },
   heading: {
     margin: "15px 0px",
@@ -369,7 +402,7 @@ function Home({ activityStatus }: any) {
   const updateUIOnProductCatergoryChange = (updateProductByCategory: any) => {
     updateProductByCategory.forEach((element: any) => {
       productList.push(
-        <Card className={classes.root} style={{ marginRight: 30 }}>
+        <Card className={classes.root}>
           <CardMedia className={classes.media} image={img} title="Image" />
           <CardContent>
             <Typography
