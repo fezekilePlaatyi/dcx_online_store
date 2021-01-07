@@ -174,7 +174,7 @@ const CheckOut = () => {
     setUserDetails(data.data())
   })
     .catch((error: any) => {
-      notify("No address found for this user. Please update your profile.", "/profile")
+      notify("No address found for this user. Please update your profile.", "/updateProfile")
       console.log(error)
     })
 
@@ -182,7 +182,7 @@ const CheckOut = () => {
 
     if (!hideProfileAddressStatus) {
       if (!userDetails.address) {
-        notify("No address found for this user. Please update your profile.", "/profile")
+        notify("No address found for this user. Please update your profile.", "/updateProfile")
       }
       else {
         saveInvoice(userDetails.address)

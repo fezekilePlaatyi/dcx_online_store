@@ -61,13 +61,6 @@ const App = () => {
   return (
     <Router>
       <div>
-        {/* <PrivateRoute
-          exact
-          path="/"
-          component={Home}
-          authenticated={authenticated}
-        /> */}
-
         <HomeRoute
           exact
           path="/"
@@ -78,12 +71,6 @@ const App = () => {
           exact
           path="/basket"
           component={Basket}
-          authenticated={authenticated}
-        />
-        <PrivateRoute
-          exact
-          path="/displayMoreProductDetails"
-          component={DisplayMoreProductDetails}
           authenticated={authenticated}
         />
         <PrivateRoute
@@ -102,6 +89,12 @@ const App = () => {
           exact
           path="/contact"
           component={Contact}
+          authenticated={authenticated}
+        />
+        <NonPrivateRoutesWithDrawer
+          exact
+          path="/displayMoreProductDetails"
+          component={DisplayMoreProductDetails}
           authenticated={authenticated}
         />
         <NonPrivateRoutesWithDrawer

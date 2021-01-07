@@ -167,13 +167,13 @@ var CheckOut = function () {
     customerService.getUserDetails().then(function (data) {
         setUserDetails(data.data());
     })["catch"](function (error) {
-        notify("No address found for this user. Please update your profile.", "/profile");
+        notify("No address found for this user. Please update your profile.", "/updateProfile");
         console.log(error);
     });
     var procceddToPay = function () {
         if (!hideProfileAddressStatus) {
             if (!userDetails.address) {
-                notify("No address found for this user. Please update your profile.", "/profile");
+                notify("No address found for this user. Please update your profile.", "/updateProfile");
             }
             else {
                 saveInvoice(userDetails.address);
