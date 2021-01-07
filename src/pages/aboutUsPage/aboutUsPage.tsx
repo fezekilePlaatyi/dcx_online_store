@@ -21,16 +21,37 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: "column",
       // alignItems: "center",
       width: "100%",
+      [theme.breakpoints.down('xs')]: {
+        padding: 15,
+      },
     },
     heading: {
       margin: "15px 0px",
       color: primaryColor,
+      [theme.breakpoints.down('xs')]: {
+        fontSize: 22,
+      },
+    },
+    subHeading: {
+      [theme.breakpoints.down('xs')]: {
+        fontSize: 14,
+      },
     },
     whiteText: {
       color: primaryText,
       fontSize: 14,
       lineHeight: "30px",
       textAlign: "justify",
+      [theme.breakpoints.down('xs')]: {
+        fontSize: 12,
+        lineHeight: "20px",
+        textAlign: "left",
+      },
+      [theme.breakpoints.down('sm')]: {
+        fontSize: 12,
+        lineHeight: "20px",
+        textAlign: "left",
+      },
     },
     aboutHeading: {
       color: primaryColor,
@@ -67,10 +88,19 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     h4: {
       marginLeft: 15,
+      [theme.breakpoints.down('xs')]: {
+        fontSize: 14,
+      },
     },
     aboutBlock: {
       width: '55%',
       marginBottom: 20,
+      [theme.breakpoints.down('xs')]: {
+        width: '100%',
+      },
+      [theme.breakpoints.down('sm')]: {
+        width: '100%',
+      },
     }
   })
 );
@@ -101,7 +131,7 @@ const About = () => {
           themselves for what is coming.
         </div>
         <div>
-          <h3>WHY CHOOSE US</h3>
+          <h3 className={classes.subHeading}>WHY CHOOSE US</h3>
           <div className={classes.aboutBlock}>
             <div className={classes.aboutHeading}>
               <div>
