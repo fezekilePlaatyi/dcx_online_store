@@ -44,6 +44,18 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: "row",
       justifyContent: "space-between",
       marginTop: 30,
+      [theme.breakpoints.down('xs')]: {
+        flexDirection: "column",
+      },
+      [theme.breakpoints.down('sm')]: {
+        flexDirection: "column",
+      },
+      [theme.breakpoints.down('md')]: {
+        flexDirection: "column",
+      },
+      // [theme.breakpoints.down('lg')]: {
+      //   width: "50%",
+      // },
     },
     contactBlock: {
       display: "flex",
