@@ -20,8 +20,8 @@ import ChevronRightIcon from "@material-ui/icons/ChevronRight";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemIcon from "@material-ui/core/ListItemIcon";
 import ListItemText from "@material-ui/core/ListItemText";
-import DashboardIcon from "@material-ui/icons/Dashboard";
-//import StoreIcon from '@material-ui/icons/Store';
+//import DashboardIcon from "@material-ui/icons/Dashboard";
+import StoreIcon from "@material-ui/icons/Store";
 import {
   backgroundMain,
   logo,
@@ -32,10 +32,11 @@ import {
 import { Button } from "@material-ui/core";
 import { useHistory, useLocation } from "react-router";
 import app from "../../base";
-import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
-import InfoIcon from '@material-ui/icons/Info';
+import AlternateEmailIcon from "@material-ui/icons/AlternateEmail";
+import InfoIcon from "@material-ui/icons/Info";
 // import IconButton from '@material-ui/core/IconButton';
-import MenuIcon from '@material-ui/icons/Menu';
+import MenuIcon from "@material-ui/icons/Menu";
+//import { useMediaQuery } from "@material-ui/core";
 
 const drawerWidth = 240;
 
@@ -55,6 +56,12 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       alignItems: "center",
       justifyContent: "space-between",
+      [theme.breakpoints.down("xs")]: {
+        display: "none",
+      },
+      // [theme.breakpoints.down('sm')]: {
+      //   display: "none",
+      // },
     },
     logoContainer: {
       marginRight: "20px",
@@ -71,7 +78,10 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: backgroundContrast,
       borderColor: primaryColor,
       textTransform: "capitalize",
-      marginRight: 10,
+      marginRight: 5,
+      [theme.breakpoints.down("xs")]: {
+        fontSize: 8,
+      },
     },
     boxBtnSignOut: {
       float: "left",
@@ -79,6 +89,9 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: backgroundContrast,
       borderColor: primaryColor,
       textTransform: "capitalize",
+      [theme.breakpoints.down("xs")]: {
+        fontSize: 10,
+      },
     },
     appBar: {
       zIndex: theme.zIndex.drawer + 1,
@@ -141,10 +154,36 @@ const useStyles = makeStyles((theme: Theme) =>
       backgroundColor: "white",
     },
     hidden: {
-      display: 'none',
+      display: "none",
     },
     logoContainerHeading: {
       fontSize: 18,
+    },
+    menuHeading: {
+      textAlign: "center",
+      fontSize: 14,
+      marginBottom: 10,
+      marginTop: 10,
+    },
+    menuList: {
+      position: "relative",
+    },
+    buttonsContainer: {
+      [theme.breakpoints.down("xs")]: {
+        display: "flex",
+      },
+    },
+    buttonsText:{
+      [theme.breakpoints.down("xs")]: {
+        fontSize: 8,
+      },  
+    },
+    MuiButton: {
+      label:{
+        [theme.breakpoints.down("xs")]: {
+          fontSize: 8,
+        },
+      },
     },
   })
 );
@@ -161,8 +200,9 @@ const DrawerContainer = ({ children, activityStatus }: any) => {
   const classes = useStyles();
   const theme = useTheme();
   const [open, setOpen] = React.useState(false);
+  // const isSmallScreen = useMediaQuery(theme.breakpoints.down("xs"));
 
-  console.log("TESTING STATUS", activityStatus)
+  console.log("TESTING STATUS", activityStatus);
 
   const history = useHistory();
 
@@ -180,13 +220,25 @@ const DrawerContainer = ({ children, activityStatus }: any) => {
   };
 
   var brokerMenuItems = [
-    { label: "HOME", icon: () => <DashboardIcon />, route: "/" },
-    { label: "ABOUT US", icon: () => <InfoIcon />, route: "/about" },
-    { label: "CONTACT US", icon: () => <AlternateEmailIcon />, route: "/contact" },
-
+    { label: "HOME", icon: () => <StoreIcon titleAccess="Home" />, route: "/" },
+    {
+      label: "ABOUT US",
+      icon: () => <InfoIcon titleAccess="About us" />,
+      route: "/about",
+    },
+    {
+      label: "CONTACT US",
+      icon: () => <AlternateEmailIcon titleAccess="Contact us" />,
+      route: "/contact",
+    },
   ];
 
   let menuItems: MenuItem[] = brokerMenuItems;
+
+  // const buttonProps = {
+  //   variant: isSmallScreen ? "text" : "outlined",
+  //   size: isSmallScreen ? "small" : "large"
+  // };
 
   return (
     <div className={classes.root}>
@@ -198,8 +250,7 @@ const DrawerContainer = ({ children, activityStatus }: any) => {
         })}
       >
         <Toolbar className={classes.header}>
-          
-        <IconButton
+          <IconButton
             color="inherit"
             aria-label="open drawer"
             onClick={handleDrawerOpen}
@@ -218,46 +269,72 @@ const DrawerContainer = ({ children, activityStatus }: any) => {
                 alt="logo"
               />
             </div>
-            <Typography variant="h6" noWrap className={classes.logoContainerHeading}>
+            <Typography
+              variant="h6"
+              noWrap
+              className={classes.logoContainerHeading}
+            >
               DCX Bullion
             </Typography>
           </div>
-          <div>
+          <div className={classes.buttonsContainer}>
             <Button
+              // {...buttonProps}
               onClick={() => history.push("/login")}
-              className={activityStatus == false ? `${classes.boxBtn} ` : `${classes.hidden}`}
+              className={
+                activityStatus == false
+                  ? `${classes.boxBtn} `
+                  : `${classes.hidden}`
+              }
               variant="outlined"
             >
               Login
             </Button>
             <Button
+              // {...buttonProps}
               onClick={() => history.push("/signup")}
-              className={activityStatus == false ? `${classes.boxBtn} ` : `${classes.hidden}`}
+              className={
+                activityStatus == false
+                  ? `${classes.boxBtn} `
+                  : `${classes.hidden}`
+              }
               variant="outlined"
             >
               Register
             </Button>
             <Button
+              // {...buttonProps}
               onClick={() => history.push("/profile")}
-              className={activityStatus == true ? `${classes.boxBtn} ` : `${classes.hidden}`}
+              className={
+                activityStatus == true
+                  ? `${classes.boxBtn} `
+                  : `${classes.hidden}`
+              }
               variant="outlined"
             >
-              Profile
+             <div className={classes.buttonsText}>Profile</div> 
             </Button>
             <Button
               onClick={() => history.push("/orderHistory")}
-              className={activityStatus == true ? `${classes.boxBtn} ` : `${classes.hidden}`}
+              className={
+                activityStatus == true
+                  ? `${classes.boxBtn} `
+                  : `${classes.hidden}`
+              }
               variant="outlined"
             >
-              Order History
+             <div className={classes.buttonsText}>Order History</div> 
             </Button>
             <Button
-              className={activityStatus == true ? `${classes.boxBtnSignOut} ` : `${classes.hidden}`}
-
+              className={
+                activityStatus == true
+                  ? `${classes.boxBtnSignOut} `
+                  : `${classes.hidden}`
+              }
               variant="outlined"
               onClick={() => signOut()}
             >
-              Sign Out
+             <div className={classes.buttonsText}>Sign Out</div> 
             </Button>
           </div>
         </Toolbar>
@@ -280,18 +357,21 @@ const DrawerContainer = ({ children, activityStatus }: any) => {
             {theme.direction === "rtl" ? (
               <ChevronRightIcon />
             ) : (
-                <ChevronLeftIcon />
-              )}
+              <ChevronLeftIcon />
+            )}
           </IconButton>
         </div>
         <Divider />
-        <List>
+        <List className={classes.menuList}>
+          {/* <div className={classes.menuHeading}>MENU</div> */}
           {menuItems.map((x) => {
             let match = location.pathname.includes(x.route);
 
             return (
               <ListItem button onClick={() => history.push(x.route)}>
-                <ListItemIcon style={{ color: match ? primaryText  : primaryText }}>
+                <ListItemIcon
+                  style={{ color: match ? primaryText : primaryText }}
+                >
                   {x.icon()}
                 </ListItemIcon>
                 <ListItemText
@@ -308,7 +388,7 @@ const DrawerContainer = ({ children, activityStatus }: any) => {
         <Toolbar />
         {children}
       </main>
-    </div >
+    </div>
   );
 };
 

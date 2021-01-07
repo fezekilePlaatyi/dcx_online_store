@@ -19,7 +19,7 @@ import {
   // Typography,
   //Typography,
 } from "@material-ui/core";
-import CustomerService from '../../services/customer-service'
+import CustomerService from "../../services/customer-service";
 import { useHistory, useLocation } from "react-router";
 
 const useStyles = makeStyles((theme: Theme) =>
@@ -36,11 +36,29 @@ const useStyles = makeStyles((theme: Theme) =>
       // justifyContent: "center",
       backgroundColor: backgroundMain,
       padding: "30px",
+      [theme.breakpoints.down("xs")]: {
+        padding: "10px",
+      },
+      [theme.breakpoints.down("sm")]: {
+        padding: "10px",
+      },
     },
     textfield: {
       color: primaryColor,
       width: "30%",
       marginRight: 20,
+      [theme.breakpoints.down("xs")]: {
+        width: "100%",
+        marginRight: 0,
+      },
+      [theme.breakpoints.down("sm")]: {
+        width: "100%",
+        marginRight: 0,
+      },
+      //     [theme.breakpoints.down('md')]: {
+      //       width: "100%",
+      // marginRight: 0,
+      //     },
     },
     boxBtn: {
       float: "left",
@@ -49,6 +67,13 @@ const useStyles = makeStyles((theme: Theme) =>
       color: primaryColor,
       marginRight: 10,
       width: "25%",
+      [theme.breakpoints.down("xs")]: {
+        width: "50%",
+        marginBottom: 20,
+      },
+      // [theme.breakpoints.down('sm')]: {
+      //   width: "25%",
+      // },
     },
     boxWrapper: {
       margin: 10,
@@ -81,10 +106,19 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(1),
       position: "relative",
       width: "50%",
+      [theme.breakpoints.down("xs")]: {
+        width: "100%",
+      },
+      [theme.breakpoints.down("sm")]: {
+        width: "100%",
+      },
     },
     heading: {
       margin: "15px 0px",
       color: primaryColor,
+      [theme.breakpoints.down("xs")]: {
+        fontSize: 22,
+      },
     },
     whiteText: {
       color: primaryText,
@@ -104,6 +138,18 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexDirection: "row",
       // justifyContent: "space-between",
+      [theme.breakpoints.down("xs")]: {
+        width: "100%",
+        flexDirection: "column",
+      },
+      [theme.breakpoints.down("sm")]: {
+        width: "100%",
+        flexDirection: "column",
+      },
+      //       [theme.breakpoints.down('md')]: {
+      //         width: "100%",
+      // flexDirection: "column",
+      //},
     },
     textfieldBlockPassword: {
       display: "flex",
@@ -137,12 +183,12 @@ const UpdateProfile = () => {
   const [registrationResponse, setRegistrationResponse] = useState("");
 
   const navigateToUpdateProfile = () => {
-    history.push("/profile")
-  }
+    history.push("/profile");
+  };
 
   const updateCustomer = async () => {
     console.log("updating customer information...");
-    let customerService = new CustomerService()
+    let customerService = new CustomerService();
 
     let userDetails: any = {
       firstName: firstName,
@@ -150,14 +196,13 @@ const UpdateProfile = () => {
       phoneNumber: phoneNumber,
       email: email,
       idNumber: idNumber,
-      address: address
-    }
+      address: address,
+    };
 
-    customerService.updateUserDetail(userDetails)
+    customerService
+      .updateUserDetail(userDetails)
       .then(() => {
-        setRegistrationResponse(
-          `*Successfuly updated user profile.`
-        );
+        setRegistrationResponse(`*Successfuly updated user profile.`);
       })
       .catch((error: any) => {
         console.log(error);

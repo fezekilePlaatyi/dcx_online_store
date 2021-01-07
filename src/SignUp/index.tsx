@@ -30,11 +30,17 @@ const useStyles = makeStyles((theme: Theme) =>
       justifyContent: "center",
       backgroundColor: backgroundMain,
       padding: "44px",
+      // [theme.breakpoints.down('xs')]: {
+      //   display: "block",
+      // },
     },
     textfield: {
       color: primaryColor,
       width: "45%",
       fontSize: 12,
+      [theme.breakpoints.down('xs')]: {
+        width: "100%",
+      },
     },
     textfieldID: {
       color: primaryColor,
@@ -68,7 +74,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       flexDirection: "column",
       alignItems: "center",
-      width: "125%",
+      width: "100%",
     },
     mobileContainer: {
       top: "15%",
@@ -94,15 +100,18 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     form: {
       marginTop: 20,
-      // marginBottom: 20,
-      display: "flex",
-      flexDirection: "column",
+      // // marginBottom: 20,
+      // display: "flex",
+      // flexDirection: "column",
       width: "100%",
     },
     textfieldBlock: {
       display: "flex",
       flexDirection: "row",
       justifyContent: "space-between",
+      [theme.breakpoints.down('xs')]: {
+        flexDirection: "column",
+      },
     },
     forgot: {
       color: primaryColor,
@@ -245,8 +254,8 @@ const SignUpContainer = () => {
   return (
     <div className={classes.mainContainer}>
       <div className={classes.boxWrapper}>
-        <Paper className={classes.paper} elevation={3} square={true}>
-          <div>
+        <Paper className={classes.paper} elevation={5} square={true}>
+          <div className={classes.logoContainer}>
             <div className={classes.heading}>REGISTER</div>
           </div>
           <div className={classes.whiteText}>

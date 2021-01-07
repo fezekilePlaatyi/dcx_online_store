@@ -25,6 +25,7 @@ const theme = createMuiTheme({
         fontSize: 14,
       },
     },
+
     MuiListItemText:{
       primary:{ 
         fontSize: 14,

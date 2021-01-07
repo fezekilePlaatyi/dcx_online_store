@@ -36,6 +36,12 @@ const useStyles = makeStyles((theme: Theme) =>
       // justifyContent: "center",
       backgroundColor: backgroundMain,
       padding: "30px",
+      [theme.breakpoints.down('xs')]: {
+        padding: 15,
+      },
+      [theme.breakpoints.down('sm')]: {
+        padding: 15,
+      },
     },
     textfield: {
       color: primaryColor,
@@ -49,6 +55,18 @@ const useStyles = makeStyles((theme: Theme) =>
       color: primaryColor,
       marginRight: 10,
       width: "30%",
+      [theme.breakpoints.down('xs')]: {
+        width: "100%",
+        marginBottom: 20,
+      },
+      [theme.breakpoints.down('sm')]: {
+        width: "80%",
+        marginBottom: 20,
+      },
+      [theme.breakpoints.down('md')]: {
+        width: "80%",
+        marginBottom: 20,
+      },
     },
     boxWrapper: {
       margin: 10,
@@ -60,6 +78,12 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       justifyContent: "space-between",
       alignItems: "center",
+      [theme.breakpoints.down('xs')]: {
+        flexDirection: 'column',
+      },
+      [theme.breakpoints.down('sm')]: {
+        flexDirection: 'column',
+      },
     },
     paper: {
       padding: 25,
@@ -70,6 +94,12 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: "column",
       // alignItems: "center",
       width: "100%",
+      [theme.breakpoints.down('xs')]: {
+        padding: 15,
+      },
+      [theme.breakpoints.down('sm')]: {
+        padding: 15,
+      },
     },
     mobileContainer: {
       top: "15%",
@@ -81,14 +111,30 @@ const useStyles = makeStyles((theme: Theme) =>
       margin: theme.spacing(1),
       position: "relative",
       width: "50%",
+      [theme.breakpoints.down('xs')]: {
+        width: "100%",
+        display: 'flex',
+        flexDirection: 'column',
+      },
+      [theme.breakpoints.down('sm')]: {
+        width: "100%",
+                display: 'flex',
+        flexDirection: 'column',
+      },
     },
     heading: {
       margin: "15px 0px",
       color: primaryColor,
+      [theme.breakpoints.down('xs')]: {
+        fontSize: 22,
+      },
     },
     whiteText: {
       color: primaryText,
       fontSize: 14,
+      [theme.breakpoints.down('xs')]: {
+        fontSize: 12,
+      },
     },
     sentEmailText: {
       color: primaryColor,
@@ -130,6 +176,21 @@ const useStyles = makeStyles((theme: Theme) =>
     textfieldDetailsFirst: {
       color: primaryColor,
       marginRight: 20,
+      [theme.breakpoints.down('xs')]: {
+        fontSize: 12,
+        marginRight: 10,
+      },
+    },
+    buttonsText:{
+      [theme.breakpoints.down('xs')]: {
+        fontSize: 8,
+      },
+      [theme.breakpoints.down('sm')]: {
+        fontSize: 10,
+      },
+      [theme.breakpoints.down('md')]: {
+        fontSize: 10,
+      },
     },
   })
 );
@@ -206,14 +267,14 @@ const Profile = () => {
                 className={classes.boxBtn}
                 variant="outlined"
               >
-                UPDATE PROFILE
+              <div className={classes.buttonsText}>UPDATE PROFILE</div>  
               </Button>
               <Button
                 className={classes.boxBtn}
                 variant="outlined"
                 onClick={sendPasswordResetEmailHandler}
               >
-                CHANGE PASSWORD
+               <div className={classes.buttonsText}>CHANGE PASSWORD</div> 
               </Button>
             </div>
           </div>
