@@ -34,6 +34,8 @@ import { useHistory, useLocation } from "react-router";
 import app from "../../base";
 import AlternateEmailIcon from '@material-ui/icons/AlternateEmail';
 import InfoIcon from '@material-ui/icons/Info';
+// import IconButton from '@material-ui/core/IconButton';
+import MenuIcon from '@material-ui/icons/Menu';
 
 const drawerWidth = 240;
 
@@ -169,6 +171,10 @@ const DrawerContainer = ({ children, activityStatus }: any) => {
     history.push("/login");
   };
 
+  const handleDrawerOpen = () => {
+    setOpen(true);
+  };
+
   const handleDrawerClose = () => {
     setOpen(false);
   };
@@ -192,6 +198,18 @@ const DrawerContainer = ({ children, activityStatus }: any) => {
         })}
       >
         <Toolbar className={classes.header}>
+          
+        <IconButton
+            color="inherit"
+            aria-label="open drawer"
+            onClick={handleDrawerOpen}
+            edge="start"
+            className={clsx(classes.menuButton, {
+              [classes.hide]: open,
+            })}
+          >
+            <MenuIcon />
+          </IconButton>
           <div className={classes.logoHeader}>
             <div className={classes.logoContainer}>
               <img
@@ -247,13 +265,13 @@ const DrawerContainer = ({ children, activityStatus }: any) => {
       <Drawer
         variant="permanent"
         className={clsx(classes.drawer, {
-          [classes.drawerOpen]: !open,
-          [classes.drawerClose]: open,
+          [classes.drawerOpen]: open,
+          [classes.drawerClose]: !open,
         })}
         classes={{
           paper: clsx({
-            [classes.drawerOpen]: !open,
-            [classes.drawerClose]: open,
+            [classes.drawerOpen]: open,
+            [classes.drawerClose]: !open,
           }),
         }}
       >

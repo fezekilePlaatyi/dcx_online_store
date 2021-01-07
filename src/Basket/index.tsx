@@ -32,6 +32,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import CheckOut from "../pages/checkOutPage/checkOutPage";
+import Grid from '@material-ui/core/Grid';
 
 import NumberFormat from "react-number-format";
 
@@ -59,7 +60,7 @@ const useStyles = makeStyles((theme) => ({
   },
   cover: {
     width: 151,
-  },
+  }, 
   controls: {
     display: "flex",
     alignItems: "center",
@@ -113,6 +114,15 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     width: "25%",
+    [theme.breakpoints.down('sm')]: {
+      width: "65%",
+    },
+    [theme.breakpoints.down('md')]: {
+      width: "50%",
+    },
+    [theme.breakpoints.down('lg')]: {
+      width: "50%",
+    },
   },
   paperSummaryHeading: {
     color: primaryColor,
@@ -133,6 +143,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     marginBottom: 20,
     marginTop: 20,
+
   },
   paperContetnt: {
     display: "flex",
@@ -189,6 +200,13 @@ const useStyles = makeStyles((theme) => ({
   tableRowValue: {
     fontSize: 12,
   },
+  tableRowValueDesc: {
+    fontSize: 12,
+    [theme.breakpoints.down('sm')]: {
+      display: "none",
+
+    },
+  },
   heading: {
     margin: "15px 0px",
     color: primaryColor,
@@ -196,6 +214,7 @@ const useStyles = makeStyles((theme) => ({
   costValue: {
    // marginLeft: "10px",
     color: primaryText,
+
   },
   productListCardsContainer: {},
 }));
@@ -264,11 +283,11 @@ const Basket = () => {
   }, [basketProductData]);
 
   return (
-    <div>
-      <Paper className={classes.paper}>
+    <Grid item xs={12} sm={12} >
+      <Paper className={classes.paper} >
         <h2 className={classes.heading}>BASKET</h2>
         <div className={classes.paperContetnt}>
-          <TableContainer component={Paper} className={classes.tableDiv}>
+          <TableContainer component={Paper} className={classes.tableDiv} >
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
@@ -279,7 +298,7 @@ const Basket = () => {
                     Name
                   </TableCell>
                   <TableCell
-                    className={classes.tableRowDescription}
+                    className={classes.tableRowValueDesc}
                     align="left"
                   >
                     Description
@@ -305,7 +324,7 @@ const Basket = () => {
                     <TableCell className={classes.tableRowValue}>
                       {item.name}
                     </TableCell>
-                    <TableCell className={classes.tableRowValue}>
+                    <TableCell className={classes.tableRowValueDesc}>
                       {item.description}
                     </TableCell>
                     <TableCell className={classes.tableRowValue}>
@@ -358,7 +377,9 @@ const Basket = () => {
             <div>
               <div className={classes.paperSummaryHeading}>Basket summary</div>
               <div className={classes.paperSummaryTotal}>
-                TOTAL ( {getBasketSubTotal().totalNumberOfItems} of items): R{" "}
+                TOTAL ( {getBasketSubTotal().totalNumberOfItems} of items): 
+                <br />
+                R{" "}
                 <NumberFormat
                         className={classes.costValue}
                         thousandSeparator={true}
@@ -380,7 +401,7 @@ const Basket = () => {
           </Paper>
         </div>
       </Paper>
-    </div>
+    </Grid>
   );
 };
 export default Basket;
