@@ -63,6 +63,10 @@ const useStyles = makeStyles((theme: Theme) =>
         width: "80%",
         marginBottom: 20,
       },
+      [theme.breakpoints.down('md')]: {
+        width: "80%",
+        marginBottom: 20,
+      },
     },
     boxWrapper: {
       margin: 10,
@@ -109,9 +113,13 @@ const useStyles = makeStyles((theme: Theme) =>
       width: "50%",
       [theme.breakpoints.down('xs')]: {
         width: "100%",
+        display: 'flex',
+        flexDirection: 'column',
       },
       [theme.breakpoints.down('sm')]: {
         width: "100%",
+                display: 'flex',
+        flexDirection: 'column',
       },
     },
     heading: {
@@ -175,6 +183,12 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     buttonsText:{
       [theme.breakpoints.down('xs')]: {
+        fontSize: 8,
+      },
+      [theme.breakpoints.down('sm')]: {
+        fontSize: 10,
+      },
+      [theme.breakpoints.down('md')]: {
         fontSize: 10,
       },
     },
