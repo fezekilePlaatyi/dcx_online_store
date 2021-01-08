@@ -146,6 +146,10 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     answerYes: {
       paddingLeft: 5,
+      cursor: 'pointer',
+      '&:hover': {
+        color: primaryColor, 
+     },
     }
   })
 );
@@ -225,7 +229,7 @@ const CheckOut = () => {
             notify("Done Making Payment, You will be redirected to your Orders.", "/orderHistory")
           })
             .catch(error => {
-              notify("Error : Done Making Payment, but error saving address please contact us to resolve this issue.", "/orderHistory")
+              notify("Error : Done Making Payment, but error occured while saving address. Please contact us to resolve this issue.", "/orderHistory")
             })
         }
         else {
@@ -242,16 +246,16 @@ const CheckOut = () => {
     })
       .catch((error) => {
         console.log(error)
-        notify("An error occured while making creating an Invoice.", "none")
+        notify("An error occured while creating an Invoice.", "none")
       })
   }
 
   useEffect(() => {
     setInputErrorMessage("")
     !hideProfileAddressStatus ?
-      setAddressTypeQuestion("Want to use new different for this delivery")
+      setAddressTypeQuestion("Want to use NEW address for this delivery")
       :
-      setAddressTypeQuestion("Want to use address from profile")
+      setAddressTypeQuestion("Want to use ADDRESS from your PROFILE")
   }, [hideProfileAddressStatus])
 
   const handlerToggleAddress = () => {
@@ -288,7 +292,7 @@ const CheckOut = () => {
         <div className={classes.textfieldBlock}>
           <div className={hideProfileAddressStatus == false ? `${classes.formHeading} ` : `${classes.hidden}`}><b >Address:</b> {userDetails.address}</div>
           <div className={classes.formHeading}>
-            {addressTypeQuestion} address?
+            {addressTypeQuestion} ?
 
             <Link
               className={classes.answerYes}
