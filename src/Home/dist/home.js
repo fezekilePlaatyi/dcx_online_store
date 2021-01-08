@@ -403,7 +403,7 @@ function Home(_a) {
     var updateUIOnProductCatergoryChange = function (updateProductByCategory) {
         updateProductByCategory.forEach(function (element) {
             var _a;
-            productList.push(react_1["default"].createElement(Card_1["default"], { className: classes.root, style: { marginRight: 30 } },
+            productList.push(react_1["default"].createElement(Card_1["default"], { className: classes.root },
                 react_1["default"].createElement(CardMedia_1["default"], { className: classes.media, image: element.imgUrl }),
                 react_1["default"].createElement(CardContent_1["default"], null,
                     react_1["default"].createElement(Typography_1["default"], { className: classes.cardDetails, variant: "body2", color: "textSecondary", component: "h3" }, element.name),

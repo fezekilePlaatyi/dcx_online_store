@@ -386,7 +386,7 @@ function Home({ activityStatus }: any) {
   const updateUIOnProductCatergoryChange = (updateProductByCategory: any) => {
     updateProductByCategory.forEach((element: any) => {
       productList.push(
-        <Card className={classes.root} style={{ marginRight: 30 }}>
+        <Card className={classes.root}>
           <CardMedia
             className={classes.media}
             image={element.imgUrl}
