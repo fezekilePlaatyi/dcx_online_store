@@ -32,7 +32,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import CheckOut from "../pages/checkOutPage/checkOutPage";
-import Grid from '@material-ui/core/Grid';
+import Grid from "@material-ui/core/Grid";
 
 import NumberFormat from "react-number-format";
 
@@ -45,6 +45,12 @@ const useStyles = makeStyles((theme) => ({
     minWidth: 20,
     // marginBottom: "25px",
     color: "black",
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 8,
+    },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 8,
+    },
   },
   productDisplayRoot: {
     display: "flex",
@@ -60,7 +66,7 @@ const useStyles = makeStyles((theme) => ({
   },
   cover: {
     width: 151,
-  }, 
+  },
   controls: {
     display: "flex",
     alignItems: "center",
@@ -114,14 +120,14 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     width: "25%",
-    [theme.breakpoints.down('xs')]: {
-      width: "65%",
+    [theme.breakpoints.down("xs")]: {
+      width: "75%",
     },
-    [theme.breakpoints.down('sm')]: {
-      width: "55%",
+    [theme.breakpoints.down("sm")]: {
+      width: "60%",
     },
     // [theme.breakpoints.down('md')]: {
-    //   width: "50%",
+    //   width: "25%",
     // },
     // [theme.breakpoints.down('lg')]: {
     //   width: "25%",
@@ -132,21 +138,40 @@ const useStyles = makeStyles((theme) => ({
     textTransform: "uppercase",
     marginBottom: 20,
     fontSize: 18,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 10,
+    },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 10,
+    },
   },
   paperSummaryTotal: {
     color: primaryText,
     //textTransform: "uppercase",
     marginBottom: 20,
     fontSize: 18,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 10,
+    },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 10,
+    },
   },
   tableCell: {
     color: backgroundMain,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 8,
+      padding:5,
+    },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 10,
+      padding:5,
+    },
   },
   tableDiv: {
     width: "100%",
     marginBottom: 20,
     marginTop: 20,
-
   },
   paperContetnt: {
     display: "flex",
@@ -162,6 +187,14 @@ const useStyles = makeStyles((theme) => ({
     cursor: "pointer",
     "&:hover": {
       color: "red !important",
+    },
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 10,
+
+    },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 10,
+
     },
   },
   boxBtn: {
@@ -184,6 +217,14 @@ const useStyles = makeStyles((theme) => ({
   },
   tableCells: {
     fontSize: 14,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 8,
+      padding:5,
+    },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 8,
+      padding:5,
+    },
   },
   backButton: {
     display: "flex",
@@ -199,25 +240,79 @@ const useStyles = makeStyles((theme) => ({
   tableCellsQty: {
     width: "10%",
     fontSize: 14,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 8,
+      padding:5,
+    },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 8,
+      padding:5,
+    },
   },
   tableRowValue: {
     fontSize: 12,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 8,
+      padding:5,
+    },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 8,
+      padding:5,
+    },
+  },
+  tableRowValueName: {
+    fontSize: 12,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 8,
+      padding:5,
+      width: '25%',
+    },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 8,
+      padding:5,
+      width: '25%',
+    },
   },
   tableRowValueDesc: {
     fontSize: 12,
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down("sm")]: {
       display: "none",
-
     },
   },
   heading: {
     margin: "15px 0px",
     color: primaryColor,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 22,
+    },
   },
   costValue: {
-   // marginLeft: "10px",
+    // marginLeft: "10px",
     color: primaryText,
-
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 10,
+    },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 10,
+    },
+    MuiInput:{
+      root:{
+        [theme.breakpoints.down("xs")]: {
+          fontSize: 10,
+        },
+        [theme.breakpoints.down("sm")]: {
+          fontSize: 10,
+        },
+      },
+      formControl:{
+        [theme.breakpoints.down("xs")]: {
+          fontSize: 10,
+        },
+        [theme.breakpoints.down("sm")]: {
+          fontSize: 10,
+        },
+      },
+    },
   },
   productListCardsContainer: {},
 }));
@@ -286,12 +381,12 @@ const Basket = () => {
   }, [basketProductData]);
 
   return (
-    <Grid item xs={12} sm={12} >
-      <Paper className={classes.paper} >
+    <Grid item xs={12} sm={12}>
+      <Paper className={classes.paper}>
         <h2 className={classes.heading}>BASKET</h2>
         <div className={classes.paperContetnt}>
-          <TableContainer component={Paper} className={classes.tableDiv} >
-            <Table aria-label="simple table">
+          <TableContainer component={Paper} className={classes.tableDiv}>
+            <Table  aria-label="simple table">
               <TableHead>
                 <TableRow>
                   {/* <TableCell className={classes.tableCells} align="left">
@@ -300,20 +395,17 @@ const Basket = () => {
                   <TableCell className={classes.tableCells} align="left">
                     Name
                   </TableCell>
-                  <TableCell
-                    className={classes.tableRowValueDesc}
-                    align="left"
-                  >
+                  <TableCell className={classes.tableRowValueDesc} align="left">
                     Description
                   </TableCell>
                   <TableCell className={classes.tableCells} align="left">
-                    Price (R)
+                    Price
                   </TableCell>
                   <TableCell className={classes.tableCellsQty} align="left">
                     Quantity
                   </TableCell>
                   <TableCell className={classes.tableCells} align="left">
-                    Total price (R)
+                    Total price
                   </TableCell>
                   <TableCell className={classes.tableCells} align="left">
                     Delete
@@ -324,7 +416,7 @@ const Basket = () => {
                 {basketProductData.map((item: any) => (
                   <TableRow hover className={classes.tableRow} key={item.id}>
                     {/* <TableCell className={classes.tableRowValue}>#</TableCell> */}
-                    <TableCell className={classes.tableRowValue}>
+                    <TableCell className={classes.tableRowValueName}>
                       {item.name}
                     </TableCell>
                     <TableCell className={classes.tableRowValueDesc}>
@@ -380,15 +472,14 @@ const Basket = () => {
             <div>
               <div className={classes.paperSummaryHeading}>Basket summary</div>
               <div className={classes.paperSummaryTotal}>
-                TOTAL ( {getBasketSubTotal().totalNumberOfItems} of items): 
-                <br />
-                R{" "}
+                TOTAL ( {getBasketSubTotal().totalNumberOfItems} of items):
+                <br />R{" "}
                 <NumberFormat
-                        className={classes.costValue}
-                        thousandSeparator={true}
-                        displayType={"text"}
-                        value= {getBasketSubTotal().basketSubTotal}
-                      />
+                  className={classes.costValue}
+                  thousandSeparator={true}
+                  displayType={"text"}
+                  value={getBasketSubTotal().basketSubTotal}
+                />
                 {/* {getBasketSubTotal().basketSubTotal} */}
               </div>
               <div>
