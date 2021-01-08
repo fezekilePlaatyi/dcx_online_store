@@ -114,15 +114,18 @@ const useStyles = makeStyles((theme) => ({
     display: "flex",
     flexDirection: "column",
     width: "25%",
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down('xs')]: {
       width: "65%",
     },
-    [theme.breakpoints.down('md')]: {
-      width: "50%",
+    [theme.breakpoints.down('sm')]: {
+      width: "55%",
     },
-    [theme.breakpoints.down('lg')]: {
-      width: "50%",
-    },
+    // [theme.breakpoints.down('md')]: {
+    //   width: "50%",
+    // },
+    // [theme.breakpoints.down('lg')]: {
+    //   width: "25%",
+    // },
   },
   paperSummaryHeading: {
     color: primaryColor,
@@ -291,9 +294,9 @@ const Basket = () => {
             <Table aria-label="simple table">
               <TableHead>
                 <TableRow>
-                  <TableCell className={classes.tableCells} align="left">
+                  {/* <TableCell className={classes.tableCells} align="left">
                     #
-                  </TableCell>
+                  </TableCell> */}
                   <TableCell className={classes.tableCells} align="left">
                     Name
                   </TableCell>
@@ -320,7 +323,7 @@ const Basket = () => {
               <TableBody>
                 {basketProductData.map((item: any) => (
                   <TableRow hover className={classes.tableRow} key={item.id}>
-                    <TableCell className={classes.tableRowValue}>#</TableCell>
+                    {/* <TableCell className={classes.tableRowValue}>#</TableCell> */}
                     <TableCell className={classes.tableRowValue}>
                       {item.name}
                     </TableCell>

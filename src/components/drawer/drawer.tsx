@@ -52,6 +52,7 @@ const useStyles = makeStyles((theme: Theme) =>
       display: "flex",
       justifyContent: "space-between",
       backgroundColor: backgroundContrast,
+      overflow: 'hidden',
     },
     logoHeader: {
       display: "flex",
@@ -101,6 +102,7 @@ const useStyles = makeStyles((theme: Theme) =>
         duration: theme.transitions.duration.leavingScreen,
       }),
       backgroundColor: backgroundMain,
+      overflow: 'hidden',
     },
     appBarShift: {
       marginLeft: drawerWidth,

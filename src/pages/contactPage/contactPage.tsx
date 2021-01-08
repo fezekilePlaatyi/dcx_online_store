@@ -22,6 +22,9 @@ const useStyles = makeStyles((theme: Theme) =>
       flexDirection: "column",
       // alignItems: "center",
       width: "100%",
+      [theme.breakpoints.down('xs')]: {
+        padding: 15,
+      },
     },
     heading: {
       margin: "15px 0px",
