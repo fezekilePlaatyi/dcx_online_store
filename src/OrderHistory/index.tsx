@@ -108,6 +108,12 @@ const useStyles = makeStyles((theme) => ({
   },
   h3: {
     marginBottom: 30,
+    [theme.breakpoints.down("xs")]: {
+      marginBottom: 0,
+    },
+    [theme.breakpoints.down("sm")]: {
+      marginBottom: 0,
+    },
   },
   tableRowDescription: {
     width: "35%",
@@ -117,49 +123,49 @@ const useStyles = makeStyles((theme) => ({
   tableCellsQty: {
     width: "10%",
     fontSize: 14,
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down("xs")]: {
       fontSize: 10,
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down("sm")]: {
       fontSize: 10,
     },
   },
   tableRowValue: {
     fontSize: 12,
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down("xs")]: {
       fontSize: 10,
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down("sm")]: {
       fontSize: 10,
     },
   },
   tableRowValueName: {
     fontSize: 12,
     width: "30%",
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down("xs")]: {
       fontSize: 10,
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down("sm")]: {
       fontSize: 10,
     },
   },
   tableRowValuePrice: {
     fontSize: 12,
     width: "20%",
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down("xs")]: {
       fontSize: 10,
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down("sm")]: {
       fontSize: 10,
     },
   },
   tableRowValueQty: {
     fontSize: 12,
     width: "20%",
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down("xs")]: {
       fontSize: 10,
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down("sm")]: {
       fontSize: 10,
     },
   },
@@ -167,10 +173,10 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 12,
     width: "60%",
     textAlign: "justify",
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down("xs")]: {
       display: "none",
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down("sm")]: {
       display: "none",
     },
   },
@@ -178,34 +184,44 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 14,
     //width: "%",
     textAlign: "justify",
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down("xs")]: {
       fontSize: 10,
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down("sm")]: {
       fontSize: 10,
     },
   },
   tableCellsDate: {
     fontSize: 12,
+    widht: '100%',
     //width: "%",
-    textAlign: "justify",
-    borderBottom: "none !important"
+    // textAlign: "justify",
+    // borderBottom: "none !important",
+    marginLeft: 15,
+    marginTop: 20,
+    color: primaryColor,
+    [theme.breakpoints.down("xs")]: {
+      fontSize: 10,
+    },
+    [theme.breakpoints.down("sm")]: {
+      fontSize: 10,
+    },
   },
   tableCells: {
     fontSize: 14,
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down("xs")]: {
       fontSize: 10,
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down("sm")]: {
       fontSize: 10,
     },
   },
   tableCellsDesc: {
     fontSize: 14,
-    [theme.breakpoints.down('xs')]: {
+    [theme.breakpoints.down("xs")]: {
       display: "none",
     },
-    [theme.breakpoints.down('sm')]: {
+    [theme.breakpoints.down("sm")]: {
       display: "none",
     },
   },
@@ -226,7 +242,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     marginBottom: 20,
     marginTop: 20,
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   tableDivHeading: {
     width: "100%",
@@ -245,13 +261,19 @@ const useStyles = makeStyles((theme) => ({
   tableHeading: {
     // marginBottom: 20,
     marginTop: 40,
+    [theme.breakpoints.down("xs")]: {
+      marginTop: 0,
+    },
+    [theme.breakpoints.down("sm")]: {
+      marginTop: 0,
+    },
   },
   costValue: {
     // marginLeft: "10px",
     color: primaryText,
   },
   table: {
-    overflow: 'hidden',
+    overflow: "hidden",
   },
   productListCardsContainer: {},
 }));
@@ -268,11 +290,10 @@ const OrderHistory = () => {
     await invoiceInstance
       .getInvoicesByUserId()
       .then((data) => {
-
         invoicesData.splice(0, invoicesData.length);
         data.forEach((doc: any) => {
-          let invoiceDataLocal = doc.data().invoiceData
-          invoiceDataLocal.dateCreated = doc.data().dateCreated
+          let invoiceDataLocal = doc.data().invoiceData;
+          invoiceDataLocal.dateCreated = doc.data().dateCreated;
           invoicesData.push(invoiceDataLocal);
         });
 
@@ -308,7 +329,7 @@ const OrderHistory = () => {
 
     let itemLength = element.length;
     let counter = 0;
-    let date = moment(element.dateCreated).format("DD MMM YY, h:mm A")
+    let date = moment(element.dateCreated).format("DD MMM YY, h:mm A");
 
     element.forEach((item: any) => {
       counter++;
@@ -340,7 +361,7 @@ const OrderHistory = () => {
       <TableBody component={Paper} className={classes.tableDiv}>
         {lineItems}
       </TableBody>
-    )
+    );
 
     lineItemHTMLTable.push(
       <div className={classes.tableHeading}>
@@ -352,13 +373,13 @@ const OrderHistory = () => {
                   <h4>Date: {date}</h4>
                 </TableCell>
               </TableRow> */}
-              <div>{date}</div>
+              <div className={classes.tableCellsDate}>{date}</div>
               <TableRow>
                 <TableCell className={classes.tableCellsName} align="left">
                   Name
                 </TableCell>
                 <TableCell className={classes.tableCellsDesc} align="left">
-                  Description
+                  Description 
                 </TableCell>
                 <TableCell className={classes.tableCells} align="left">
                   Price (R)
@@ -372,7 +393,7 @@ const OrderHistory = () => {
           </Table>
         </TableContainer>
       </div>
-    )
+    );
 
     invoices.push(lineItemHTMLTable);
 
