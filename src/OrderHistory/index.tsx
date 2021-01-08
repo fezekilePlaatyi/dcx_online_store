@@ -261,7 +261,6 @@ const OrderHistory = () => {
   const history = useHistory();
   const [orderHistory, setOrderHistory] = React.useState<any>([]);
   const [invoicesData, setInvoiceData] = useState<any>([]);
-  const [invoiceDates, setInvoiceDates] = useState<any>([])
   let invoices: any = [];
 
   const displayOrderHistory = async () => {
@@ -270,11 +269,11 @@ const OrderHistory = () => {
       .getInvoicesByUserId()
       .then((data) => {
 
-        var localInvoiceDates: any = []
         invoicesData.splice(0, invoicesData.length);
         data.forEach((doc: any) => {
-          invoicesData.push(doc.data().invoiceData);
-          localInvoiceDates.push(doc.data().dateCreated);
+          let invoiceDataLocal = doc.data().invoiceData
+          invoiceDataLocal.dateCreated = doc.data().dateCreated
+          invoicesData.push(invoiceDataLocal);
         });
 
         invoices.push(
@@ -294,7 +293,6 @@ const OrderHistory = () => {
           // </thead>
         );
         setOrderHistory(invoicesData);
-        setInvoiceDates(localInvoiceDates)
       })
       .catch((error) => {
         alert(error.toString());
@@ -310,9 +308,7 @@ const OrderHistory = () => {
 
     let itemLength = element.length;
     let counter = 0;
-    const now = Date.now();
-    let date = moment(invoiceDates[index]).format("DD MMM YY, h:mm A");
-    //new Date().toDateString()
+    let date = moment(element.dateCreated).format("DD MMM YY, h:mm A")
 
     element.forEach((item: any) => {
       counter++;

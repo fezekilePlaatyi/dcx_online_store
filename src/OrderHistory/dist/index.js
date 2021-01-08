@@ -305,7 +305,7 @@ var OrderHistory = function () {
                             invoicesData.splice(0, invoicesData.length);
                             data.forEach(function (doc) {
                                 invoicesData.push(doc.data().invoiceData);
-                                localInvoiceDates.push(doc.data().dateCreated);
+                                // localInvoiceDates.push(doc.data().dateCreated);
                             });
                             invoices.push(react_1["default"].createElement(TableContainer_1["default"], { component: core_1.Paper, className: classes.tableDiv },
                                 react_1["default"].createElement(Table_1["default"], { "aria-label": "simple table" },
@@ -320,7 +320,7 @@ var OrderHistory = function () {
                             // </thead>
                             );
                             setOrderHistory(invoicesData);
-                            setInvoiceDates(localInvoiceDates);
+                            // setInvoiceDates(localInvoiceDates)
                         })["catch"](function (error) {
                             alert(error.toString());
                         })];
@@ -337,9 +337,7 @@ var OrderHistory = function () {
         var lineItemHTMLTable = [];
         var itemLength = element.length;
         var counter = 0;
-        var now = Date.now();
-        var date = moment_1["default"](invoiceDates[index]).format("DD MMM YY, h:mm A");
-        //new Date().toDateString()
+        var date = moment_1["default"](new Date()).format("DD MMM YY, h:mm A");
         element.forEach(function (item) {
             counter++;
             lineItems.push(react_1["default"].createElement(TableRow_1["default"], { hover: true, className: classes.tableRow, key: element.id },
