@@ -39,6 +39,7 @@ exports.__esModule = true;
 var react_1 = require("react");
 var styles_1 = require("@material-ui/core/styles");
 var colors_1 = require("@material-ui/core/colors");
+var moment_1 = require("moment");
 var core_1 = require("@material-ui/core");
 var theme_config_1 = require("../themes/theme-config");
 var react_router_dom_1 = require("react-router-dom");
@@ -220,6 +221,7 @@ var OrderHistory = function () {
     var history = react_router_dom_1.useHistory();
     var _a = react_1["default"].useState([]), orderHistory = _a[0], setOrderHistory = _a[1];
     var _b = react_1.useState([]), invoicesData = _b[0], setInvoiceData = _b[1];
+    var _c = react_1.useState([]), invoiceDates = _c[0], setInvoiceDates = _c[1];
     var invoices = [];
     var displayOrderHistory = function () { return __awaiter(void 0, void 0, void 0, function () {
         var invoiceInstance;
@@ -230,9 +232,11 @@ var OrderHistory = function () {
                     return [4 /*yield*/, invoiceInstance
                             .getInvoicesByUserId()
                             .then(function (data) {
+                            var localInvoiceDates = [];
                             invoicesData.splice(0, invoicesData.length);
                             data.forEach(function (doc) {
                                 invoicesData.push(doc.data().invoiceData);
+                                localInvoiceDates.push(doc.data().dateCreated);
                             });
                             invoices.push(react_1["default"].createElement(TableContainer_1["default"], { component: core_1.Paper, className: classes.tableDiv },
                                 react_1["default"].createElement(Table_1["default"], { "aria-label": "simple table" },
@@ -247,6 +251,7 @@ var OrderHistory = function () {
                             // </thead>
                             );
                             setOrderHistory(invoicesData);
+                            setInvoiceDates(localInvoiceDates);
                         })["catch"](function (error) {
                             alert(error.toString());
                         })];
@@ -264,7 +269,8 @@ var OrderHistory = function () {
         var itemLength = element.length;
         var counter = 0;
         var now = Date.now();
-        var date = new Date(now).toDateString();
+        var date = moment_1["default"](invoiceDates[index]).format("DD MMM YY, h:mm A");
+        //new Date().toDateString()
         element.forEach(function (item) {
             counter++;
             lineItems.push(react_1["default"].createElement(TableRow_1["default"], { hover: true, className: classes.tableRow, key: element.id },
