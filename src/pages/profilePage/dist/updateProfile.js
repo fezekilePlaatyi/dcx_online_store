@@ -146,6 +146,7 @@ var useStyles = styles_1.makeStyles(function (theme) {
 var UpdateProfile = function () {
     var classes = useStyles();
     var history = react_router_1.useHistory();
+    var customerService = new customer_service_1["default"]();
     var _a = react_1.useState(""), firstName = _a[0], setFirstName = _a[1];
     var _b = react_1.useState(""), lastName = _b[0], setLastName = _b[1];
     var _c = react_1.useState(""), phoneNumber = _c[0], setPhoneNumber = _c[1];
@@ -153,14 +154,24 @@ var UpdateProfile = function () {
     var _e = react_1.useState(""), idNumber = _e[0], setIdNumber = _e[1];
     var _f = react_1.useState(""), address = _f[0], setAddress = _f[1];
     var _g = react_1.useState(""), registrationResponse = _g[0], setRegistrationResponse = _g[1];
+    customerService.getUserDetails().then(function (data) {
+        setFirstName(data.data().firstName);
+        setLastName(data.data().lastName);
+        setPhoneNumber(data.data().phoneNumber);
+        setEmail(data.data().email);
+        setIdNumber(data.data().idNumber);
+        setAddress(data.data().address);
+    })["catch"](function (error) {
+        alert("Error getting your profile details.");
+        console.log(error);
+    });
     var navigateToUpdateProfile = function () {
         history.push("/profile");
     };
     var updateCustomer = function () { return __awaiter(void 0, void 0, void 0, function () {
-        var customerService, userDetails;
+        var userDetails;
         return __generator(this, function (_a) {
             console.log("updating customer information...");
-            customerService = new customer_service_1["default"]();
             userDetails = {
                 firstName: firstName,
                 lastName: lastName,

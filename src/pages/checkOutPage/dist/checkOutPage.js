@@ -18,6 +18,7 @@ var theme_config_1 = require("../../themes/theme-config");
 var react_router_1 = require("react-router");
 var Button_1 = require("@material-ui/core/Button");
 var TextField_1 = require("@material-ui/core/TextField");
+var loader_gif_1 = require("../../assets/loader.gif");
 var core_1 = require("@material-ui/core");
 var invoice_service_1 = require("../../services/invoice-service");
 var Checkbox_1 = require("@material-ui/core/Checkbox");
@@ -26,7 +27,6 @@ var customer_service_1 = require("../../services/customer-service");
 var Util_1 = require("../../Util");
 var react_toastify_1 = require("react-toastify");
 require("react-toastify/dist/ReactToastify.css");
-var base_1 = require("../../base");
 var useStyles = styles_1.makeStyles(function (theme) {
     return styles_1.createStyles({
         logoContainer: {
@@ -143,6 +143,13 @@ var useStyles = styles_1.makeStyles(function (theme) {
         },
         answerYes: {
             paddingLeft: 5
+        },
+        loading: {
+            width: 90,
+            zIndex: 999,
+            position: "absolute",
+            display: "block",
+            margin: "0 auto"
         }
     });
 });
@@ -155,14 +162,16 @@ var CheckOut = function () {
     var _c = react_1["default"].useState({
         checkedB: false
     }), state = _c[0], setState = _c[1];
-    var _d = react_1.useState({}), userDetails = _d[0], setUserDetails = _d[1];
-    var _e = react_1.useState(false), hideProfileAddressStatus = _e[0], setHideProfileAddress = _e[1];
-    var _f = react_1.useState("Want to use different"), addressTypeQuestion = _f[0], setAddressTypeQuestion = _f[1];
-    var _g = react_1.useState(""), inputErrorMessage = _g[0], setInputErrorMessage = _g[1];
+    var _d = react_1.useState(false), payButtonDisabled = _d[0], setPayButtonDisabledStatus = _d[1];
+    var _e = react_1.useState({}), userDetails = _e[0], setUserDetails = _e[1];
+    var _f = react_1.useState(false), hideProfileAddressStatus = _f[0], setHideProfileAddress = _f[1];
+    var _g = react_1.useState("Want to use different"), addressTypeQuestion = _g[0], setAddressTypeQuestion = _g[1];
+    var _h = react_1.useState(""), inputErrorMessage = _h[0], setInputErrorMessage = _h[1];
     var handleChange = function (event) {
         var _a;
         setState(__assign(__assign({}, state), (_a = {}, _a[event.target.name] = event.target.checked, _a)));
     };
+    var _j = react_1.useState(false), loading = _j[0], setLoading = _j[1];
     var customerService = new customer_service_1["default"]();
     customerService.getUserDetails().then(function (data) {
         setUserDetails(data.data());
@@ -188,34 +197,19 @@ var CheckOut = function () {
             }
         }
     };
-    var getCurrentUserEmailAddress = function () {
-        var user = base_1["default"].auth().currentUser;
-        var email, uid;
-        if (user != null) {
-            email = user.email;
-            uid = user.uid;
-            return email;
-        }
-        else {
-            return '';
-        }
-    };
     var saveInvoice = function (userAddress) {
         var invoiceService = new invoice_service_1["default"]();
-        var userDetails = {
-            userAddress: userAddress
-        };
+        setPayButtonDisabledStatus(true);
+        setLoading(true);
         var invoice = {
             invoiceData: util.retrieveBasketProductDataFromLocalStorage(),
-            userDetails: {
-                userAddress: userAddress,
-                clientEmailAddress: getCurrentUserEmailAddress()
-            }
+            userDetails: userDetails,
+            dateCreated: Date.now()
         };
-        console.log(invoice);
         invoiceService.createInvoice(invoice).then(function () {
+            setLoading(false);
+            util.resetBasketProductDataFromLocalStorage();
             invoiceService.emailInvoice(invoice).then(function (response) {
-                util.resetBasketProductDataFromLocalStorage();
                 if (state.checkedB == true && hideProfileAddressStatus == true) {
                     var customerService_1 = new customer_service_1["default"]();
                     customerService_1.updateSingleField({
@@ -230,6 +224,7 @@ var CheckOut = function () {
                     notify("Done Making Payment, You will be redirected to your Orders.", "/orderHistory");
                 }
             })["catch"](function (response) {
+                setLoading(false);
                 notify("Done Making Payment, An error occured while emailing invoice.", "/orderHistory");
                 console.log(response);
             });
@@ -265,6 +260,13 @@ var CheckOut = function () {
     };
     return (react_1["default"].createElement("div", { className: classes.mainContainer },
         react_1["default"].createElement(react_toastify_1.ToastContainer, null),
+        react_1["default"].createElement("div", { className: "loading-container", style: {
+                position: 'absolute', left: '45%', top: '25%',
+                transform: 'translate(-50%, -50%)',
+                display: loading ? 'block' : 'none'
+            } },
+            react_1["default"].createElement("div", null,
+                react_1["default"].createElement("img", { src: loader_gif_1["default"], className: classes.loading }))),
         react_1["default"].createElement("div", { className: classes.boxWrapper },
             react_1["default"].createElement("h3", { className: classes.heading }, "CHECK OUT")),
         react_1["default"].createElement("div", { className: classes.whiteText }, "Delivery address"),
@@ -287,6 +289,6 @@ var CheckOut = function () {
             react_1["default"].createElement(core_1.Typography, { paragraph: true, className: classes.errorMessage }, inputErrorMessage),
             react_1["default"].createElement("div", { className: classes.buttonsContainer },
                 react_1["default"].createElement("div", { className: classes.loginButtonContainer },
-                    react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined", onClick: procceddToPay }, "PAY NOW"))))));
+                    react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined", onClick: procceddToPay, disabled: payButtonDisabled }, "PAY NOW"))))));
 };
 exports["default"] = CheckOut;

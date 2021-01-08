@@ -229,7 +229,10 @@ const DisplayMoreProductDetails = (props: any) => {
                 back
             </IconButton>
             <Card className={classes.productDisplayRoot}>
-                <CardMedia className={classes.cover} image={img} title="Image" />
+                <CardMedia
+                    className={classes.cover}
+                    image={productDetails.imgUrl}
+                    title="Image" />
                 <div className={classes.details}>
                     <CardContent className={classes.content}>
                         <Typography

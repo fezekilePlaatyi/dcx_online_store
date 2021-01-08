@@ -16,7 +16,6 @@ var CardContent_1 = require("@material-ui/core/CardContent");
 var IconButton_1 = require("@material-ui/core/IconButton");
 var Typography_1 = require("@material-ui/core/Typography");
 var colors_1 = require("@material-ui/core/colors");
-var gold_jpg_1 = require("../assets/gold.jpg");
 var Button_1 = require("@material-ui/core/Button");
 var theme_config_1 = require("../themes/theme-config");
 var theme_config_2 = require("../themes/theme-config");
@@ -219,7 +218,7 @@ var DisplayMoreProductDetails = function (props) {
             react_1["default"].createElement(icons_1.ChevronLeft, null),
             "back"),
         react_1["default"].createElement(Card_1["default"], { className: classes.productDisplayRoot },
-            react_1["default"].createElement(CardMedia_1["default"], { className: classes.cover, image: gold_jpg_1["default"], title: "Image" }),
+            react_1["default"].createElement(CardMedia_1["default"], { className: classes.cover, image: productDetails.imgUrl, title: "Image" }),
             react_1["default"].createElement("div", { className: classes.details },
                 react_1["default"].createElement(CardContent_1["default"], { className: classes.content },
                     react_1["default"].createElement(Typography_1["default"], { className: classes.contentDetailsName, component: "h5", variant: "h5" },

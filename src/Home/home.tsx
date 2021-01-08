@@ -33,6 +33,7 @@ import DisplayMoreProductDetails from "../DisplayMoreProductDetails";
 import { useHistory } from "react-router";
 import { css } from "glamor";
 import NumberFormat from "react-number-format";
+import { EndOfLineState } from "typescript";
 
 const Zoom = cssTransition({
   enter: "zoomIn",
@@ -243,52 +244,31 @@ function Home({ activityStatus }: any) {
     });
   };
 
-  const handleAddingProductToBasket = (productDetails: any) => {
-    if (activityStatus == true) {
-      console.log("adding item to basket...");
-      checkIfAlreadyAddedOnBasket(productDetails)
-        ? console.log("already added...")
-        : addProductToBasket((prevArray: any) => [
-          ...prevArray,
-          productDetails,
-        ]);
-    } else {
-      setNotificationMessage(
-        "You need to be logged in to add product to busket."
-      );
-      notify(notificationMessage);
-    }
-    setSelectedProduct(productDetails);
-  };
-
-  const checkIfAlreadyAddedOnBasket = (productDetails: any) => {
-    var found: any = !productsOnBasket.find(
-      (item: any) => item.id == productDetails.id
-    )
-      ? false
-      : true;
-
-    return found;
-  };
-
   const updateProductListCategory = (productType: string) => {
     setProductListCategory(productType);
   };
 
   const goToBasketIfNotEmpty = () => {
+
     if (util.retrieveBasketProductDataFromLocalStorage().length > 0)
       history.push("/basket");
-  };
+    else {
+      notify("You basket is empty, add Items to checkout.", "none")
+    }
+  }
 
-  const notify = (message: string) => {
-    toast("Success Notification !", {
+  const notify = (message: string, redirectTo: string) => {
+    toast(message, {
       position: toast.POSITION.TOP_CENTER,
       autoClose: false,
-      onClose: () => window.alert("Called when I close"),
+      onClose: () => {
+        if (redirectTo != "none")
+          history.push(redirectTo)
+        else
+          return;
+      }
     });
-  };
-
-  const dismissAll = () => toast.dismiss();
+  }
 
   let products = [
     {
@@ -428,6 +408,7 @@ function Home({ activityStatus }: any) {
   const Main = () => {
     return (
       <div>
+        <ToastContainer />
         <Paper className={classes.paper}>
           <div
             className={classes.productListCardsContainer}

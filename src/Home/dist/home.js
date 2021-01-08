@@ -35,13 +35,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-};
 exports.__esModule = true;
 var react_1 = require("react");
 var styles_1 = require("@material-ui/core/styles");
@@ -269,42 +262,28 @@ function Home(_a) {
             }
         });
     };
-    var handleAddingProductToBasket = function (productDetails) {
-        if (activityStatus == true) {
-            console.log("adding item to basket...");
-            checkIfAlreadyAddedOnBasket(productDetails)
-                ? console.log("already added...")
-                : addProductToBasket(function (prevArray) { return __spreadArrays(prevArray, [
-                    productDetails,
-                ]); });
-        }
-        else {
-            setNotificationMessage("You need to be logged in to add product to busket.");
-            notify(notificationMessage);
-        }
-        setSelectedProduct(productDetails);
-    };
-    var checkIfAlreadyAddedOnBasket = function (productDetails) {
-        var found = !productsOnBasket.find(function (item) { return item.id == productDetails.id; })
-            ? false
-            : true;
-        return found;
-    };
     var updateProductListCategory = function (productType) {
         setProductListCategory(productType);
     };
     var goToBasketIfNotEmpty = function () {
         if (util.retrieveBasketProductDataFromLocalStorage().length > 0)
             history.push("/basket");
+        else {
+            notify("You basket is empty, add Items to checkout.", "none");
+        }
     };
-    var notify = function (message) {
-        react_toastify_1.toast("Success Notification !", {
+    var notify = function (message, redirectTo) {
+        react_toastify_1.toast(message, {
             position: react_toastify_1.toast.POSITION.TOP_CENTER,
             autoClose: false,
-            onClose: function () { return window.alert("Called when I close"); }
+            onClose: function () {
+                if (redirectTo != "none")
+                    history.push(redirectTo);
+                else
+                    return;
+            }
         });
     };
-    var dismissAll = function () { return react_toastify_1.toast.dismiss(); };
     var products = [
         {
             id: "Ppadsndsjuydjwdwjsk",
@@ -404,6 +383,7 @@ function Home(_a) {
     displayProductList(productTypeToDisplay);
     var Main = function () {
         return (react_1["default"].createElement("div", null,
+            react_1["default"].createElement(react_toastify_1.ToastContainer, null),
             react_1["default"].createElement(core_1.Paper, { className: classes.paper },
                 react_1["default"].createElement("div", { className: classes.productListCardsContainer, style: { display: productDetailsBox ? "none" : "block" } },
                     react_1["default"].createElement("div", { className: classes.shopCategory },

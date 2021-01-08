@@ -127,6 +127,7 @@ const useStyles = makeStyles((theme: Theme) =>
 const UpdateProfile = () => {
   const classes = useStyles();
   const history = useHistory();
+  let customerService = new CustomerService()
 
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
@@ -136,13 +137,26 @@ const UpdateProfile = () => {
   const [address, setAddress] = useState("");
   const [registrationResponse, setRegistrationResponse] = useState("");
 
+  customerService.getUserDetails().then((data: any) => {
+    setFirstName(data.data().firstName)
+    setLastName(data.data().lastName)
+    setPhoneNumber(data.data().phoneNumber)
+    setEmail(data.data().email)
+    setIdNumber(data.data().idNumber)
+    setAddress(data.data().address)
+  })
+    .catch((error: any) => {
+      alert("Error getting your profile details.")
+      console.log(error)
+    })
+
+
   const navigateToUpdateProfile = () => {
     history.push("/profile")
   }
 
   const updateCustomer = async () => {
     console.log("updating customer information...");
-    let customerService = new CustomerService()
 
     let userDetails: any = {
       firstName: firstName,

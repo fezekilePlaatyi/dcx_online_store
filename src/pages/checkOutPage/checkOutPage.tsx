@@ -12,6 +12,8 @@ import { useHistory, useLocation } from "react-router";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
+import loaderImg from "../../assets/loader.gif";
+
 import {
   // Button,
   Link,
@@ -147,6 +149,13 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     answerYes: {
       paddingLeft: 5,
+    },
+    loading: {
+      width: 90,
+      zIndex: 999,
+      position: "absolute",
+      display: "block",
+      margin: "0 auto",
     }
   })
 );
@@ -161,6 +170,8 @@ const CheckOut = () => {
   const [state, setState] = React.useState({
     checkedB: false,
   });
+
+  const [payButtonDisabled, setPayButtonDisabledStatus] = useState(false)
   const [userDetails, setUserDetails] = useState<any>({})
   const [hideProfileAddressStatus, setHideProfileAddress] = useState(false)
   const [addressTypeQuestion, setAddressTypeQuestion] = useState("Want to use different")
@@ -168,6 +179,7 @@ const CheckOut = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
+  const [loading, setLoading] = useState(false)
 
   let customerService = new CustomerService()
   customerService.getUserDetails().then((data: any) => {
@@ -198,40 +210,21 @@ const CheckOut = () => {
     }
   }
 
-
-  const getCurrentUserEmailAddress = () => {
-    var user = app.auth().currentUser;
-    var email, uid;
-
-    if (user != null) {
-      email = user.email
-      uid = user.uid
-
-      return email
-    } else {
-      return ''
-    }
-  }
-
   const saveInvoice = (userAddress: any) => {
     let invoiceService = new InvoiceService()
-    let userDetails = {
-      userAddress: userAddress
-    }
+    setPayButtonDisabledStatus(true)
+    setLoading(true)
 
     var invoice: any = {
       invoiceData: util.retrieveBasketProductDataFromLocalStorage(),
-      userDetails: {
-        userAddress: userAddress,
-        clientEmailAddress: getCurrentUserEmailAddress()
-      }
+      userDetails: userDetails,
+      dateCreated: Date.now(),
     }
 
-    console.log(invoice)
-
     invoiceService.createInvoice(invoice).then(function () {
+      setLoading(false)
+      util.resetBasketProductDataFromLocalStorage()
       invoiceService.emailInvoice(invoice).then(function (response) {
-        util.resetBasketProductDataFromLocalStorage()
         if (state.checkedB == true && hideProfileAddressStatus == true) {
           let customerService = new CustomerService()
           customerService.updateSingleField({
@@ -249,6 +242,7 @@ const CheckOut = () => {
 
       })
         .catch(function (response) {
+          setLoading(false)
           notify("Done Making Payment, An error occured while emailing invoice.", "/orderHistory")
           console.log(response);
         });
@@ -289,10 +283,21 @@ const CheckOut = () => {
     });
   }
 
-
   return (
     <div className={classes.mainContainer}>
       <ToastContainer />
+      <div className="loading-container"
+        style={{
+          position: 'absolute', left: '45%', top: '25%',
+          transform: 'translate(-50%, -50%)',
+          display: loading ? 'block' : 'none'
+        }}
+      >
+        <div>
+          <img src={loaderImg} className={classes.loading}></img>
+        </div>
+      </div>
+
       <div className={classes.boxWrapper}>
         <h3 className={classes.heading}>CHECK OUT</h3>
       </div>
@@ -431,6 +436,7 @@ const CheckOut = () => {
               className={classes.boxBtn}
               variant="outlined"
               onClick={procceddToPay}
+              disabled={payButtonDisabled}
             >
               PAY NOW
             </Button>
