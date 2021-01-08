@@ -212,7 +212,13 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 18,
   },
   cardDetails: {
-    fontSize: 14,
+    fontSize: 20,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 14,
+    },
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 14,
+    },
   },
   contentDetailsName: {
     marginBottom: 15,
