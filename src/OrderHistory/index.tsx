@@ -117,40 +117,97 @@ const useStyles = makeStyles((theme) => ({
   tableCellsQty: {
     width: "10%",
     fontSize: 14,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 10,
+    },
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 10,
+    },
   },
   tableRowValue: {
     fontSize: 12,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 10,
+    },
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 10,
+    },
   },
   tableRowValueName: {
     fontSize: 12,
     width: "30%",
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 10,
+    },
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 10,
+    },
   },
   tableRowValuePrice: {
     fontSize: 12,
     width: "20%",
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 10,
+    },
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 10,
+    },
   },
   tableRowValueQty: {
     fontSize: 12,
     width: "20%",
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 10,
+    },
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 10,
+    },
   },
   tableRowValueDesc: {
     fontSize: 12,
     width: "60%",
     textAlign: "justify",
+    [theme.breakpoints.down('xs')]: {
+      display: "none",
+    },
+    [theme.breakpoints.down('sm')]: {
+      display: "none",
+    },
   },
   tableCellsName: {
-    fontSize: 12,
-    width: "%",
+    fontSize: 14,
+    //width: "%",
     textAlign: "justify",
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 10,
+    },
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 10,
+    },
   },
   tableCellsDate: {
     fontSize: 12,
-    width: "%",
+    //width: "%",
     textAlign: "justify",
     borderBottom: "none !important"
   },
   tableCells: {
     fontSize: 14,
+    [theme.breakpoints.down('xs')]: {
+      fontSize: 10,
+    },
+    [theme.breakpoints.down('sm')]: {
+      fontSize: 10,
+    },
+  },
+  tableCellsDesc: {
+    fontSize: 14,
+    [theme.breakpoints.down('xs')]: {
+      display: "none",
+    },
+    [theme.breakpoints.down('sm')]: {
+      display: "none",
+    },
   },
   paperContetnt: {
     display: "flex",
@@ -297,7 +354,7 @@ const OrderHistory = () => {
                 <TableCell className={classes.tableCellsName} align="left">
                   Name
                 </TableCell>
-                <TableCell className={classes.tableCells} align="left">
+                <TableCell className={classes.tableCellsDesc} align="left">
                   Description
                 </TableCell>
                 <TableCell className={classes.tableCells} align="left">
