@@ -42,10 +42,11 @@ const drawerWidth = 240;
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
-    root: {
+    root: { 
       display: "flex",
       backgroundColor: backgroundContrast,
       flex: 1,
+      overflow: 'hidden',
     },
     header: {
       display: "flex",

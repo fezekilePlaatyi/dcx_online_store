@@ -34,7 +34,7 @@ import NumberFormat from "react-number-format";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-    maxWidth: 345,
+   // maxWidth: 345,
     color: "black",
   },
   textField: {
@@ -169,6 +169,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     marginBottom: 20,
     marginTop: 20,
+    overflow: 'hidden',
   },
   tableDivHeading: {
     width: "100%",
@@ -191,6 +192,9 @@ const useStyles = makeStyles((theme) => ({
   costValue: {
     // marginLeft: "10px",
      color: primaryText,
+   },
+   table:{
+     overflow: 'hidden',
    },
   productListCardsContainer: {},
 }));
@@ -282,7 +286,7 @@ const OrderHistory = () => {
     lineItemHTMLTable.push(
       <div className={classes.tableHeading}>
         <TableContainer component={Paper} className={classes.tableDivHeading}>
-          <Table aria-label="simple table">
+          <Table className={classes.table} aria-label="simple table">
             <TableHead>
               <TableRow>
                 <TableCell className={classes.tableCellsDate} align="left">
