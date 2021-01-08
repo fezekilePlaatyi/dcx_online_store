@@ -12,6 +12,8 @@ import { useHistory, useLocation } from "react-router";
 import Button from "@material-ui/core/Button";
 import TextField from "@material-ui/core/TextField";
 import Paper from "@material-ui/core/Paper";
+import loaderImg from "../../assets/loader.gif";
+
 import {
   // Button,
   Link,
@@ -27,6 +29,7 @@ import CustomerService from "../../services/customer-service";
 import Util from "../../Util"
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import app from "../../base";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -148,8 +151,15 @@ const useStyles = makeStyles((theme: Theme) =>
       paddingLeft: 5,
       cursor: 'pointer',
       '&:hover': {
-        color: primaryColor, 
-     },
+        color: primaryColor,
+      },
+    },
+    loading: {
+      width: 90,
+      zIndex: 999,
+      position: "absolute",
+      display: "block",
+      margin: "0 auto",
     }
   })
 );
@@ -164,6 +174,8 @@ const CheckOut = () => {
   const [state, setState] = React.useState({
     checkedB: false,
   });
+
+  const [payButtonDisabled, setPayButtonDisabledStatus] = useState(false)
   const [userDetails, setUserDetails] = useState<any>({})
   const [hideProfileAddressStatus, setHideProfileAddress] = useState(false)
   const [addressTypeQuestion, setAddressTypeQuestion] = useState("Want to use different")
@@ -171,13 +183,14 @@ const CheckOut = () => {
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
+  const [loading, setLoading] = useState(false)
 
   let customerService = new CustomerService()
   customerService.getUserDetails().then((data: any) => {
     setUserDetails(data.data())
   })
     .catch((error: any) => {
-      alert("Error getting your profile details.")
+      notify("No address found for this user. Please update your profile.", "/updateProfile")
       console.log(error)
     })
 
@@ -185,7 +198,7 @@ const CheckOut = () => {
 
     if (!hideProfileAddressStatus) {
       if (!userDetails.address) {
-        alert("No address found in you profile. Update your profile with your Address.")
+        notify("No address found for this user. Please update your profile.", "/updateProfile")
       }
       else {
         saveInvoice(userDetails.address)
@@ -203,24 +216,19 @@ const CheckOut = () => {
 
   const saveInvoice = (userAddress: any) => {
     let invoiceService = new InvoiceService()
-    let userDetails = {
-      userAddress: userAddress
-    }
+    setPayButtonDisabledStatus(true)
+    setLoading(true)
 
     var invoice: any = {
       invoiceData: util.retrieveBasketProductDataFromLocalStorage(),
-      userDetails: userAddress
+      userDetails: userDetails,
+      dateCreated: Date.now(),
     }
 
-    console.log(invoice)
-
     invoiceService.createInvoice(invoice).then(function () {
+      setLoading(false)
+      util.resetBasketProductDataFromLocalStorage()
       invoiceService.emailInvoice(invoice).then(function (response) {
-        alert("handle success")
-        console.log(response);
-
-
-        util.resetBasketProductDataFromLocalStorage()
         if (state.checkedB == true && hideProfileAddressStatus == true) {
           let customerService = new CustomerService()
           customerService.updateSingleField({
@@ -238,7 +246,8 @@ const CheckOut = () => {
 
       })
         .catch(function (response) {
-          alert(response.toString())
+          setLoading(false)
+          notify("Done Making Payment, An error occured while emailing invoice.", "/orderHistory")
           console.log(response);
         });
 
@@ -278,10 +287,21 @@ const CheckOut = () => {
     });
   }
 
-
   return (
     <div className={classes.mainContainer}>
       <ToastContainer />
+      <div className="loading-container"
+        style={{
+          position: 'absolute', left: '45%', top: '25%',
+          transform: 'translate(-50%, -50%)',
+          display: loading ? 'block' : 'none'
+        }}
+      >
+        <div>
+          <img src={loaderImg} className={classes.loading}></img>
+        </div>
+      </div>
+
       <div className={classes.boxWrapper}>
         <h3 className={classes.heading}>CHECK OUT</h3>
       </div>
@@ -420,6 +440,7 @@ const CheckOut = () => {
               className={classes.boxBtn}
               variant="outlined"
               onClick={procceddToPay}
+              disabled={payButtonDisabled}
             >
               PAY NOW
             </Button>

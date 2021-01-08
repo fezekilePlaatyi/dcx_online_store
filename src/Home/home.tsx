@@ -33,6 +33,7 @@ import DisplayMoreProductDetails from "../DisplayMoreProductDetails";
 import { useHistory } from "react-router";
 import { css } from "glamor";
 import NumberFormat from "react-number-format";
+import { EndOfLineState } from "typescript";
 
 const Zoom = cssTransition({
   enter: "zoomIn",
@@ -276,66 +277,33 @@ function Home({ activityStatus }: any) {
     });
   };
 
-  const handleAddingProductToBasket = (productDetails: any) => {
-    if (activityStatus == true) {
-      console.log("adding item to basket...");
-      checkIfAlreadyAddedOnBasket(productDetails)
-        ? console.log("already added...")
-        : addProductToBasket((prevArray: any) => [
-            ...prevArray,
-            productDetails,
-          ]);
-    } else {
-      setNotificationMessage(
-        "You need to be logged in to add product to busket."
-      );
-      notify(notificationMessage);
-    }
-    setSelectedProduct(productDetails);
-  };
-
-  const checkIfAlreadyAddedOnBasket = (productDetails: any) => {
-    var found: any = !productsOnBasket.find(
-      (item: any) => item.id == productDetails.id
-    )
-      ? false
-      : true;
-
-    return found;
-  };
-
   const updateProductListCategory = (productType: string) => {
     setProductListCategory(productType);
   };
 
   const goToBasketIfNotEmpty = () => {
+
     if (util.retrieveBasketProductDataFromLocalStorage().length > 0)
       history.push("/basket");
-  };
+    else {
+      notify("You basket is empty, add Items to checkout.", "none")
+    }
+  }
 
-  const notify = (message: string) => {
-    toast("Success Notification !", {
+  const notify = (message: string, redirectTo: string) => {
+    toast(message, {
       position: toast.POSITION.TOP_CENTER,
       autoClose: false,
-      onClose: () => window.alert("Called when I close"),
+      onClose: () => {
+        if (redirectTo != "none")
+          history.push(redirectTo)
+        else
+          return;
+      }
     });
-  };
-
-  const dismissAll = () => toast.dismiss();
+  }
 
   let products = [
-    {
-      id: "wdHKuhdwuapdxss",
-      name: "100g Fine Gold Minted Medallion",
-      type: "gold",
-      description:
-        "The 1oz Fine Gold Medallion (24 Carat) will have an unlimited mintage and is linked to the current gold spot price and Rand/Dollar exchange rate which will give investors exposure to the spot gold price and also provide a hedge.",
-      dateAdded: "19 / December / 2020",
-      dateModified: "19 / December / 2020",
-      unitWeight: 100,
-      quantity: 1,
-      price: 124084,
-    },
     {
       id: "Ppadsndsjuydjwdwjsk",
       name: "1oz Fine Gold Medallion",
@@ -347,6 +315,7 @@ function Home({ activityStatus }: any) {
       unitWeight: 31,
       quantity: 1,
       price: 38751,
+      imgUrl: "https://firebasestorage.googleapis.com/v0/b/online-store-e8ed0.appspot.com/o/dcx-online-store%2Fgold.jpg?alt=media&token=4b63446a-7f63-4e21-a68a-f28aba76a37e"
     },
     {
       id: "DWHWWEdsksHKdjwdwjsk",
@@ -359,6 +328,7 @@ function Home({ activityStatus }: any) {
       unitWeight: 31,
       quantity: 1,
       price: 28751,
+      imgUrl: "https://firebasestorage.googleapis.com/v0/b/online-store-e8ed0.appspot.com/o/dcx-online-store%2F3.jfif?alt=media&token=f6c56140-699f-4c30-bf03-e0f4434404a9"
     },
     {
       id: "LkkddjkdHluhdwsdjdw",
@@ -371,6 +341,7 @@ function Home({ activityStatus }: any) {
       unitWeight: 3,
       quantity: 1,
       price: 100,
+      imgUrl: "https://firebasestorage.googleapis.com/v0/b/online-store-e8ed0.appspot.com/o/dcx-online-store%2Fheadline_GOLD_13.jfif?alt=media&token=62978e07-970a-4073-9b08-e08c56d49d72"
     },
     {
       id: "DWHWWEssndHKsdsdqejsk",
@@ -383,7 +354,21 @@ function Home({ activityStatus }: any) {
       unitWeight: 1,
       quantity: 1,
       price: 1000,
+      imgUrl: "https://firebasestorage.googleapis.com/v0/b/online-store-e8ed0.appspot.com/o/dcx-online-store%2Fdownload%20(1).jfif?alt=media&token=2f466880-5adb-4da4-b4c3-105c2cf438d3"
     },
+    {
+      id: "wdHKuhdwuapdxss",
+      name: "100g Fine Gold Minted Medallion",
+      type: "gold",
+      description:
+        "The 1oz Fine Gold Medallion (24 Carat) will have an unlimited mintage and is linked to the current gold spot price and Rand/Dollar exchange rate which will give investors exposure to the spot gold price and also provide a hedge.",
+      dateAdded: "19 / December / 2020",
+      dateModified: "19 / December / 2020",
+      unitWeight: 100,
+      quantity: 1,
+      price: 124084,
+      imgUrl: "https://firebasestorage.googleapis.com/v0/b/online-store-e8ed0.appspot.com/o/dcx-online-store%2Fdownload.jfif?alt=media&token=1e4301af-a89f-40ff-bf4d-fc57cbfdf72d"
+    }
   ];
 
   const displayProductList = (productType: string) => {
@@ -398,12 +383,14 @@ function Home({ activityStatus }: any) {
       updateUIOnProductCatergoryChange(updateProductByCategory);
     }
   };
-
   const updateUIOnProductCatergoryChange = (updateProductByCategory: any) => {
     updateProductByCategory.forEach((element: any) => {
       productList.push(
-        <Card className={classes.root}>
-          <CardMedia className={classes.media} image={img} title="Image" />
+        <Card className={classes.root} style={{ marginRight: 30 }}>
+          <CardMedia
+            className={classes.media}
+            image={element.imgUrl}
+          />
           <CardContent>
             <Typography
               className={classes.cardDetails}
@@ -454,6 +441,7 @@ function Home({ activityStatus }: any) {
   const Main = () => {
     return (
       <div>
+        <ToastContainer />
         <Paper className={classes.paper}>
           <div
             className={classes.productListCardsContainer}

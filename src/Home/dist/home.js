@@ -35,13 +35,6 @@ var __generator = (this && this.__generator) || function (thisArg, body) {
         if (op[0] & 5) throw op[1]; return { value: op[0] ? op[1] : void 0, done: true };
     }
 };
-var __spreadArrays = (this && this.__spreadArrays) || function () {
-    for (var s = 0, i = 0, il = arguments.length; i < il; i++) s += arguments[i].length;
-    for (var r = Array(s), k = 0, i = 0; i < il; i++)
-        for (var a = arguments[i], j = 0, jl = a.length; j < jl; j++, k++)
-            r[k] = a[j];
-    return r;
-};
 exports.__esModule = true;
 var react_1 = require("react");
 var styles_1 = require("@material-ui/core/styles");
@@ -54,7 +47,6 @@ var CardActions_1 = require("@material-ui/core/CardActions");
 var Typography_1 = require("@material-ui/core/Typography");
 var colors_1 = require("@material-ui/core/colors");
 var ExpandMore_1 = require("@material-ui/icons/ExpandMore");
-var gold_jpg_1 = require("../assets/gold.jpg");
 var moment_1 = require("moment");
 var Button_1 = require("@material-ui/core/Button");
 var core_1 = require("@material-ui/core");
@@ -66,174 +58,220 @@ var theme_config_2 = require("../themes/theme-config");
 var base_1 = require("../base");
 var DisplayMoreProductDetails_1 = require("../DisplayMoreProductDetails");
 var react_router_1 = require("react-router");
+var react_number_format_1 = require("react-number-format");
 var Zoom = react_toastify_1.cssTransition({
-    enter: 'zoomIn',
-    exit: 'zoomOut'
+    enter: "zoomIn",
+    exit: "zoomOut"
 });
-var useStyles = styles_1.makeStyles(function (theme) { return ({
-    root: {
-        maxWidth: 345,
-        width: "40%"
-    },
-    textField: {
-        margin: theme.spacing(1),
-        minWidth: 20,
-        marginBottom: "25px",
-        color: "black",
-        background: "grey"
-    },
-    productDisplayRoot: {
-        display: "flex",
-        padding: 30
-    },
-    details: {
-        display: "flex",
-        flexDirection: "column",
-        paddingLeft: 30
-    },
-    content: {
-        flex: "1 0 auto"
-    },
-    cover: {
-        width: "25%"
-    },
-    controls: {
-        display: "flex",
-        alignItems: "center",
-        paddingLeft: theme.spacing(1),
-        paddingBottom: theme.spacing(1)
-    },
-    playIcon: {
-        height: 38,
-        width: 38
-    },
-    media: {
-        height: 0,
-        paddingTop: "56.25%"
-    },
-    expand: {
-        transform: "rotate(0deg)",
-        marginLeft: "auto",
-        backgroundColor: theme_config_2.backgroundContrast,
-        borderColor: theme_config_2.primaryColor,
-        color: theme_config_2.primaryColor,
-        transition: theme.transitions.create("transform", {
-            duration: theme.transitions.duration.shortest
-        })
-    },
-    expandOpen: {
-        transform: "rotate(180deg)"
-    },
-    avatar: {
-        backgroundColor: colors_1.red[500]
-    },
-    productDetails: {
-        // height: "100vh",
-        // width: "100vw",
-        //   background: "#e3e3e3",
-        display: "none"
-    },
-    productList: {
-        display: "inline-flex"
-    },
-    paper: {
-        padding: 20,
-        overflow: "auto",
-        backgroundColor: theme_config_1.backgroundMain,
-        border: "none",
-        display: "flex",
-        flexDirection: "column",
-        width: "100%"
-    },
-    boxBtn: {
-        float: "left",
-        backgroundColor: theme_config_2.backgroundContrast,
-        borderColor: theme_config_2.primaryColor,
-        color: theme_config_2.primaryColor,
-        width: "30%"
-    },
-    boxBtnAddMain: {
-        //float: "left",
-        backgroundColor: theme_config_2.backgroundContrast,
-        borderColor: theme_config_2.primaryColor,
-        color: theme_config_2.primaryColor,
-        // width: "20%",
-        // marginTop: 20,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center"
-    },
-    boxBtnAdd: {
-        //float: "left",
-        backgroundColor: theme_config_2.backgroundContrast,
-        borderColor: theme_config_2.primaryColor,
-        color: theme_config_1.primaryText,
-        // width: "20%",
-        // marginTop: 20,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center"
-    },
-    shopCategory: {
-        display: "flex",
-        flexDirection: "column",
-        marginBottom: 40
-    },
-    shopCategoryHeading: {
-        display: "flex",
-        //flexDirection: 'column',
-        justifyContent: "space-between"
-    },
-    shopCategoryButtons: {
-        display: "flex",
-        flexDirection: "row",
-        justifyContent: "space-between",
-        width: "37%",
-        marginTop: 20
-    },
-    shopCategoryHeadingMain: {
-        color: theme_config_1.primaryText
-    },
-    heading: {
-        margin: "15px 0px",
-        color: theme_config_2.primaryColor
-    },
-    pointer: {
-        backgroundColor: theme_config_2.backgroundContrast,
-        borderColor: theme_config_2.primaryColor,
-        color: theme_config_2.primaryColor
-    },
-    cart: {
-        display: "flex",
-        alignItems: "center",
-        fontSize: 18
-    },
-    cardDetails: {
-        fontSize: 14
-    },
-    contentDetailsName: {
-        marginBottom: 15
-    },
-    contentDetails: {
-        marginBottom: 10,
-        fontSize: 14
-    },
-    divider: {
-        marginRight: 15,
-        marginLeft: 15
-    },
-    productListCardsContainer: {},
-    hidden: {
-        display: "none"
-    },
-    cursorPointer: {
-        cursor: 'pointer',
-        color: '#CC9933'
-    },
-    toastSuccess: {
-        backgroundColor: 'yellow !important'
-    }
-}); });
+var useStyles = styles_1.makeStyles(function (theme) {
+    var _a, _b, _c, _d, _e;
+    return ({
+        root: (_a = {
+                maxWidth: 345,
+                width: "40%",
+                marginRight: 30
+            },
+            _a[theme.breakpoints.down('xs')] = {
+                width: "100%",
+                marginBottom: 20,
+                marginRight: 0
+            },
+            _a[theme.breakpoints.down('sm')] = {
+                width: "100%",
+                marginBottom: 20,
+                marginRight: 0
+            },
+            _a),
+        textField: {
+            margin: theme.spacing(1),
+            minWidth: 20,
+            marginBottom: "25px",
+            color: "black",
+            background: "grey"
+        },
+        productDisplayRoot: {
+            display: "flex",
+            padding: 30
+        },
+        details: {
+            display: "flex",
+            flexDirection: "column",
+            paddingLeft: 30
+        },
+        content: {
+            flex: "1 0 auto"
+        },
+        cover: {
+            width: "25%"
+        },
+        controls: {
+            display: "flex",
+            alignItems: "center",
+            paddingLeft: theme.spacing(1),
+            paddingBottom: theme.spacing(1)
+        },
+        playIcon: {
+            height: 38,
+            width: 38
+        },
+        media: {
+            height: 0,
+            paddingTop: "56.25%"
+        },
+        expand: {
+            transform: "rotate(0deg)",
+            marginLeft: "auto",
+            backgroundColor: theme_config_2.backgroundContrast,
+            borderColor: theme_config_2.primaryColor,
+            color: theme_config_2.primaryColor,
+            transition: theme.transitions.create("transform", {
+                duration: theme.transitions.duration.shortest
+            })
+        },
+        expandOpen: {
+            transform: "rotate(180deg)"
+        },
+        avatar: {
+            backgroundColor: colors_1.red[500]
+        },
+        productDetails: {
+            // height: "100vh",
+            // width: "100vw",
+            //   background: "#e3e3e3",
+            display: "none"
+        },
+        productList: (_b = {
+                display: "inline-flex"
+            },
+            _b[theme.breakpoints.down('xs')] = {
+                display: "flex",
+                flexDirection: 'column',
+                alignItems: 'center'
+            },
+            _b[theme.breakpoints.down('sm')] = {
+                display: "flex",
+                flexDirection: 'column',
+                alignItems: 'center'
+            },
+            _b),
+        paper: {
+            padding: 20,
+            overflow: "auto",
+            backgroundColor: theme_config_1.backgroundMain,
+            border: "none",
+            display: "flex",
+            flexDirection: "column",
+            width: "100%"
+        },
+        boxBtn: {
+            float: "left",
+            backgroundColor: theme_config_2.backgroundContrast,
+            borderColor: theme_config_2.primaryColor,
+            color: theme_config_2.primaryColor,
+            width: "30%"
+        },
+        boxBtnAddMain: {
+            //float: "left",
+            backgroundColor: theme_config_2.backgroundContrast,
+            borderColor: theme_config_2.primaryColor,
+            color: theme_config_2.primaryColor,
+            // width: "20%",
+            // marginTop: 20,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+        },
+        boxBtnAdd: {
+            //float: "left",
+            backgroundColor: theme_config_2.backgroundContrast,
+            borderColor: theme_config_2.primaryColor,
+            color: theme_config_1.primaryText,
+            // width: "20%",
+            // marginTop: 20,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+        },
+        shopCategory: {
+            display: "flex",
+            flexDirection: "column",
+            marginBottom: 40
+        },
+        shopCategoryHeading: (_c = {
+                display: "flex",
+                //flexDirection: 'column',
+                justifyContent: "space-between"
+            },
+            _c[theme.breakpoints.down('xs')] = {
+                flexDirection: 'column'
+            },
+            _c),
+        shopCategoryButtons: (_d = {
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                width: "37%",
+                marginTop: 20
+            },
+            _d[theme.breakpoints.down('xs')] = {
+                width: "100%"
+            },
+            _d[theme.breakpoints.down('sm')] = {
+                width: "100%"
+            },
+            _d),
+        shopCategoryHeadingMain: (_e = {
+                color: theme_config_1.primaryText
+            },
+            _e[theme.breakpoints.down('xs')] = {
+                textAlign: 'center'
+            },
+            _e),
+        heading: {
+            margin: "15px 0px",
+            color: theme_config_2.primaryColor
+        },
+        pointer: {
+            backgroundColor: theme_config_2.backgroundContrast,
+            borderColor: theme_config_2.primaryColor,
+            color: theme_config_2.primaryColor
+        },
+        cart: {
+            display: "flex",
+            alignItems: "center",
+            fontSize: 18
+        },
+        cardDetails: {
+            fontSize: 14
+        },
+        contentDetailsName: {
+            marginBottom: 15
+        },
+        contentDetails: {
+            marginBottom: 10,
+            fontSize: 14
+        },
+        divider: {
+            marginRight: 15,
+            marginLeft: 15
+        },
+        productListCardsContainer: {},
+        hidden: {
+            display: "none"
+        },
+        cursorPointer: {
+            cursor: "pointer",
+            color: "#CC9933"
+        },
+        toastSuccess: {
+            backgroundColor: "yellow !important"
+        },
+        costValue: {
+            // marginLeft: "10px",
+            color: theme_config_1.primaryText
+        }
+    });
+});
 function Home(_a) {
     var _this = this;
     var activityStatus = _a.activityStatus;
@@ -259,32 +297,11 @@ function Home(_a) {
     var handleExpandClick = function (productId) {
         var product = products.find(function (item) { return item.id == productId; });
         history.push({
-            pathname: '/displayMoreProductDetails',
+            pathname: "/displayMoreProductDetails",
             state: {
                 selectedProduct: product
             }
         });
-    };
-    var handleAddingProductToBasket = function (productDetails) {
-        if (activityStatus == true) {
-            console.log("adding item to basket...");
-            checkIfAlreadyAddedOnBasket(productDetails)
-                ? console.log("already added...")
-                : addProductToBasket(function (prevArray) { return __spreadArrays(prevArray, [
-                    productDetails,
-                ]); });
-        }
-        else {
-            setNotificationMessage("You need to be logged in to add product to busket.");
-            notify(notificationMessage);
-        }
-        setSelectedProduct(productDetails);
-    };
-    var checkIfAlreadyAddedOnBasket = function (productDetails) {
-        var found = !productsOnBasket.find(function (item) { return item.id == productDetails.id; })
-            ? false
-            : true;
-        return found;
     };
     var updateProductListCategory = function (productType) {
         setProductListCategory(productType);
@@ -292,27 +309,23 @@ function Home(_a) {
     var goToBasketIfNotEmpty = function () {
         if (util.retrieveBasketProductDataFromLocalStorage().length > 0)
             history.push("/basket");
+        else {
+            notify("You basket is empty, add Items to checkout.", "none");
+        }
     };
-    var notify = function (message) {
-        react_toastify_1.toast("Success Notification !", {
+    var notify = function (message, redirectTo) {
+        react_toastify_1.toast(message, {
             position: react_toastify_1.toast.POSITION.TOP_CENTER,
             autoClose: false,
-            onClose: function () { return window.alert('Called when I close'); }
+            onClose: function () {
+                if (redirectTo != "none")
+                    history.push(redirectTo);
+                else
+                    return;
+            }
         });
     };
-    var dismissAll = function () { return react_toastify_1.toast.dismiss(); };
     var products = [
-        {
-            id: "wdHKuhdwuapdxss",
-            name: "100g Fine Gold Minted Medallion",
-            type: "gold",
-            description: "The 1oz Fine Gold Medallion (24 Carat) will have an unlimited mintage and is linked to the current gold spot price and Rand/Dollar exchange rate which will give investors exposure to the spot gold price and also provide a hedge.",
-            dateAdded: "19 / December / 2020",
-            dateModified: "19 / December / 2020",
-            unitWeight: 100,
-            quantity: 1,
-            price: 124084
-        },
         {
             id: "Ppadsndsjuydjwdwjsk",
             name: "1oz Fine Gold Medallion",
@@ -322,7 +335,8 @@ function Home(_a) {
             dateModified: "21 / December / 2020",
             unitWeight: 31,
             quantity: 1,
-            price: 38751
+            price: 38751,
+            imgUrl: "https://firebasestorage.googleapis.com/v0/b/online-store-e8ed0.appspot.com/o/dcx-online-store%2Fgold.jpg?alt=media&token=4b63446a-7f63-4e21-a68a-f28aba76a37e"
         },
         {
             id: "DWHWWEdsksHKdjwdwjsk",
@@ -333,7 +347,8 @@ function Home(_a) {
             dateModified: "21 / December / 2020",
             unitWeight: 31,
             quantity: 1,
-            price: 28751
+            price: 28751,
+            imgUrl: "https://firebasestorage.googleapis.com/v0/b/online-store-e8ed0.appspot.com/o/dcx-online-store%2F3.jfif?alt=media&token=f6c56140-699f-4c30-bf03-e0f4434404a9"
         },
         {
             id: "LkkddjkdHluhdwsdjdw",
@@ -344,7 +359,8 @@ function Home(_a) {
             dateModified: "12 / December / 2020",
             unitWeight: 3,
             quantity: 1,
-            price: 100
+            price: 100,
+            imgUrl: "https://firebasestorage.googleapis.com/v0/b/online-store-e8ed0.appspot.com/o/dcx-online-store%2Fheadline_GOLD_13.jfif?alt=media&token=62978e07-970a-4073-9b08-e08c56d49d72"
         },
         {
             id: "DWHWWEssndHKsdsdqejsk",
@@ -355,8 +371,21 @@ function Home(_a) {
             dateModified: "21 / December / 2020",
             unitWeight: 1,
             quantity: 1,
-            price: 1000
+            price: 1000,
+            imgUrl: "https://firebasestorage.googleapis.com/v0/b/online-store-e8ed0.appspot.com/o/dcx-online-store%2Fdownload%20(1).jfif?alt=media&token=2f466880-5adb-4da4-b4c3-105c2cf438d3"
         },
+        {
+            id: "wdHKuhdwuapdxss",
+            name: "100g Fine Gold Minted Medallion",
+            type: "gold",
+            description: "The 1oz Fine Gold Medallion (24 Carat) will have an unlimited mintage and is linked to the current gold spot price and Rand/Dollar exchange rate which will give investors exposure to the spot gold price and also provide a hedge.",
+            dateAdded: "19 / December / 2020",
+            dateModified: "19 / December / 2020",
+            unitWeight: 100,
+            quantity: 1,
+            price: 124084,
+            imgUrl: "https://firebasestorage.googleapis.com/v0/b/online-store-e8ed0.appspot.com/o/dcx-online-store%2Fdownload.jfif?alt=media&token=1e4301af-a89f-40ff-bf4d-fc57cbfdf72d"
+        }
     ];
     var displayProductList = function (productType) {
         var updateProductByCategory = [];
@@ -375,13 +404,13 @@ function Home(_a) {
         updateProductByCategory.forEach(function (element) {
             var _a;
             productList.push(react_1["default"].createElement(Card_1["default"], { className: classes.root, style: { marginRight: 30 } },
-                react_1["default"].createElement(CardMedia_1["default"], { className: classes.media, image: gold_jpg_1["default"], title: "Image" }),
+                react_1["default"].createElement(CardMedia_1["default"], { className: classes.media, image: element.imgUrl }),
                 react_1["default"].createElement(CardContent_1["default"], null,
                     react_1["default"].createElement(Typography_1["default"], { className: classes.cardDetails, variant: "body2", color: "textSecondary", component: "h3" }, element.name),
                     react_1["default"].createElement("br", null),
                     react_1["default"].createElement(Typography_1["default"], { className: classes.cardDetails, variant: "body2", color: "textSecondary", component: "h3" },
-                        "Price: R ",
-                        element.price),
+                        "Price: R  ",
+                        react_1["default"].createElement(react_number_format_1["default"], { className: classes.costValue, thousandSeparator: true, displayType: "text", value: element.price })),
                     " "),
                 react_1["default"].createElement(CardActions_1["default"], { disableSpacing: true },
                     react_1["default"].createElement(Button_1["default"], { variant: "outlined", className: clsx_1["default"](classes.expand, (_a = {},
@@ -395,6 +424,7 @@ function Home(_a) {
     displayProductList(productTypeToDisplay);
     var Main = function () {
         return (react_1["default"].createElement("div", null,
+            react_1["default"].createElement(react_toastify_1.ToastContainer, null),
             react_1["default"].createElement(core_1.Paper, { className: classes.paper },
                 react_1["default"].createElement("div", { className: classes.productListCardsContainer, style: { display: productDetailsBox ? "none" : "block" } },
                     react_1["default"].createElement("div", { className: classes.shopCategory },
@@ -448,13 +478,14 @@ function Home(_a) {
                 react_1["default"].createElement("div", null,
                     react_1["default"].createElement("h2", null, "Please verify email and login again!"),
                     react_1["default"].createElement("h4", null,
-                        "You can ",
+                        "You can",
+                        " ",
                         react_1["default"].createElement("span", { onClick: logout, className: classes.cursorPointer }, "Logout")))));
         }
     }
     else {
-        return react_1["default"].createElement("div", null,
-            react_1["default"].createElement(Main, null));
+        return (react_1["default"].createElement("div", null,
+            react_1["default"].createElement(Main, null)));
     }
 }
 exports["default"] = Home;

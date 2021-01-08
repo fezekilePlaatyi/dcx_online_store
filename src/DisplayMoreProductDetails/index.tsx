@@ -40,29 +40,29 @@ const useStyles = makeStyles((theme) => ({
     flexDirection: "column",
     paddingLeft: 30,
     [theme.breakpoints.down('xs')]: {
-        paddingLeft: 0,
-      },
+      paddingLeft: 0,
+    },
     [theme.breakpoints.down('sm')]: {
-        paddingLeft: 0,
-      },
+      paddingLeft: 0,
+    },
   },
   content: {
     flex: "1 0 auto",
     [theme.breakpoints.down('xs')]: {
-        padding: 0,
-      },
+      padding: 0,
+    },
     [theme.breakpoints.down('sm')]: {
-        paddingBottom: 0,
-      },
+      paddingBottom: 0,
+    },
   },
   cover: {
     width: "25%",
     [theme.breakpoints.down('xs')]: {
-        display: "none",
-      },
+      display: "none",
+    },
     [theme.breakpoints.down('sm')]: {
-        display: "none",
-      },
+      display: "none",
+    },
   },
   controls: {
     display: "flex",
@@ -250,7 +250,10 @@ const DisplayMoreProductDetails = (props: any) => {
         back
       </IconButton>
       <Card className={classes.productDisplayRoot}>
-        <CardMedia className={classes.cover} image={img} title="Image" />
+        <CardMedia
+          className={classes.cover}
+          image={productDetails.imgUrl}
+          title="Image" />
         <div className={classes.details}>
           <CardContent className={classes.content}>
             <Typography
@@ -265,7 +268,7 @@ const DisplayMoreProductDetails = (props: any) => {
               variant="subtitle1"
               color="textSecondary"
             >
-              <b>Price:</b> R  
+              <b>Price:</b> R
                <NumberFormat
                 className={classes.costValue}
                 thousandSeparator={true}

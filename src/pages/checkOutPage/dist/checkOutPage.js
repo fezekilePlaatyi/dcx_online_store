@@ -18,6 +18,7 @@ var theme_config_1 = require("../../themes/theme-config");
 var react_router_1 = require("react-router");
 var Button_1 = require("@material-ui/core/Button");
 var TextField_1 = require("@material-ui/core/TextField");
+var loader_gif_1 = require("../../assets/loader.gif");
 var core_1 = require("@material-ui/core");
 var invoice_service_1 = require("../../services/invoice-service");
 var Checkbox_1 = require("@material-ui/core/Checkbox");
@@ -141,7 +142,18 @@ var useStyles = styles_1.makeStyles(function (theme) {
             textAlign: "left"
         },
         answerYes: {
-            paddingLeft: 5
+            paddingLeft: 5,
+            cursor: 'pointer',
+            '&:hover': {
+                color: theme_config_1.primaryColor
+            }
+        },
+        loading: {
+            width: 90,
+            zIndex: 999,
+            position: "absolute",
+            display: "block",
+            margin: "0 auto"
         }
     });
 });
@@ -154,25 +166,27 @@ var CheckOut = function () {
     var _c = react_1["default"].useState({
         checkedB: false
     }), state = _c[0], setState = _c[1];
-    var _d = react_1.useState({}), userDetails = _d[0], setUserDetails = _d[1];
-    var _e = react_1.useState(false), hideProfileAddressStatus = _e[0], setHideProfileAddress = _e[1];
-    var _f = react_1.useState("Want to use different"), addressTypeQuestion = _f[0], setAddressTypeQuestion = _f[1];
-    var _g = react_1.useState(""), inputErrorMessage = _g[0], setInputErrorMessage = _g[1];
+    var _d = react_1.useState(false), payButtonDisabled = _d[0], setPayButtonDisabledStatus = _d[1];
+    var _e = react_1.useState({}), userDetails = _e[0], setUserDetails = _e[1];
+    var _f = react_1.useState(false), hideProfileAddressStatus = _f[0], setHideProfileAddress = _f[1];
+    var _g = react_1.useState("Want to use different"), addressTypeQuestion = _g[0], setAddressTypeQuestion = _g[1];
+    var _h = react_1.useState(""), inputErrorMessage = _h[0], setInputErrorMessage = _h[1];
     var handleChange = function (event) {
         var _a;
         setState(__assign(__assign({}, state), (_a = {}, _a[event.target.name] = event.target.checked, _a)));
     };
+    var _j = react_1.useState(false), loading = _j[0], setLoading = _j[1];
     var customerService = new customer_service_1["default"]();
     customerService.getUserDetails().then(function (data) {
         setUserDetails(data.data());
     })["catch"](function (error) {
-        alert("Error getting your profile details.");
+        notify("No address found for this user. Please update your profile.", "/updateProfile");
         console.log(error);
     });
     var procceddToPay = function () {
         if (!hideProfileAddressStatus) {
             if (!userDetails.address) {
-                alert("No address found in you profile. Update your profile with your Address.");
+                notify("No address found for this user. Please update your profile.", "/updateProfile");
             }
             else {
                 saveInvoice(userDetails.address);
@@ -189,19 +203,17 @@ var CheckOut = function () {
     };
     var saveInvoice = function (userAddress) {
         var invoiceService = new invoice_service_1["default"]();
-        var userDetails = {
-            userAddress: userAddress
-        };
+        setPayButtonDisabledStatus(true);
+        setLoading(true);
         var invoice = {
             invoiceData: util.retrieveBasketProductDataFromLocalStorage(),
-            userDetails: userAddress
+            userDetails: userDetails,
+            dateCreated: Date.now()
         };
-        console.log(invoice);
         invoiceService.createInvoice(invoice).then(function () {
+            setLoading(false);
+            util.resetBasketProductDataFromLocalStorage();
             invoiceService.emailInvoice(invoice).then(function (response) {
-                alert("handle success");
-                console.log(response);
-                util.resetBasketProductDataFromLocalStorage();
                 if (state.checkedB == true && hideProfileAddressStatus == true) {
                     var customerService_1 = new customer_service_1["default"]();
                     customerService_1.updateSingleField({
@@ -209,27 +221,28 @@ var CheckOut = function () {
                     }).then(function () {
                         notify("Done Making Payment, You will be redirected to your Orders.", "/orderHistory");
                     })["catch"](function (error) {
-                        notify("Error : Done Making Payment, but error saving address please contact us to resolve this issue.", "/orderHistory");
+                        notify("Error : Done Making Payment, but error occured while saving address. Please contact us to resolve this issue.", "/orderHistory");
                     });
                 }
                 else {
                     notify("Done Making Payment, You will be redirected to your Orders.", "/orderHistory");
                 }
             })["catch"](function (response) {
-                alert(response.toString());
+                setLoading(false);
+                notify("Done Making Payment, An error occured while emailing invoice.", "/orderHistory");
                 console.log(response);
             });
         })["catch"](function (error) {
             console.log(error);
-            notify("An error occured while making creating an Invoice.", "none");
+            notify("An error occured while creating an Invoice.", "none");
         });
     };
     react_1.useEffect(function () {
         setInputErrorMessage("");
         !hideProfileAddressStatus ?
-            setAddressTypeQuestion("Want to use new different for this delivery")
+            setAddressTypeQuestion("Want to use NEW address for this delivery")
             :
-                setAddressTypeQuestion("Want to use address from profile");
+                setAddressTypeQuestion("Want to use ADDRESS from your PROFILE");
     }, [hideProfileAddressStatus]);
     var handlerToggleAddress = function () {
         hideProfileAddressStatus ?
@@ -251,6 +264,13 @@ var CheckOut = function () {
     };
     return (react_1["default"].createElement("div", { className: classes.mainContainer },
         react_1["default"].createElement(react_toastify_1.ToastContainer, null),
+        react_1["default"].createElement("div", { className: "loading-container", style: {
+                position: 'absolute', left: '45%', top: '25%',
+                transform: 'translate(-50%, -50%)',
+                display: loading ? 'block' : 'none'
+            } },
+            react_1["default"].createElement("div", null,
+                react_1["default"].createElement("img", { src: loader_gif_1["default"], className: classes.loading }))),
         react_1["default"].createElement("div", { className: classes.boxWrapper },
             react_1["default"].createElement("h3", { className: classes.heading }, "CHECK OUT")),
         react_1["default"].createElement("div", { className: classes.whiteText }, "Delivery address"),
@@ -262,7 +282,7 @@ var CheckOut = function () {
                     userDetails.address),
                 react_1["default"].createElement("div", { className: classes.formHeading },
                     addressTypeQuestion,
-                    " address?",
+                    " ?",
                     react_1["default"].createElement(core_1.Link, { className: classes.answerYes, onClick: function () { return handlerToggleAddress(); } }, "Yes")),
                 react_1["default"].createElement("div", { className: hideProfileAddressStatus == true ? "undefined" : "" + classes.hidden },
                     react_1["default"].createElement(TextField_1["default"], { className: classes.textfield, autoComplete: "off", margin: "normal", label: "Enter your full Address here...", variant: "outlined", required: true, value: address, onChange: function (event) { return setAddress(event.target.value); }, InputProps: {
@@ -273,6 +293,6 @@ var CheckOut = function () {
             react_1["default"].createElement(core_1.Typography, { paragraph: true, className: classes.errorMessage }, inputErrorMessage),
             react_1["default"].createElement("div", { className: classes.buttonsContainer },
                 react_1["default"].createElement("div", { className: classes.loginButtonContainer },
-                    react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined", onClick: procceddToPay }, "PAY NOW"))))));
+                    react_1["default"].createElement(Button_1["default"], { className: classes.boxBtn, variant: "outlined", onClick: procceddToPay, disabled: payButtonDisabled }, "PAY NOW"))))));
 };
 exports["default"] = CheckOut;

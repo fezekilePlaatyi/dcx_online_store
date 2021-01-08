@@ -34,7 +34,7 @@ import NumberFormat from "react-number-format";
 
 const useStyles = makeStyles((theme) => ({
   root: {
-   // maxWidth: 345,
+    // maxWidth: 345,
     color: "black",
   },
   textField: {
@@ -191,11 +191,11 @@ const useStyles = makeStyles((theme) => ({
   },
   costValue: {
     // marginLeft: "10px",
-     color: primaryText,
-   },
-   table:{
-     overflow: 'hidden',
-   },
+    color: primaryText,
+  },
+  table: {
+    overflow: 'hidden',
+  },
   productListCardsContainer: {},
 }));
 

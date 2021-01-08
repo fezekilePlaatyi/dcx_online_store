@@ -43,9 +43,16 @@ var core_1 = require("@material-ui/core");
 var theme_config_1 = require("../themes/theme-config");
 var react_router_dom_1 = require("react-router-dom");
 var invoice_service_1 = require("../services/invoice-service");
+var Table_1 = require("@material-ui/core/Table");
+var TableBody_1 = require("@material-ui/core/TableBody");
+var TableCell_1 = require("@material-ui/core/TableCell");
+var TableContainer_1 = require("@material-ui/core/TableContainer");
+var TableHead_1 = require("@material-ui/core/TableHead");
+var TableRow_1 = require("@material-ui/core/TableRow");
+var react_number_format_1 = require("react-number-format");
 var useStyles = styles_1.makeStyles(function (theme) { return ({
     root: {
-        maxWidth: 345,
+        // maxWidth: 345,
         color: "black"
     },
     textField: {
@@ -120,6 +127,92 @@ var useStyles = styles_1.makeStyles(function (theme) { return ({
     h3: {
         marginBottom: 30
     },
+    tableRowDescription: {
+        width: "35%",
+        textAlign: "justify",
+        fontSize: 12
+    },
+    tableCellsQty: {
+        width: "10%",
+        fontSize: 14
+    },
+    tableRowValue: {
+        fontSize: 12
+    },
+    tableRowValueName: {
+        fontSize: 12,
+        width: "30%"
+    },
+    tableRowValuePrice: {
+        fontSize: 12,
+        width: "20%"
+    },
+    tableRowValueQty: {
+        fontSize: 12,
+        width: "20%"
+    },
+    tableRowValueDesc: {
+        fontSize: 12,
+        width: "60%",
+        textAlign: "justify"
+    },
+    tableCellsName: {
+        fontSize: 12,
+        width: "%",
+        textAlign: "justify"
+    },
+    tableCellsDate: {
+        fontSize: 12,
+        width: "%",
+        textAlign: "justify",
+        borderBottom: "none !important"
+    },
+    tableCells: {
+        fontSize: 14
+    },
+    paperContetnt: {
+        display: "flex",
+        flexDirection: "column"
+    },
+    tableRow: {
+        "&:hover": {
+            backgroundColor: "#808080 !important"
+        }
+    },
+    tableCell: {
+        color: theme_config_1.backgroundMain
+    },
+    tableDiv: {
+        width: "100%",
+        marginBottom: 20,
+        marginTop: 20,
+        overflow: 'hidden'
+    },
+    tableDivHeading: {
+        width: "100%",
+        marginBottom: 20,
+        marginTop: 20
+    },
+    rootCard: {
+        padding: 20,
+        overflow: "auto",
+        backgroundColor: theme_config_1.backgroundMain,
+        border: "none",
+        display: "flex",
+        flexDirection: "column",
+        width: "100%"
+    },
+    tableHeading: {
+        // marginBottom: 20,
+        marginTop: 40
+    },
+    costValue: {
+        // marginLeft: "10px",
+        color: theme_config_1.primaryText
+    },
+    table: {
+        overflow: 'hidden'
+    },
     productListCardsContainer: {}
 }); });
 var OrderHistory = function () {
@@ -141,12 +234,18 @@ var OrderHistory = function () {
                             data.forEach(function (doc) {
                                 invoicesData.push(doc.data().invoiceData);
                             });
-                            invoices.push(react_1["default"].createElement("thead", null,
-                                react_1["default"].createElement("tr", null,
-                                    react_1["default"].createElement("th", null, "Name"),
-                                    react_1["default"].createElement("th", null, "Description"),
-                                    react_1["default"].createElement("th", null, "Price"),
-                                    react_1["default"].createElement("th", null, "Quantity"))));
+                            invoices.push(react_1["default"].createElement(TableContainer_1["default"], { component: core_1.Paper, className: classes.tableDiv },
+                                react_1["default"].createElement(Table_1["default"], { "aria-label": "simple table" },
+                                    react_1["default"].createElement(TableBody_1["default"], null)))
+                            // <thead>
+                            //   <tr>
+                            //     <th>Name</th>
+                            //     <th>Description</th>
+                            //     <th>Price</th>
+                            //     <th>Quantity</th>
+                            //   </tr>
+                            // </thead>
+                            );
                             setOrderHistory(invoicesData);
                         })["catch"](function (error) {
                             alert(error.toString());
@@ -160,26 +259,38 @@ var OrderHistory = function () {
     invoicesData.forEach(addInvoiceToAccordingList);
     function addInvoiceToAccordingList(element, index, array) {
         var lineItems = [];
+        var lineItemsHTMLBody = [];
+        var lineItemHTMLTable = [];
         var itemLength = element.length;
         var counter = 0;
+        var now = Date.now();
+        var date = new Date(now).toDateString();
         element.forEach(function (item) {
             counter++;
-            lineItems.push(react_1["default"].createElement("tr", { style: { color: "white", fontSize: "102%" } },
-                react_1["default"].createElement("td", null, item.name),
-                react_1["default"].createElement("td", null, item.description),
-                react_1["default"].createElement("td", null, item.price),
-                react_1["default"].createElement("td", null,
-                    item.quantity,
-                    react_1["default"].createElement("br", null))));
-            if (counter == itemLength) {
-                lineItems.push(react_1["default"].createElement("tr", null,
-                    react_1["default"].createElement("td", null, "111111111111111111111111111111111111111111111111"),
-                    react_1["default"].createElement("td", null, "111111111111111111111111111111111111111111111111"),
-                    react_1["default"].createElement("td", null, "111111111111111111111111111111111111111111111111"),
-                    react_1["default"].createElement("td", null, "111111111111111111111111111111111111111111111111")));
-            }
+            lineItems.push(react_1["default"].createElement(TableRow_1["default"], { hover: true, className: classes.tableRow, key: element.id },
+                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowValueName }, item.name),
+                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowValueDesc }, item.description),
+                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowValuePrice },
+                    react_1["default"].createElement(react_number_format_1["default"], { className: classes.costValue, thousandSeparator: true, displayType: "text", value: item.price })),
+                react_1["default"].createElement(TableCell_1["default"], { className: classes.tableRowValueQty }, item.quantity)));
         });
-        invoices.push(lineItems);
+        lineItemsHTMLBody.push(react_1["default"].createElement(TableBody_1["default"], { component: core_1.Paper, className: classes.tableDiv }, lineItems));
+        lineItemHTMLTable.push(react_1["default"].createElement("div", { className: classes.tableHeading },
+            react_1["default"].createElement(TableContainer_1["default"], { component: core_1.Paper, className: classes.tableDivHeading },
+                react_1["default"].createElement(Table_1["default"], { className: classes.table, "aria-label": "simple table" },
+                    react_1["default"].createElement(TableHead_1["default"], null,
+                        react_1["default"].createElement(TableRow_1["default"], null,
+                            react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCellsDate, align: "left" },
+                                react_1["default"].createElement("h4", null,
+                                    "Date: ",
+                                    date))),
+                        react_1["default"].createElement(TableRow_1["default"], null,
+                            react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCellsName, align: "left" }, "Name"),
+                            react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Description"),
+                            react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Price (R)"),
+                            react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCellsQty, align: "left" }, "Quantity"))),
+                    lineItemsHTMLBody))));
+        invoices.push(lineItemHTMLTable);
         // for (const [key, value] of Object.entries(element)) {
         //   var invoice: any = value;
         //   invoices.push(

@@ -45,33 +45,55 @@ var TextField_1 = require("@material-ui/core/TextField");
 var customer_service_1 = require("../../services/customer-service");
 var react_router_1 = require("react-router");
 var useStyles = styles_1.makeStyles(function (theme) {
+    var _a, _b, _c, _d, _e, _f;
     return styles_1.createStyles({
         logoContainer: {
             maxWidth: 360,
             paddingTop: 20
         },
-        mainContainer: {
-            minHeight: "100vh",
-            display: "flex",
-            flexDirection: "column",
-            // alignItems: "center",
-            // justifyContent: "center",
-            backgroundColor: theme_config_1.backgroundMain,
-            padding: "30px"
-        },
-        textfield: {
-            color: theme_config_1.primaryColor,
-            width: "30%",
-            marginRight: 20
-        },
-        boxBtn: {
-            float: "left",
-            backgroundColor: theme_config_1.backgroundContrast,
-            borderColor: theme_config_1.primaryColor,
-            color: theme_config_1.primaryColor,
-            marginRight: 10,
-            width: "25%"
-        },
+        mainContainer: (_a = {
+                minHeight: "100vh",
+                display: "flex",
+                flexDirection: "column",
+                // alignItems: "center",
+                // justifyContent: "center",
+                backgroundColor: theme_config_1.backgroundMain,
+                padding: "30px"
+            },
+            _a[theme.breakpoints.down("xs")] = {
+                padding: "10px"
+            },
+            _a[theme.breakpoints.down("sm")] = {
+                padding: "10px"
+            },
+            _a),
+        textfield: (_b = {
+                color: theme_config_1.primaryColor,
+                width: "30%",
+                marginRight: 20
+            },
+            _b[theme.breakpoints.down("xs")] = {
+                width: "100%",
+                marginRight: 0
+            },
+            _b[theme.breakpoints.down("sm")] = {
+                width: "100%",
+                marginRight: 0
+            },
+            _b),
+        boxBtn: (_c = {
+                float: "left",
+                backgroundColor: theme_config_1.backgroundContrast,
+                borderColor: theme_config_1.primaryColor,
+                color: theme_config_1.primaryColor,
+                marginRight: 10,
+                width: "25%"
+            },
+            _c[theme.breakpoints.down("xs")] = {
+                width: "50%",
+                marginBottom: 20
+            },
+            _c),
         boxWrapper: {
             margin: 10,
             backgroundColor: theme_config_1.backgroundMain
@@ -99,15 +121,26 @@ var useStyles = styles_1.makeStyles(function (theme) {
         mobileContainerRegister: {
             top: "10%"
         },
-        loginButtonContainer: {
-            margin: theme.spacing(1),
-            position: "relative",
-            width: "50%"
-        },
-        heading: {
-            margin: "15px 0px",
-            color: theme_config_1.primaryColor
-        },
+        loginButtonContainer: (_d = {
+                margin: theme.spacing(1),
+                position: "relative",
+                width: "50%"
+            },
+            _d[theme.breakpoints.down("xs")] = {
+                width: "100%"
+            },
+            _d[theme.breakpoints.down("sm")] = {
+                width: "100%"
+            },
+            _d),
+        heading: (_e = {
+                margin: "15px 0px",
+                color: theme_config_1.primaryColor
+            },
+            _e[theme.breakpoints.down("xs")] = {
+                fontSize: 22
+            },
+            _e),
         whiteText: {
             color: theme_config_1.primaryText,
             fontSize: 14
@@ -122,10 +155,20 @@ var useStyles = styles_1.makeStyles(function (theme) {
             flexDirection: "column",
             width: "100%"
         },
-        textfieldBlock: {
-            display: "flex",
-            flexDirection: "row"
-        },
+        textfieldBlock: (_f = {
+                display: "flex",
+                flexDirection: "row"
+            },
+            // justifyContent: "space-between",
+            _f[theme.breakpoints.down("xs")] = {
+                width: "100%",
+                flexDirection: "column"
+            },
+            _f[theme.breakpoints.down("sm")] = {
+                width: "100%",
+                flexDirection: "column"
+            },
+            _f),
         textfieldBlockPassword: {
             display: "flex",
             flexDirection: "column"
@@ -146,6 +189,7 @@ var useStyles = styles_1.makeStyles(function (theme) {
 var UpdateProfile = function () {
     var classes = useStyles();
     var history = react_router_1.useHistory();
+    var customerService = new customer_service_1["default"]();
     var _a = react_1.useState(""), firstName = _a[0], setFirstName = _a[1];
     var _b = react_1.useState(""), lastName = _b[0], setLastName = _b[1];
     var _c = react_1.useState(""), phoneNumber = _c[0], setPhoneNumber = _c[1];
@@ -153,14 +197,24 @@ var UpdateProfile = function () {
     var _e = react_1.useState(""), idNumber = _e[0], setIdNumber = _e[1];
     var _f = react_1.useState(""), address = _f[0], setAddress = _f[1];
     var _g = react_1.useState(""), registrationResponse = _g[0], setRegistrationResponse = _g[1];
+    customerService.getUserDetails().then(function (data) {
+        setFirstName(data.data().firstName);
+        setLastName(data.data().lastName);
+        setPhoneNumber(data.data().phoneNumber);
+        setEmail(data.data().email);
+        setIdNumber(data.data().idNumber);
+        setAddress(data.data().address);
+    })["catch"](function (error) {
+        alert("Error getting your profile details.");
+        console.log(error);
+    });
     var navigateToUpdateProfile = function () {
         history.push("/profile");
     };
     var updateCustomer = function () { return __awaiter(void 0, void 0, void 0, function () {
-        var customerService, userDetails;
+        var userDetails;
         return __generator(this, function (_a) {
             console.log("updating customer information...");
-            customerService = new customer_service_1["default"]();
             userDetails = {
                 firstName: firstName,
                 lastName: lastName,
@@ -169,7 +223,8 @@ var UpdateProfile = function () {
                 idNumber: idNumber,
                 address: address
             };
-            customerService.updateUserDetail(userDetails)
+            customerService
+                .updateUserDetail(userDetails)
                 .then(function () {
                 setRegistrationResponse("*Successfuly updated user profile.");
             })["catch"](function (error) {
