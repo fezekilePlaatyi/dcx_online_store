@@ -51,171 +51,240 @@ var TableContainer_1 = require("@material-ui/core/TableContainer");
 var TableHead_1 = require("@material-ui/core/TableHead");
 var TableRow_1 = require("@material-ui/core/TableRow");
 var react_number_format_1 = require("react-number-format");
-var useStyles = styles_1.makeStyles(function (theme) { return ({
-    root: {
-        // maxWidth: 345,
-        color: "black"
-    },
-    textField: {
-        margin: theme.spacing(1),
-        minWidth: 20,
-        marginBottom: "25px",
-        color: "black"
-    },
-    productDisplayRoot: {
-        display: "flex",
-        padding: 30
-    },
-    details: {
-        display: "flex",
-        flexDirection: "column",
-        paddingLeft: 30
-    },
-    content: {
-        flex: "1 0 auto"
-    },
-    cover: {
-        width: 151
-    },
-    controls: {
-        display: "flex",
-        alignItems: "center",
-        paddingLeft: theme.spacing(1),
-        paddingBottom: theme.spacing(1)
-    },
-    playIcon: {
-        height: 38,
-        width: 38
-    },
-    media: {
-        height: 0,
-        paddingTop: "56.25%"
-    },
-    expand: {
-        transform: "rotate(0deg)",
-        marginLeft: "auto",
-        transition: theme.transitions.create("transform", {
-            duration: theme.transitions.duration.shortest
-        })
-    },
-    expandOpen: {
-        transform: "rotate(180deg)"
-    },
-    avatar: {
-        backgroundColor: colors_1.red[500]
-    },
-    productDetails: {
-        height: "100vh",
-        width: "100vw",
-        background: "#e3e3e3",
-        display: "none"
-    },
-    productList: {
-        display: "inline-flex"
-    },
-    paper: {
-        padding: 20,
-        overflow: "auto",
-        backgroundColor: theme_config_1.backgroundMain,
-        border: "none",
-        display: "flex",
-        flexDirection: "column",
-        width: "100%"
-    },
-    orgerDetails: {
-        fontSize: 14
-    },
-    h3: {
-        marginBottom: 30
-    },
-    tableRowDescription: {
-        width: "35%",
-        textAlign: "justify",
-        fontSize: 12
-    },
-    tableCellsQty: {
-        width: "10%",
-        fontSize: 14
-    },
-    tableRowValue: {
-        fontSize: 12
-    },
-    tableRowValueName: {
-        fontSize: 12,
-        width: "30%"
-    },
-    tableRowValuePrice: {
-        fontSize: 12,
-        width: "20%"
-    },
-    tableRowValueQty: {
-        fontSize: 12,
-        width: "20%"
-    },
-    tableRowValueDesc: {
-        fontSize: 12,
-        width: "60%",
-        textAlign: "justify"
-    },
-    tableCellsName: {
-        fontSize: 12,
-        width: "%",
-        textAlign: "justify"
-    },
-    tableCellsDate: {
-        fontSize: 12,
-        width: "%",
-        textAlign: "justify",
-        borderBottom: "none !important"
-    },
-    tableCells: {
-        fontSize: 14
-    },
-    paperContetnt: {
-        display: "flex",
-        flexDirection: "column"
-    },
-    tableRow: {
-        "&:hover": {
-            backgroundColor: "#808080 !important"
-        }
-    },
-    tableCell: {
-        color: theme_config_1.backgroundMain
-    },
-    tableDiv: {
-        width: "100%",
-        marginBottom: 20,
-        marginTop: 20,
-        overflow: 'hidden'
-    },
-    tableDivHeading: {
-        width: "100%",
-        marginBottom: 20,
-        marginTop: 20
-    },
-    rootCard: {
-        padding: 20,
-        overflow: "auto",
-        backgroundColor: theme_config_1.backgroundMain,
-        border: "none",
-        display: "flex",
-        flexDirection: "column",
-        width: "100%"
-    },
-    tableHeading: {
-        // marginBottom: 20,
-        marginTop: 40
-    },
-    costValue: {
-        // marginLeft: "10px",
-        color: theme_config_1.primaryText
-    },
-    table: {
-        overflow: 'hidden'
-    },
-    productListCardsContainer: {}
-}); });
+var useStyles = styles_1.makeStyles(function (theme) {
+    var _a, _b, _c, _d, _e, _f, _g, _h, _j;
+    return ({
+        root: {
+            // maxWidth: 345,
+            color: "black"
+        },
+        textField: {
+            margin: theme.spacing(1),
+            minWidth: 20,
+            marginBottom: "25px",
+            color: "black"
+        },
+        productDisplayRoot: {
+            display: "flex",
+            padding: 30
+        },
+        details: {
+            display: "flex",
+            flexDirection: "column",
+            paddingLeft: 30
+        },
+        content: {
+            flex: "1 0 auto"
+        },
+        cover: {
+            width: 151
+        },
+        controls: {
+            display: "flex",
+            alignItems: "center",
+            paddingLeft: theme.spacing(1),
+            paddingBottom: theme.spacing(1)
+        },
+        playIcon: {
+            height: 38,
+            width: 38
+        },
+        media: {
+            height: 0,
+            paddingTop: "56.25%"
+        },
+        expand: {
+            transform: "rotate(0deg)",
+            marginLeft: "auto",
+            transition: theme.transitions.create("transform", {
+                duration: theme.transitions.duration.shortest
+            })
+        },
+        expandOpen: {
+            transform: "rotate(180deg)"
+        },
+        avatar: {
+            backgroundColor: colors_1.red[500]
+        },
+        productDetails: {
+            height: "100vh",
+            width: "100vw",
+            background: "#e3e3e3",
+            display: "none"
+        },
+        productList: {
+            display: "inline-flex"
+        },
+        paper: {
+            padding: 20,
+            overflow: "auto",
+            backgroundColor: theme_config_1.backgroundMain,
+            border: "none",
+            display: "flex",
+            flexDirection: "column",
+            width: "100%"
+        },
+        orgerDetails: {
+            fontSize: 14
+        },
+        h3: {
+            marginBottom: 30
+        },
+        tableRowDescription: {
+            width: "35%",
+            textAlign: "justify",
+            fontSize: 12
+        },
+        tableCellsQty: (_a = {
+                width: "10%",
+                fontSize: 14
+            },
+            _a[theme.breakpoints.down('xs')] = {
+                fontSize: 10
+            },
+            _a[theme.breakpoints.down('sm')] = {
+                fontSize: 10
+            },
+            _a),
+        tableRowValue: (_b = {
+                fontSize: 12
+            },
+            _b[theme.breakpoints.down('xs')] = {
+                fontSize: 10
+            },
+            _b[theme.breakpoints.down('sm')] = {
+                fontSize: 10
+            },
+            _b),
+        tableRowValueName: (_c = {
+                fontSize: 12,
+                width: "30%"
+            },
+            _c[theme.breakpoints.down('xs')] = {
+                fontSize: 10
+            },
+            _c[theme.breakpoints.down('sm')] = {
+                fontSize: 10
+            },
+            _c),
+        tableRowValuePrice: (_d = {
+                fontSize: 12,
+                width: "20%"
+            },
+            _d[theme.breakpoints.down('xs')] = {
+                fontSize: 10
+            },
+            _d[theme.breakpoints.down('sm')] = {
+                fontSize: 10
+            },
+            _d),
+        tableRowValueQty: (_e = {
+                fontSize: 12,
+                width: "20%"
+            },
+            _e[theme.breakpoints.down('xs')] = {
+                fontSize: 10
+            },
+            _e[theme.breakpoints.down('sm')] = {
+                fontSize: 10
+            },
+            _e),
+        tableRowValueDesc: (_f = {
+                fontSize: 12,
+                width: "60%",
+                textAlign: "justify"
+            },
+            _f[theme.breakpoints.down('xs')] = {
+                display: "none"
+            },
+            _f[theme.breakpoints.down('sm')] = {
+                display: "none"
+            },
+            _f),
+        tableCellsName: (_g = {
+                fontSize: 14,
+                //width: "%",
+                textAlign: "justify"
+            },
+            _g[theme.breakpoints.down('xs')] = {
+                fontSize: 10
+            },
+            _g[theme.breakpoints.down('sm')] = {
+                fontSize: 10
+            },
+            _g),
+        tableCellsDate: {
+            fontSize: 12,
+            //width: "%",
+            textAlign: "justify",
+            borderBottom: "none !important"
+        },
+        tableCells: (_h = {
+                fontSize: 14
+            },
+            _h[theme.breakpoints.down('xs')] = {
+                fontSize: 10
+            },
+            _h[theme.breakpoints.down('sm')] = {
+                fontSize: 10
+            },
+            _h),
+        tableCellsDesc: (_j = {
+                fontSize: 14
+            },
+            _j[theme.breakpoints.down('xs')] = {
+                display: "none"
+            },
+            _j[theme.breakpoints.down('sm')] = {
+                display: "none"
+            },
+            _j),
+        paperContetnt: {
+            display: "flex",
+            flexDirection: "column"
+        },
+        tableRow: {
+            "&:hover": {
+                backgroundColor: "#808080 !important"
+            }
+        },
+        tableCell: {
+            color: theme_config_1.backgroundMain
+        },
+        tableDiv: {
+            width: "100%",
+            marginBottom: 20,
+            marginTop: 20,
+            overflow: 'hidden'
+        },
+        tableDivHeading: {
+            width: "100%",
+            marginBottom: 20,
+            marginTop: 20
+        },
+        rootCard: {
+            padding: 20,
+            overflow: "auto",
+            backgroundColor: theme_config_1.backgroundMain,
+            border: "none",
+            display: "flex",
+            flexDirection: "column",
+            width: "100%"
+        },
+        tableHeading: {
+            // marginBottom: 20,
+            marginTop: 40
+        },
+        costValue: {
+            // marginLeft: "10px",
+            color: theme_config_1.primaryText
+        },
+        table: {
+            overflow: 'hidden'
+        },
+        productListCardsContainer: {}
+    });
+});
 var OrderHistory = function () {
     var classes = useStyles();
     var history = react_router_dom_1.useHistory();
@@ -285,14 +354,10 @@ var OrderHistory = function () {
             react_1["default"].createElement(TableContainer_1["default"], { component: core_1.Paper, className: classes.tableDivHeading },
                 react_1["default"].createElement(Table_1["default"], { className: classes.table, "aria-label": "simple table" },
                     react_1["default"].createElement(TableHead_1["default"], null,
-                        react_1["default"].createElement(TableRow_1["default"], null,
-                            react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCellsDate, align: "left" },
-                                react_1["default"].createElement("h4", null,
-                                    "Date: ",
-                                    date))),
+                        react_1["default"].createElement("div", null, date),
                         react_1["default"].createElement(TableRow_1["default"], null,
                             react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCellsName, align: "left" }, "Name"),
-                            react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Description"),
+                            react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCellsDesc, align: "left" }, "Description"),
                             react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCells, align: "left" }, "Price (R)"),
                             react_1["default"].createElement(TableCell_1["default"], { className: classes.tableCellsQty, align: "left" }, "Quantity"))),
                     lineItemsHTMLBody))));

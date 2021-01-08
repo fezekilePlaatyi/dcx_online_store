@@ -351,11 +351,12 @@ const OrderHistory = () => {
         <TableContainer component={Paper} className={classes.tableDivHeading}>
           <Table className={classes.table} aria-label="simple table">
             <TableHead>
-              <TableRow>
+              {/* <TableRow>
                 <TableCell className={classes.tableCellsDate} align="left">
                   <h4>Date: {date}</h4>
                 </TableCell>
-              </TableRow>
+              </TableRow> */}
+              <div>{date}</div>
               <TableRow>
                 <TableCell className={classes.tableCellsName} align="left">
                   Name
