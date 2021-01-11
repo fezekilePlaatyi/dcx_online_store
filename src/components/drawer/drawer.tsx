@@ -61,9 +61,9 @@ const useStyles = makeStyles((theme: Theme) =>
       [theme.breakpoints.down("xs")]: {
         display: "none",
       },
-      // [theme.breakpoints.down('sm')]: {
-      //   display: "none",
-      // },
+      [theme.breakpoints.down('sm')]: {
+        display: "none",
+      },
     },
     logoContainer: {
       marginRight: "20px",
@@ -81,6 +81,7 @@ const useStyles = makeStyles((theme: Theme) =>
       borderColor: primaryColor,
       textTransform: "capitalize",
       marginRight: 5,
+      padding:5,
       [theme.breakpoints.down("xs")]: {
         fontSize: 8,
       },
@@ -155,6 +156,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       padding: theme.spacing(3),
       backgroundColor: "white",
+     // height: '100vh',
     },
     hidden: {
       display: "none",
