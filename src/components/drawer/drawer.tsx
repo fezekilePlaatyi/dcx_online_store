@@ -156,6 +156,7 @@ const useStyles = makeStyles((theme: Theme) =>
       flexGrow: 1,
       padding: theme.spacing(3),
       backgroundColor: "white",
+     // height: '100vh',
     },
     hidden: {
       display: "none",
