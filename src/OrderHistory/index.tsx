@@ -107,7 +107,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 14,
   },
   h3: {
-    marginBottom: 30,
+    marginBottom: 10,
     [theme.breakpoints.down("xs")]: {
       marginBottom: 0,
     },
