@@ -22,14 +22,15 @@ import {
   Typography,
   //Typography,
 } from "@material-ui/core";
-import InvoiceService from '../../services/invoice-service';
-import Checkbox from '@material-ui/core/Checkbox';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
+import InvoiceService from "../../services/invoice-service";
+import Checkbox from "@material-ui/core/Checkbox";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
 import CustomerService from "../../services/customer-service";
-import Util from "../../Util"
-import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import Util from "../../Util";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import app from "../../base";
+import TextareaAutosize from "@material-ui/core/TextareaAutosize";
 
 const useStyles = makeStyles((theme: Theme) =>
   createStyles({
@@ -47,9 +48,27 @@ const useStyles = makeStyles((theme: Theme) =>
       padding: "30px",
     },
     textfield: {
-      color: primaryColor,
+      // color: primaryColor,
       width: "30%",
       marginRight: 20,
+      height: "35px",
+      color: backgroundContrast,
+      [theme.breakpoints.down("xs")]: {
+        width: "100%",
+      },
+      // [theme.breakpoints.down("sm")]: {
+      //   width: "40%",
+      // },
+    },
+    MuiInputBase: {
+      root: {
+        [theme.breakpoints.down("xs")]: {
+          width: "100%",
+        },
+        [theme.breakpoints.down("sm")]: {
+          width: "100%",
+        },
+      },
     },
     boxBtn: {
       float: "left",
@@ -57,7 +76,21 @@ const useStyles = makeStyles((theme: Theme) =>
       borderColor: primaryColor,
       color: primaryColor,
       marginRight: 10,
-      width: "25%",
+      width: "30%",
+      [theme.breakpoints.down("xs")]: {
+        width: "100%",
+      },
+      // [theme.breakpoints.down("sm")]: {
+      //   width: "35%",
+      // },
+    },
+    boxBtnText:{
+      [theme.breakpoints.down("xs")]: {
+        fontSize: "10px",
+      },
+      [theme.breakpoints.down("sm")]: {
+        fontSize: "10px",
+      },
     },
     boxWrapper: {
       // margin: 10,
@@ -140,7 +173,7 @@ const useStyles = makeStyles((theme: Theme) =>
       marginTop: 30,
     },
     hidden: {
-      display: 'none',
+      display: "none",
     },
     errorMessage: {
       color: theme.palette.error.main,
@@ -149,8 +182,8 @@ const useStyles = makeStyles((theme: Theme) =>
     },
     answerYes: {
       paddingLeft: 5,
-      cursor: 'pointer',
-      '&:hover': {
+      cursor: "pointer",
+      "&:hover": {
         color: primaryColor,
       },
     },
@@ -160,141 +193,162 @@ const useStyles = makeStyles((theme: Theme) =>
       position: "absolute",
       display: "block",
       margin: "0 auto",
-    }
+    },
   })
 );
 
 const CheckOut = () => {
   const classes = useStyles();
   const history = useHistory();
-  const util = new Util()
+  const util = new Util();
 
-  const [postalCode, setPostalCode] = useState("")
-  const [address, setAddress] = useState("")
+  const [postalCode, setPostalCode] = useState("");
+  const [address, setAddress] = useState("");
   const [state, setState] = React.useState({
     checkedB: false,
   });
 
-  const [payButtonDisabled, setPayButtonDisabledStatus] = useState(false)
-  const [userDetails, setUserDetails] = useState<any>({})
-  const [hideProfileAddressStatus, setHideProfileAddress] = useState(false)
-  const [addressTypeQuestion, setAddressTypeQuestion] = useState("Want to use different")
+  const [payButtonDisabled, setPayButtonDisabledStatus] = useState(false);
+  const [userDetails, setUserDetails] = useState<any>({});
+  const [hideProfileAddressStatus, setHideProfileAddress] = useState(false);
+  const [addressTypeQuestion, setAddressTypeQuestion] = useState(
+    "Want to use different"
+  );
   const [inputErrorMessage, setInputErrorMessage] = useState("");
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setState({ ...state, [event.target.name]: event.target.checked });
   };
-  const [loading, setLoading] = useState(false)
+  const [loading, setLoading] = useState(false);
 
-  let customerService = new CustomerService()
-  customerService.getUserDetails().then((data: any) => {
-    setUserDetails(data.data())
-  })
-    .catch((error: any) => {
-      notify("No address found for this user. Please update your profile.", "/updateProfile")
-      console.log(error)
+  let customerService = new CustomerService();
+  customerService
+    .getUserDetails()
+    .then((data: any) => {
+      setUserDetails(data.data());
     })
+    .catch((error: any) => {
+      notify(
+        "No address found for this user. Please update your profile.",
+        "/updateProfile"
+      );
+      console.log(error);
+    });
 
   const procceddToPay = () => {
-
     if (!hideProfileAddressStatus) {
       if (!userDetails.address) {
-        notify("No address found for this user. Please update your profile.", "/updateProfile")
-      }
-      else {
-        saveInvoice(userDetails.address)
+        notify(
+          "No address found for this user. Please update your profile.",
+          "/updateProfile"
+        );
+      } else {
+        saveInvoice(userDetails.address);
       }
     } else {
       if (!address) {
-        setInputErrorMessage("You chose to enter new Address for delivery, please enter it.")
+        setInputErrorMessage(
+          "You chose to enter new Address for delivery, please enter it."
+        );
+      } else {
+        saveInvoice(address);
       }
-      else {
-        saveInvoice(address)
-      }
-
     }
-  }
+  };
 
   const saveInvoice = (userAddress: any) => {
-    let invoiceService = new InvoiceService()
-    setPayButtonDisabledStatus(true)
-    setLoading(true)
+    let invoiceService = new InvoiceService();
+    setPayButtonDisabledStatus(true);
+    setLoading(true);
 
     var invoice: any = {
       invoiceData: util.retrieveBasketProductDataFromLocalStorage(),
       userDetails: userDetails,
       dateCreated: Date.now(),
-    }
+    };
 
-    invoiceService.createInvoice(invoice).then(function () {
-      setLoading(false)
-      util.resetBasketProductDataFromLocalStorage()
-      invoiceService.emailInvoice(invoice).then(function (response) {
-        if (state.checkedB == true && hideProfileAddressStatus == true) {
-          let customerService = new CustomerService()
-          customerService.updateSingleField({
-            address: userAddress
-          }).then(() => {
-            notify("Done Making Payment, You will be redirected to your Orders.", "/orderHistory")
+    invoiceService
+      .createInvoice(invoice)
+      .then(function () {
+        setLoading(false);
+        util.resetBasketProductDataFromLocalStorage();
+        invoiceService
+          .emailInvoice(invoice)
+          .then(function (response) {
+            if (state.checkedB == true && hideProfileAddressStatus == true) {
+              let customerService = new CustomerService();
+              customerService
+                .updateSingleField({
+                  address: userAddress,
+                })
+                .then(() => {
+                  notify(
+                    "Done Making Payment, You will be redirected to your Orders.",
+                    "/orderHistory"
+                  );
+                })
+                .catch((error) => {
+                  notify(
+                    "Error : Done Making Payment, but error occured while saving address. Please contact us to resolve this issue.",
+                    "/orderHistory"
+                  );
+                });
+            } else {
+              notify(
+                "Done Making Payment, You will be redirected to your Orders.",
+                "/orderHistory"
+              );
+            }
           })
-            .catch(error => {
-              notify("Error : Done Making Payment, but error occured while saving address. Please contact us to resolve this issue.", "/orderHistory")
-            })
-        }
-        else {
-          notify("Done Making Payment, You will be redirected to your Orders.", "/orderHistory")
-        }
-
+          .catch(function (response) {
+            setLoading(false);
+            notify(
+              "Done Making Payment, An error occured while emailing invoice.",
+              "/orderHistory"
+            );
+            console.log(response);
+          });
       })
-        .catch(function (response) {
-          setLoading(false)
-          notify("Done Making Payment, An error occured while emailing invoice.", "/orderHistory")
-          console.log(response);
-        });
-
-
-    })
       .catch((error) => {
-        console.log(error)
-        notify("An error occured while creating an Invoice.", "none")
-      })
-  }
+        console.log(error);
+        notify("An error occured while creating an Invoice.", "none");
+      });
+  };
 
   useEffect(() => {
-    setInputErrorMessage("")
-    !hideProfileAddressStatus ?
-      setAddressTypeQuestion("Want to use NEW address for this delivery")
-      :
-      setAddressTypeQuestion("Want to use ADDRESS from your PROFILE")
-  }, [hideProfileAddressStatus])
+    setInputErrorMessage("");
+    !hideProfileAddressStatus
+      ? setAddressTypeQuestion("Want to use NEW address for this delivery")
+      : setAddressTypeQuestion("Want to use ADDRESS from your PROFILE");
+  }, [hideProfileAddressStatus]);
 
   const handlerToggleAddress = () => {
-    hideProfileAddressStatus ?
-      setHideProfileAddress(false)
-      :
-      setHideProfileAddress(true)
-  }
+    hideProfileAddressStatus
+      ? setHideProfileAddress(false)
+      : setHideProfileAddress(true);
+  };
 
   const notify = (message: string, redirectTo: string) => {
     toast(message, {
       position: toast.POSITION.TOP_CENTER,
       autoClose: false,
       onClose: () => {
-        if (redirectTo != "none")
-          history.push(redirectTo)
-        else
-          return;
-      }
+        if (redirectTo != "none") history.push(redirectTo);
+        else return;
+      },
     });
-  }
+  };
 
   return (
     <div className={classes.mainContainer}>
       <ToastContainer />
-      <div className="loading-container"
+      <div
+        className="loading-container"
         style={{
-          position: 'absolute', left: '45%', top: '25%',
-          transform: 'translate(-50%, -50%)',
-          display: loading ? 'block' : 'none'
+          position: "absolute",
+          left: "45%",
+          top: "25%",
+          transform: "translate(-50%, -50%)",
+          display: loading ? "block" : "none",
         }}
       >
         <div>
@@ -305,34 +359,46 @@ const CheckOut = () => {
       <div className={classes.boxWrapper}>
         <h3 className={classes.heading}>CHECK OUT</h3>
       </div>
-      <div className={classes.whiteText}>
-        Delivery address
-      </div>
+      <div className={classes.whiteText}>Delivery address</div>
       <form className={classes.form}>
         <div className={classes.textfieldBlock}>
-          <div className={hideProfileAddressStatus == false ? `${classes.formHeading} ` : `${classes.hidden}`}><b >Address:</b> {userDetails.address}</div>
+          <div
+            className={
+              hideProfileAddressStatus == false
+                ? `${classes.formHeading} `
+                : `${classes.hidden}`
+            }
+          >
+            <b>Address:</b> {userDetails.address}
+          </div>
           <div className={classes.formHeading}>
             {addressTypeQuestion} ?
-
             <Link
               className={classes.answerYes}
-              onClick={() => handlerToggleAddress()}>
+              onClick={() => handlerToggleAddress()}
+            >
               Yes
             </Link>
           </div>
-          <div className={hideProfileAddressStatus == true ? `undefined` : `${classes.hidden}`}>
-            <TextField
+          <div
+            className={
+              hideProfileAddressStatus == true
+                ? `undefined`
+                : `${classes.hidden}`
+            }
+          >
+            <TextareaAutosize
               className={classes.textfield}
               autoComplete="off"
-              margin="normal"
-              label="Enter your full Address here..."
-              variant="outlined"
+              // margin="normal"
+              placeholder="Enter your full Address here..."
+              //variant="outlined"
               required
               value={address}
               onChange={(event) => setAddress(event.target.value)}
-              InputProps={{
-                autoComplete: "off",
-              }}
+              // InputProps={{
+              //   autoComplete: "off",
+              // }}
               onFocus={() => setInputErrorMessage("")}
               autoFocus
             />
@@ -348,7 +414,6 @@ const CheckOut = () => {
               }
               label="Save new address to profile?"
             />
-
           </div>
 
           {/* <TextField
@@ -433,7 +498,6 @@ const CheckOut = () => {
           {inputErrorMessage}
         </Typography>
 
-
         <div className={classes.buttonsContainer}>
           <div className={classes.loginButtonContainer}>
             <Button
@@ -442,7 +506,7 @@ const CheckOut = () => {
               onClick={procceddToPay}
               disabled={payButtonDisabled}
             >
-              PAY NOW
+             <div  className={classes.boxBtnText}>PAY NOW</div> 
             </Button>
           </div>
         </div>
