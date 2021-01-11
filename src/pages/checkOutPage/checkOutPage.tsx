@@ -226,7 +226,6 @@ const CheckOut = () => {
     }
 
     invoiceService.createInvoice(invoice).then(function () {
-      setLoading(false)
       util.resetBasketProductDataFromLocalStorage()
       invoiceService.emailInvoice(invoice).then(function (response) {
         if (state.checkedB == true && hideProfileAddressStatus == true) {
@@ -234,27 +233,31 @@ const CheckOut = () => {
           customerService.updateSingleField({
             address: userAddress
           }).then(() => {
+            setLoading(false)
             notify("Done Making Payment, You will be redirected to your Orders.", "/orderHistory")
           })
             .catch(error => {
+              setLoading(false)
               notify("Error : Done Making Payment, but error occured while saving address. Please contact us to resolve this issue.", "/orderHistory")
             })
         }
         else {
+          setLoading(false)
           notify("Done Making Payment, You will be redirected to your Orders.", "/orderHistory")
         }
 
       })
         .catch(function (response) {
           setLoading(false)
-          notify("Done Making Payment, An error occured while emailing invoice.", "/orderHistory")
           console.log(response);
+          notify("Done Making Payment, An error occured while emailing invoice.", "/orderHistory")
         });
 
 
     })
       .catch((error) => {
         console.log(error)
+        setLoading(false)
         notify("An error occured while creating an Invoice.", "none")
       })
   }
