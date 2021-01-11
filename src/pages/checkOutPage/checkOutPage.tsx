@@ -76,17 +76,18 @@ const useStyles = makeStyles((theme: Theme) =>
       borderColor: primaryColor,
       color: primaryColor,
       marginRight: 10,
-      width: "30%",
+      width: "25%",
       [theme.breakpoints.down("xs")]: {
         width: "100%",
+        padding: 3,
       },
-      // [theme.breakpoints.down("sm")]: {
-      //   width: "35%",
-      // },
+      [theme.breakpoints.down("sm")]: {
+        width: "35%",
+      },
     },
     boxBtnText:{
       [theme.breakpoints.down("xs")]: {
-        fontSize: "10px",
+        fontSize: "8px",
       },
       [theme.breakpoints.down("sm")]: {
         fontSize: "10px",
@@ -127,10 +128,19 @@ const useStyles = makeStyles((theme: Theme) =>
     heading: {
       margin: "15px 0px",
       color: primaryColor,
+      [theme.breakpoints.down("xs")]: {
+        fontSize: "14px",
+      },
+      [theme.breakpoints.down("sm")]: {
+        fontSize: "14px",
+      },
     },
     whiteText: {
       color: primaryText,
       fontSize: 14,
+      [theme.breakpoints.down("xs")]: {
+        fontSize: "12px",
+      },
     },
     sentEmailText: {
       color: primaryColor,
@@ -165,6 +175,9 @@ const useStyles = makeStyles((theme: Theme) =>
       color: primaryText,
       marginBottom: 15,
       marginRight: 15,
+      [theme.breakpoints.down("xs")]: {
+        fontSize: "12px",
+      },
     },
     textfieldPostal: {
       width: "19%",
