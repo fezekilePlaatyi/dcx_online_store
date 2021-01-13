@@ -2,7 +2,7 @@ import React, { Component, useEffect, useState } from "react";
 import { BrowserRouter as Router, Redirect, Route } from "react-router-dom";
 
 import PrivateRoute from "./PrivateRoute";
-import NonPrivateRoutesWithDrawer from "./NonPrivateRoutesWithDrawer"
+import NonPrivateRoutesWithDrawer from "./NonPrivateRoutesWithDrawer";
 import HomeRoute from "./HomeRoute";
 import app from "./base";
 import Home from "./Home/home";
@@ -18,7 +18,30 @@ import About from "./pages/aboutUsPage/aboutUsPage";
 import CheckOut from "./pages/checkOutPage/checkOutPage";
 import ChangePassword from "./pages/profilePage/changePassword";
 import UpdateProfile from "./pages/profilePage/updateProfile";
+import { makeStyles } from "@material-ui/core/styles";
+import CircularProgress from "@material-ui/core/CircularProgress";
 
+const useStyles = makeStyles((theme) => ({
+  root: {
+    display: "flex",
+    position: 'absolute',
+    alignItems: "center",
+    top: '50%',
+    left: '50%',
+    justifyContent: "center",
+    width: '10rem',
+    height: '10rem',
+    // "& > * + *": {
+    //   marginLeft: theme.spacing(2),
+    // },
+  },
+  loader: {
+    size: "5rem",
+    thickness: 6,
+    width: '10rem',
+    height: '10rem',
+  },
+}));
 
 function onAuthStateChange(
   setLoading: any,
@@ -29,7 +52,7 @@ function onAuthStateChange(
     if (user) {
       setAuthenticated(true);
       setUser(user);
-      setLoading(false);
+      setLoading(false); 
     } else {
       setAuthenticated(false);
       setUser(null);
@@ -42,6 +65,7 @@ const App = () => {
   const [loading, setLoading] = useState(true);
   const [authenticated, setAuthenticated] = useState(false);
   const [user, setUser] = useState<any>(null);
+  const classes = useStyles();
 
   useEffect(() => {
     const unsubscribe = onAuthStateChange(
@@ -55,7 +79,11 @@ const App = () => {
   }, []);
 
   if (loading) {
-    return <p>Loading..</p>;
+    return (
+      <div className={classes.root}>
+        <CircularProgress className={classes.loader} size={60} thickness={6} />
+      </div>
+    );
   }
 
   return (
