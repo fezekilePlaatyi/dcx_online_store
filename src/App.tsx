@@ -24,6 +24,7 @@ import CircularProgress from "@material-ui/core/CircularProgress";
 const useStyles = makeStyles((theme) => ({
   root: {
     display: "flex",
+    // flexDirection: 'column',
     position: 'absolute',
     alignItems: "center",
     top: '50%',
